@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "950574382165",
+    "firebase_url": "https://postbellumempires.firebaseio.com",
+    "project_id": "postbellumempires",
+    "storage_bucket": "postbellumempires.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950574382165:android:d59deaa5783b7b1bcc68dc",
+        "android_client_info": {
+          "package_name": "com.example.postbellumempires"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950574382165-mkrbkhgjqsng7pnv7kvk0tmqli4t614s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.postbellumempires",
+            "certificate_hash": "ed72c8b8ac951f126e99c42bf785b9fb7e267727"
+          }
+        },
+        {
+          "client_id": "950574382165-60bq2idiqgt3g94u0bulm5t7l0i6r6gb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuRuxphTBbsBL7-0JwuHXY4RAW_0nIbI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950574382165-60bq2idiqgt3g94u0bulm5t7l0i6r6gb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

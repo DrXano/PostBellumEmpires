@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pbebackground"
+    tools:context=".pickFactionActivity">
+
+    <TextView
+        android:id="@+id/pickFactionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/chooseAFaction"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pickFactionText">
+
+        <RelativeLayout
+            android:id="@+id/rl_factionA"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="32dp"
+            android:background="@color/factionAsecondary">
+
+            <ImageView
+                android:id="@+id/factionAlogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:contentDescription="@string/factionADesc"
+                app:srcCompat="@drawable/ic_launcher_foreground"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:id="@+id/factionAname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_toEndOf="@+id/factionAlogo"
+                android:layout_toRightOf="@+id/factionAlogo"
+                android:background="@color/factionAprimary"
+                android:text="@string/factionA" />
+
+            <TextView
+                android:id="@+id/factionAdesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/factionAname"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toStartOf="@+id/chooseAbutton"
+                android:layout_toLeftOf="@+id/chooseAbutton"
+                android:layout_toEndOf="@+id/factionAlogo"
+                android:layout_toRightOf="@+id/factionAlogo"
+                android:background="@color/factionAprimary"
+                android:text="@string/factionADesc" />
+
+            <Button
+                android:id="@+id/chooseAbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
+                android:onClick="choose"
+                android:text="@string/choose" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_factionB"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="32dp"
+            android:background="@color/factionBsecondary">
+
+            <ImageView
+                android:id="@+id/factionBlogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:contentDescription="@string/factionBDesc"
+                app:srcCompat="@drawable/ic_launcher_foreground"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:id="@+id/factionBname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_toEndOf="@+id/factionBlogo"
+                android:layout_toRightOf="@+id/factionBlogo"
+                android:background="@color/factionBprimary"
+                android:text="@string/factionB" />
+
+            <TextView
+                android:id="@+id/factionBdesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/factionBname"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toStartOf="@+id/chooseBbutton"
+                android:layout_toLeftOf="@+id/chooseBbutton"
+                android:layout_toEndOf="@+id/factionBlogo"
+                android:layout_toRightOf="@+id/factionBlogo"
+                android:background="@color/factionBprimary"
+                android:text="@string/factionBDesc" />
+
+            <Button
+                android:id="@+id/chooseBbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
+                android:onClick="choose"
+                android:text="@string/choose" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_factionC"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="32dp"
+            android:background="@color/factionCsecondary">
+
+            <ImageView
+                android:id="@+id/factionClogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:contentDescription="@string/factionCDesc"
+                app:srcCompat="@drawable/ic_launcher_foreground"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:id="@+id/factionCname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_toEndOf="@+id/factionClogo"
+                android:layout_toRightOf="@+id/factionClogo"
+                android:background="@color/factionCprimary"
+                android:text="@string/factionC" />
+
+            <TextView
+                android:id="@+id/factionCdesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/factionCname"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toStartOf="@+id/chooseCbutton"
+                android:layout_toLeftOf="@+id/chooseCbutton"
+                android:layout_toEndOf="@+id/factionClogo"
+                android:layout_toRightOf="@+id/factionClogo"
+                android:background="@color/factionCprimary"
+                android:text="@string/factionCDesc" />
+
+            <Button
+                android:id="@+id/chooseCbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
+                android:onClick="choose"
+                android:text="@string/choose" />
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

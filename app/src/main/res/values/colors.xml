@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="factionAprimary">#FF0505</color>
+    <color name="factionAsecondary">#630000</color>
+    <color name="factionBprimary">#002AFF</color>
+    <color name="factionBsecondary">#001E77</color>
+    <color name="factionCprimary">#38CA01</color>
+    <color name="factionCsecondary">#227A00</color>
 </resources>

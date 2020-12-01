@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">PostBellumEmpires</string>
+    <string name="email">Email</string>
+    <string name="pass">Password</string>
+    <string name="login">Login</string>
+    <string name="register" translatable="false">Register</string>
+    <string name="newuser">New Account</string>
+    <string name="googlesignin">Sign In with Google</string>
+    <string name="googleRegister">Register with Google</string>
+    <string name="logout">Logout</string>
+    <string name="confirmpw">Confirm Password</string>
+    <string name="existingAcc">I Have an Account</string>
+    <string name="factionA">Faction A</string>
+    <string name="factionADesc">This is faction A</string>
+    <string name="factionB">Faction B</string>
+    <string name="factionBDesc">This is faction B</string>
+    <string name="factionC">Faction C</string>
+    <string name="factionCDesc">This is faction C</string>
+    <string name="chooseAFaction">Choose Your Faction</string>
+    <string name="choose">Choose</string>
+    <string name="ok">Ok</string>
+    <string name="ign">InGame Name</string>
+    <string name="OtherPlayers">This is the name you will be known by other players. So choose wisely.</string>
 </resources>

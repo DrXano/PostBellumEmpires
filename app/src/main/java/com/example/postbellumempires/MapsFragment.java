@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -40,8 +43,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
     FloatingActionButton inventory;
     FloatingActionButton armymenu;
     FloatingActionButton profile;
+    FloatingActionButton logout;
 
     private boolean clicked = false;
+    private MainGameActivity parentActivity;
 
     private Animation fromBottom;
     private Animation toBottom;
@@ -51,13 +56,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        
-        return inflater.inflate(R.layout.fragment_maps, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_maps, container, false);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        parentActivity = (MainGameActivity) getActivity();
 
         fromBottom = AnimationUtils.loadAnimation(this.getActivity(),R.anim.from_bottom_anim);
         toBottom = AnimationUtils.loadAnimation(this.getActivity(),R.anim.to_bottom_anim);
@@ -66,7 +67,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         inventory = view.findViewById(R.id.inventoryButton);
         armymenu = view.findViewById(R.id.armyMenuButton);
         profile = view.findViewById(R.id.profileButton);
-        
+        logout = view.findViewById(R.id.logoutButton);
+
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,28 +78,66 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         inventory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"This is the inventory");
+                parentActivity.changeToInventory();
             }
         });
-        
+
         armymenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"This is the army menu");
+                parentActivity.changeToArmyMenu();
             }
         });
-        
+
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"This is your profile");
+                parentActivity.changeToProfile();
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
             }
         });
         
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+    }
+
+    private void logout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Attention");
+        builder.setMessage("You are about to log out. Are you sure you want to leave?");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finalLogOut();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog d = builder.create();
+        d.show();
+    }
+
+    private void finalLogOut() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
     }
 
     private void onAddButtonClicked() {
@@ -111,10 +151,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
             profile.startAnimation(fromBottom);
             armymenu.startAnimation(fromBottom);
             inventory.startAnimation(fromBottom);
+            logout.startAnimation(fromBottom);
         }else{
             profile.startAnimation(toBottom);
             armymenu.startAnimation(toBottom);
             inventory.startAnimation(toBottom);
+            logout.startAnimation(toBottom);
         }
     }
 
@@ -126,6 +168,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
             armymenu.setClickable(true);
             inventory.setVisibility(View.VISIBLE);
             inventory.setClickable(true);
+            logout.setVisibility(View.VISIBLE);
+            logout.setClickable(true);
         }else{
             profile.setVisibility(View.INVISIBLE);
             profile.setClickable(false);
@@ -133,6 +177,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
             armymenu.setClickable(false);
             inventory.setVisibility(View.INVISIBLE);
             inventory.setClickable(false);
+            logout.setVisibility(View.INVISIBLE);
+            logout.setClickable(false);
         }
     }
 

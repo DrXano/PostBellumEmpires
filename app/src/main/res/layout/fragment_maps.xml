@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mapLayout"
+    tools:layout="@layout/fragment_maps"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -64,16 +65,41 @@
         app:layout_constraintBottom_toTopOf="@+id/armyMenuButton"
         app:layout_constraintEnd_toEndOf="@+id/armyMenuButton" />
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/logoutButton"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:contentDescription="A button"
+        android:focusable="true"
+        android:src="@drawable/logouticon"
+        app:backgroundTint="@color/maincolor"
+        app:layout_constraintBottom_toTopOf="@+id/profileButton"
+        app:layout_constraintEnd_toEndOf="@+id/profileButton" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mapLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".MapsFragment"
-        tools:layout="@layout/fragment_maps" />
+        android:layout_height="0dp"
+        tools:layout="@+id/mainLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/mainLayout"
+        app:layout_constraintEnd_toEndOf="@+id/mainLayout"
+        app:layout_constraintStart_toStartOf="@+id/mainLayout"
+        app:layout_constraintTop_toTopOf="@+id/mainLayout">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@+id/mapLayout"
+            app:layout_constraintBottom_toBottomOf="@+id/mapLayout"
+            app:layout_constraintEnd_toEndOf="@+id/mapLayout"
+            app:layout_constraintStart_toStartOf="@+id/mapLayout"
+            app:layout_constraintTop_toTopOf="@+id/mapLayout"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

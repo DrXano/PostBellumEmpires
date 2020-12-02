@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:layout="@layout/fragment_maps"
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/maincolor"
     android:orientation="vertical">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,7 +39,6 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/armyMenuButton"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -47,13 +46,13 @@
         android:contentDescription="A button"
         android:focusable="true"
         android:src="@drawable/troopstrainingicon"
+        android:visibility="invisible"
         app:backgroundTint="@color/maincolor"
         app:layout_constraintBottom_toTopOf="@+id/inventoryButton"
         app:layout_constraintEnd_toEndOf="@+id/inventoryButton" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/profileButton"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -61,13 +60,13 @@
         android:contentDescription="A button"
         android:focusable="true"
         android:src="@drawable/profileicon"
+        android:visibility="invisible"
         app:backgroundTint="@color/maincolor"
         app:layout_constraintBottom_toTopOf="@+id/armyMenuButton"
         app:layout_constraintEnd_toEndOf="@+id/armyMenuButton" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/logoutButton"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -75,6 +74,7 @@
         android:contentDescription="A button"
         android:focusable="true"
         android:src="@drawable/logouticon"
+        android:visibility="invisible"
         app:backgroundTint="@color/maincolor"
         app:layout_constraintBottom_toTopOf="@+id/profileButton"
         app:layout_constraintEnd_toEndOf="@+id/profileButton" />
@@ -83,7 +83,6 @@
         android:id="@+id/mapLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:layout="@+id/mainLayout"
         app:layout_constraintBottom_toBottomOf="@+id/mainLayout"
         app:layout_constraintEnd_toEndOf="@+id/mainLayout"
         app:layout_constraintStart_toStartOf="@+id/mainLayout"
@@ -94,12 +93,72 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout="@+id/mapLayout"
             app:layout_constraintBottom_toBottomOf="@+id/mapLayout"
             app:layout_constraintEnd_toEndOf="@+id/mapLayout"
             app:layout_constraintStart_toStartOf="@+id/mapLayout"
-            app:layout_constraintTop_toTopOf="@+id/mapLayout"/>
+            app:layout_constraintTop_toTopOf="@+id/mapLayout" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/userInfo"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_launcher_foreground"
+            tools:ignore="VectorDrawableCompat" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            app:cardBackgroundColor="@color/maincolor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ProgressBar
+                android:id="@+id/userExp"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Dio Brando"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Lvl.7"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

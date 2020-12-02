@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.YoYo;
@@ -51,6 +52,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
     private Animation fromBottom;
     private Animation toBottom;
 
+    private ProgressBar userexp;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -68,6 +71,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         armymenu = view.findViewById(R.id.armyMenuButton);
         profile = view.findViewById(R.id.profileButton);
         logout = view.findViewById(R.id.logoutButton);
+
+        this.userexp = view.findViewById(R.id.userExp);
+        userexp.setProgress(75);
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,6 +193,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         LatLng myPos = new LatLng(38.715530421468195, -9.217587115772087);
         LatLng dummy = new LatLng(38.71652427178074, -9.215800978110437);
 
+        googleMap.getUiSettings().setCompassEnabled(false);
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getActivity(),R.raw.mapstyle));
         googleMap.setMinZoomPreference(18.0f);
         googleMap.setMaxZoomPreference(21.0f);

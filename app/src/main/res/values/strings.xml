@@ -22,4 +22,6 @@
     <string name="ign">InGame Name</string>
     <string name="OtherPlayers">This is the name you will be known by other players. So choose wisely.</string>
     <string name="mapStyleID">3e52405583a0b32a</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

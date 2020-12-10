@@ -3,14 +3,18 @@ package com.example.postbellumempires;
 import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +43,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void proceed(){
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if(mFirebaseUser == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+        }else{
+            startActivity(new Intent(this, MainGameActivity.class));
+        }
+        finish();
     }
 
 

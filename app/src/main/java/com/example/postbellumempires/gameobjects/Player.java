@@ -1,4 +1,4 @@
-package com.example.postbellumempires;
+package com.example.postbellumempires.gameobjects;
 
 import com.example.postbellumempires.enums.Faction;
 import com.google.firebase.database.Exclude;
@@ -14,9 +14,10 @@ public class Player {
 
     public Player() {}
 
-    public Player(String email, String inGameName, int level, int exp, int maxExp) {
+    public Player(String email, String inGameName, Faction faction, int level, int exp, int maxExp) {
         this.email = email;
         this.inGameName = inGameName;
+        this.playerFaction = faction;
         this.level = level;
         this.exp = exp;
         this.maxExp = maxExp;

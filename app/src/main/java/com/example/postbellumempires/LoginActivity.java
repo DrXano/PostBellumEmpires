@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         mSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
     }
 
@@ -54,34 +53,34 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view) {
 
-        EditText email = (EditText) findViewById(R.id.email);
-        EditText password = (EditText) findViewById(R.id.password);
+        String mail = ((EditText) findViewById(R.id.email)).getText().toString();
+        String pass = ((EditText) findViewById(R.id.password)).getText().toString();
 
-        String mail = email.getText().toString();
-        String pass = password.getText().toString();
-
-        mFirebaseAuth.signInWithEmailAndPassword(mail, pass)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                            startActivity(new Intent(LoginActivity.this, MainGameActivity.class));
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, MainGameActivity.class));
+        if(mail.length() == 0){
+            Toast.makeText(LoginActivity.this, "Please insert your email", Toast.LENGTH_SHORT).show();
+        }else if(pass.length() == 0){
+            Toast.makeText(LoginActivity.this, "Please insert your password", Toast.LENGTH_SHORT).show();
+        }else {
+            mFirebaseAuth.signInWithEmailAndPassword(mail, pass)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "signInWithEmail:success");
+                                FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                            } else {
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(LoginActivity.this, "email or password incorrect!", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     public void googleLogin(View view) {
-        startActivityForResult(mSignInClient.getSignInIntent(), RC_SIGN_IN);
+        //startActivityForResult(mSignInClient.getSignInIntent(), RC_SIGN_IN);
         //startActivity(new Intent(this, MainGameActivity.class));
     }
 

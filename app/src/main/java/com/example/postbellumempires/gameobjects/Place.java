@@ -1,4 +1,4 @@
-package com.example.postbellumempires;
+package com.example.postbellumempires.gameobjects;
 
 import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.enums.PlaceType;

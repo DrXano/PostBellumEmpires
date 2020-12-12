@@ -17,7 +17,11 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.example.postbellumempires.dialogs.PostDialog;
+import com.example.postbellumempires.gameobjects.Player;
+import com.example.postbellumempires.interfaces.MapListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,7 +33,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback{
+public class MapsFragment extends Fragment implements OnMapReadyCallback, MapListener {
 
     private static final String TAG = "MapsFragment";
 
@@ -46,6 +50,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
     private Animation toBottom;
 
     private ProgressBar userexp;
+    private TextView playerIGN;
+    private TextView playerLevel;
 
     @Nullable
     @Override
@@ -66,7 +72,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         logout = view.findViewById(R.id.logoutButton);
 
         this.userexp = view.findViewById(R.id.userExp);
-        userexp.setProgress(75);
+        this.playerIGN = (TextView) view.findViewById(R.id.playerIGN);
+        this.playerLevel = (TextView) view.findViewById(R.id.playerLevel);
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +121,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         }
     }
 
+    @Override
+    public void updateUI(Player p){
+        this.playerIGN.setText(p.getInGameName());
+        this.playerLevel.setText(String.valueOf(p.getLevel()));
+        this.userexp.setProgress(p.getExp());
+        this.userexp.setMax(p.getMaxExp());
+    }
+
     private void logout() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Attention");
@@ -121,7 +136,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finalLogOut();
+                parentActivity.logout();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -132,11 +147,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
         });
         AlertDialog d = builder.create();
         d.show();
-    }
-
-    private void finalLogOut() {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
     }
 
     private void onAddButtonClicked() {
@@ -205,15 +215,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback{
                 Dialog d = new PostDialog(getActivity());
                 d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                 d.show();
-
-                /*
-                Dialog d = new Dialog(getActivity(), android.R.style.Theme_Black_NoTitleBar);
-                d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                d.setContentView(R.layout.post_dialog);
-                d.setCancelable(true);
-                d.show();
-                */
-
 
                 return true;
 

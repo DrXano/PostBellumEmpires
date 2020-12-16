@@ -2,15 +2,21 @@ package com.example.postbellumempires;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,16 +28,25 @@ import android.widget.TextView;
 import com.example.postbellumempires.dialogs.PostDialog;
 import com.example.postbellumempires.gameobjects.Player;
 import com.example.postbellumempires.interfaces.MapListener;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, MapListener {
 
@@ -53,12 +68,22 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
     private TextView playerIGN;
     private TextView playerLevel;
 
+    private LocationCallback locationCallback;
+    private LocationRequest locReq;
+    private FusedLocationProviderClient fusedLocationClient;
+    private GoogleMap mMap;
+
+
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
+
 
         parentActivity = (MainGameActivity) getActivity();
 
@@ -108,7 +133,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
                 logout();
             }
         });
-        
+
         return view;
     }
 
@@ -193,21 +218,66 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng myPos = new LatLng(38.715530421468195, -9.217587115772087);
-        LatLng dummy = new LatLng(38.71652427178074, -9.215800978110437);
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}, 10);
+            }
+        }
+
+        //LatLng myPos = new LatLng(38.715530421468195, -9.217587115772087);
+        //LatLng dummy = new LatLng(38.71652427178074, -9.215800978110437);
 
         googleMap.getUiSettings().setCompassEnabled(false);
-        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getActivity(),R.raw.mapstyle));
+        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.mapstyle));
         googleMap.setMinZoomPreference(18.0f);
         googleMap.setMaxZoomPreference(21.0f);
         googleMap.setBuildingsEnabled(false);
         googleMap.getUiSettings().setScrollGesturesEnabled(false);
         googleMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
-        googleMap.addMarker(new MarkerOptions().position(dummy));
-        googleMap.addMarker(new MarkerOptions().position(myPos));
-        CameraPosition cp = new CameraPosition.Builder().target(myPos).tilt(70).build();
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
-        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
+
+
+
+       // googleMap.addMarker(new MarkerOptions().position(dummy));
+       // googleMap.addMarker(new MarkerOptions().position(myPos));
+
+
+        //CameraPosition cp = new CameraPosition.Builder().target(myPos).tilt(70).build();
+        //googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
+
+
+        googleMap.setMyLocationEnabled(true);
+
+        this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        this.locReq = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(5000)
+                .setFastestInterval(1000);
+        this.mMap = googleMap;
+
+        int marker_logo = R.drawable.marker_icon;
+
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                            //googleMap.addMarker(new MarkerOptions().position(loc).icon(BitmapDescriptorFactory.fromResource(marker_logo)));
+                            CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(70).build();
+                            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
+
+
+
+
+                        }
+                    }
+
+
+                });
+
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -220,5 +290,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
 
             }
         });
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                for (Location location : locationResult.getLocations()) {
+                    LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                }
+
+            }
+
+        };
+
+        //fusedLocationClient.requestLocationUpdates(this.locReq, locationCallback, Looper.getMainLooper());
     }
+
+
 }
+

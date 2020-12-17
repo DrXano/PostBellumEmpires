@@ -29,10 +29,11 @@
                 android:id="@+id/imageView13"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:background="@drawable/border"
-                app:layout_constraintBottom_toTopOf="@+id/attackButton"
-                app:layout_constraintEnd_toEndOf="@+id/attackButton"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView12"
+                app:layout_constraintStart_toEndOf="@+id/imageView12"
                 app:srcCompat="@drawable/empty" />
 
             <ImageView
@@ -41,26 +42,24 @@
                 android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginBottom="8dp"
                 android:background="@drawable/border"
-                app:layout_constraintBottom_toTopOf="@+id/attackButton"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView11"
                 app:layout_constraintStart_toEndOf="@+id/imageView11"
                 app:srcCompat="@drawable/empty" />
 
             <TextView
-                android:id="@+id/textView26"
+                android:id="@+id/placeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Caselas' Windmill"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView10"
+                android:id="@+id/ownerFactionSymbol"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_marginStart="8dp"
@@ -68,8 +67,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/circular"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView26"
-                app:srcCompat="@drawable/ic_launcher_foreground"
+                app:layout_constraintTop_toBottomOf="@+id/placeTitle"
                 tools:ignore="VectorDrawableCompat" />
 
             <TextView
@@ -79,8 +77,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:text="Owner Faction:"
-                app:layout_constraintStart_toEndOf="@+id/imageView10"
-                app:layout_constraintTop_toTopOf="@+id/imageView10" />
+                app:layout_constraintStart_toEndOf="@+id/ownerFactionSymbol"
+                app:layout_constraintTop_toTopOf="@+id/ownerFactionSymbol" />
 
             <TextView
                 android:id="@+id/textView28"
@@ -90,33 +88,31 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="16dp"
                 android:text="Owner:"
-                app:layout_constraintStart_toEndOf="@+id/imageView10"
-                app:layout_constraintTop_toBottomOf="@+id/textView29" />
+                app:layout_constraintStart_toEndOf="@+id/ownerFactionSymbol"
+                app:layout_constraintTop_toBottomOf="@+id/factionInPlace" />
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/factionInPlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Faction C"
-                app:layout_constraintStart_toEndOf="@+id/imageView10"
+                app:layout_constraintStart_toEndOf="@+id/ownerFactionSymbol"
                 app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
             <TextView
-                android:id="@+id/textView31"
+                android:id="@+id/ownerInPlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Rick Astley"
-                app:layout_constraintStart_toEndOf="@+id/imageView10"
+                app:layout_constraintStart_toEndOf="@+id/ownerFactionSymbol"
                 app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
             <Button
-                android:id="@+id/attackButton"
+                android:id="@+id/actionButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -124,10 +120,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Attack"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/collectionButton" />
 
             <ImageView
                 android:id="@+id/imageView11"
@@ -135,20 +130,19 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/border"
-                app:layout_constraintBottom_toTopOf="@+id/attackButton"
-                app:layout_constraintStart_toStartOf="@+id/attackButton"
-                app:srcCompat="@drawable/barrack" />
+                app:layout_constraintBottom_toTopOf="@+id/actionButton"
+                app:layout_constraintStart_toStartOf="@+id/collectionButton"
+                app:srcCompat="@drawable/empty" />
 
             <ImageView
                 android:id="@+id/imageView12"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:background="@drawable/border"
-                app:layout_constraintBottom_toTopOf="@+id/attackButton"
-                app:layout_constraintEnd_toStartOf="@+id/imageView13"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+                app:layout_constraintStart_toEndOf="@+id/imageView14"
                 app:srcCompat="@drawable/empty" />
 
             <TextView
@@ -169,7 +163,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Post's Resources:"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView31" />
+                app:layout_constraintTop_toBottomOf="@+id/ownerInPlace" />
 
             <ScrollView
                 android:id="@+id/scrollView6"
@@ -185,15 +179,15 @@
                 app:layout_constraintTop_toTopOf="@+id/textView33">
 
                 <LinearLayout
+                    android:id="@+id/rewards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView39"
+                        android:id="@+id/ResourceReward"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Food" />
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </ScrollView>
 
@@ -209,17 +203,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/scrollView6" />
 
             <TextView
-                android:id="@+id/textView47"
+                android:id="@+id/CapTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:text="Capacity: 14/75"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:text="Capacity:"
+                app:layout_constraintEnd_toStartOf="@+id/currCap"
                 app:layout_constraintTop_toBottomOf="@+id/scrollView6" />
 
             <ScrollView
+                android:id="@+id/scrollView5"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -237,20 +232,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/textView48"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="5 x Marine" />
-
-                    <TextView
-                        android:id="@+id/textView49"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="3 x Pyro" />
-                </LinearLayout>
+                    android:orientation="vertical" />
             </ScrollView>
 
             <ImageButton
@@ -264,6 +246,38 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/close"
                 tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:id="@+id/currCap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/capslash"
+                app:layout_constraintTop_toTopOf="@+id/CapTextView" />
+
+            <TextView
+                android:id="@+id/capslash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/"
+                app:layout_constraintEnd_toStartOf="@+id/maxcap"
+                app:layout_constraintTop_toTopOf="@+id/CapTextView" />
+
+            <TextView
+                android:id="@+id/maxcap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/scrollView5"
+                app:layout_constraintTop_toTopOf="@+id/CapTextView" />
+
+            <Button
+                android:id="@+id/collectionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

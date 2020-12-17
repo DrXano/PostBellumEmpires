@@ -1,29 +1,51 @@
 package com.example.postbellumempires.gameobjects;
 
 import com.example.postbellumempires.enums.Faction;
+import com.example.postbellumempires.enums.Item;
 import com.example.postbellumempires.enums.PlaceType;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Place {
 
+    @Exclude
+    private static int MAX_CAPACITY_BY_DEFAULT = 50;
+
+    private String id;
     private String name;
     private double latitude;
     private double longitude;
-    private String Owner;
+    private String owner;
     private Faction ownerFaction;
     private PlaceType type;
+    private int maxCapacity;
+    private int capacity;
 
     public Place(){}
 
-    public Place(String name, double latitude, double longitude, String owner, Faction ownerFaction, PlaceType type) {
+    public Place(String name, double latitude, double longitude, PlaceType type) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
-        Owner = owner;
-        this.ownerFaction = ownerFaction;
+        this.owner = null;
+        this.ownerFaction = null;
         this.type = type;
+        this.maxCapacity = MAX_CAPACITY_BY_DEFAULT;
+        this.capacity = 0;
+        this.id = this.id();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -51,11 +73,11 @@ public class Place {
     }
 
     public String getOwner() {
-        return Owner;
+        return owner;
     }
 
     public void setOwner(String owner) {
-        Owner = owner;
+        this.owner = owner;
     }
 
     public String getOwnerFaction() {
@@ -91,6 +113,53 @@ public class Place {
         }
     }
 
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    public void setMaxCapacity(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    @Exclude
+    public void free(){
+        this.owner = null;
+        this.ownerFaction = null;
+    }
+
+    @Exclude
+    public void occupy(Player p){
+        this.owner = p.getInGameName();
+        this.ownerFaction = p.getPlayerFaction();
+
+        DatabaseReference placeRef = FirebaseDatabase.getInstance().getReference("places").child(this.id);
+        placeRef.setValue(this);
+    }
+
+    @Exclude
+    public Item getResourceRewardType(){
+        switch (type){
+            case RESTAURANT:
+                return Item.FOOD;
+            case UNIVERSITY:
+                return Item.KNOWLEDGE;
+            case SHOP:
+                return Item.WOOD;
+            case OTHER:
+                return Item.IRON;
+            default:
+                return null;
+        }
+    }
+
     @Exclude
     public Faction getFaction() {
         return ownerFaction;
@@ -102,11 +171,38 @@ public class Place {
     }
 
     @Exclude
+    public String id() {
+        int hash = 31;
+        hash = 31 * hash + this.name.hashCode();
+        hash = 31 * hash + (int) latitude;
+        hash = 31 * hash + (int) longitude;
+        hash = 31 * hash + type.hashCode();
+        return "place_"+hash;
+    }
+
+    @Exclude
     public MarkerOptions getMarker(){
         MarkerOptions m = new MarkerOptions();
         m.position(new LatLng(latitude,longitude))
-                .title(name);
+                .title(this.id)
+                .icon(getMarkerIcon());
         return m;
+    }
+
+    @Exclude
+    private BitmapDescriptor getMarkerIcon() {
+        switch (type){
+            case SHOP:
+                return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+            case RESTAURANT:
+                return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+            case UNIVERSITY:
+                return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
+            case OTHER:
+                return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
+            default:
+                return BitmapDescriptorFactory.defaultMarker();
+        }
     }
 
     @Exclude

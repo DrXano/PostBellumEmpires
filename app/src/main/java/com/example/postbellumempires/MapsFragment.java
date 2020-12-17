@@ -1,15 +1,9 @@
 package com.example.postbellumempires;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -25,7 +19,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.postbellumempires.dialogs.PostDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+
+import com.example.postbellumempires.dialogs.PlaceDialog;
+import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.Player;
 import com.example.postbellumempires.interfaces.MapListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -37,20 +37,27 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, MapListener {
 
+    private static final int TILT = 60;
+    private static final float MAX_ZOOM = 21.0f;
+    private static final float MIN_ZOOM = 18.0f;
+
     private static final String TAG = "MapsFragment";
+    private DatabaseReference LocRef = FirebaseDatabase.getInstance().getReference("places");
 
     FloatingActionButton menu;
     FloatingActionButton inventory;
@@ -71,11 +78,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
     private LocationCallback locationCallback;
     private LocationRequest locReq;
     private FusedLocationProviderClient fusedLocationClient;
+
     private GoogleMap mMap;
-
-
-
-
 
     @Nullable
     @Override
@@ -87,8 +91,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
 
         parentActivity = (MainGameActivity) getActivity();
 
-        fromBottom = AnimationUtils.loadAnimation(this.getActivity(),R.anim.from_bottom_anim);
-        toBottom = AnimationUtils.loadAnimation(this.getActivity(),R.anim.to_bottom_anim);
+        fromBottom = AnimationUtils.loadAnimation(this.getActivity(), R.anim.from_bottom_anim);
+        toBottom = AnimationUtils.loadAnimation(this.getActivity(), R.anim.to_bottom_anim);
 
         menu = view.findViewById(R.id.menuButton);
         inventory = view.findViewById(R.id.inventoryButton);
@@ -97,8 +101,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
         logout = view.findViewById(R.id.logoutButton);
 
         this.userexp = view.findViewById(R.id.userExp);
-        this.playerIGN = (TextView) view.findViewById(R.id.playerIGN);
-        this.playerLevel = (TextView) view.findViewById(R.id.playerLevel);
+        this.playerIGN = view.findViewById(R.id.playerIGN);
+        this.playerLevel = view.findViewById(R.id.playerLevel);
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +151,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
     }
 
     @Override
-    public void updateUI(Player p){
+    public void updateUI(Player p) {
         this.playerIGN.setText(p.getInGameName());
         this.playerLevel.setText(String.valueOf(p.getLevel()));
         this.userexp.setProgress(p.getExp());
@@ -181,12 +185,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
     }
 
     private void setAnimation(Boolean clicked) {
-        if(!clicked){
+        if (!clicked) {
             profile.startAnimation(fromBottom);
             armymenu.startAnimation(fromBottom);
             inventory.startAnimation(fromBottom);
             logout.startAnimation(fromBottom);
-        }else{
+        } else {
             profile.startAnimation(toBottom);
             armymenu.startAnimation(toBottom);
             inventory.startAnimation(toBottom);
@@ -195,7 +199,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
     }
 
     private void setVisibility(Boolean clicked) {
-        if(!clicked){
+        if (!clicked) {
             profile.setVisibility(View.VISIBLE);
             profile.setClickable(true);
             armymenu.setVisibility(View.VISIBLE);
@@ -204,7 +208,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
             inventory.setClickable(true);
             logout.setVisibility(View.VISIBLE);
             logout.setClickable(true);
-        }else{
+        } else {
             profile.setVisibility(View.INVISIBLE);
             profile.setClickable(false);
             armymenu.setVisibility(View.INVISIBLE);
@@ -219,34 +223,25 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                getActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}, 10);
+                this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}, 10);
             }
         }
-
-        //LatLng myPos = new LatLng(38.715530421468195, -9.217587115772087);
         //LatLng dummy = new LatLng(38.71652427178074, -9.215800978110437);
 
-        googleMap.getUiSettings().setCompassEnabled(false);
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.mapstyle));
-        googleMap.setMinZoomPreference(18.0f);
-        googleMap.setMaxZoomPreference(21.0f);
         googleMap.setBuildingsEnabled(false);
+        googleMap.getUiSettings().setCompassEnabled(false);
+        googleMap.setMyLocationEnabled(true);
+        googleMap.setMinZoomPreference(MIN_ZOOM);
+        googleMap.setMaxZoomPreference(MAX_ZOOM);
         googleMap.getUiSettings().setScrollGesturesEnabled(false);
         googleMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
+        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        loadPlaces(googleMap);
 
-
-
-       // googleMap.addMarker(new MarkerOptions().position(dummy));
-       // googleMap.addMarker(new MarkerOptions().position(myPos));
-
-
-        //CameraPosition cp = new CameraPosition.Builder().target(myPos).tilt(70).build();
-        //googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
-
-
-        googleMap.setMyLocationEnabled(true);
+        // googleMap.addMarker(new MarkerOptions().position(dummy));
 
         this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         this.locReq = LocationRequest.create()
@@ -254,40 +249,25 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
                 .setInterval(5000)
                 .setFastestInterval(1000);
         this.mMap = googleMap;
-
-        int marker_logo = R.drawable.marker_icon;
-
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
                             LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
-                            //googleMap.addMarker(new MarkerOptions().position(loc).icon(BitmapDescriptorFactory.fromResource(marker_logo)));
-                            CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(70).build();
+                            CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(TILT).build();
                             googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
-
-
-
-
                         }
                     }
-
-
                 });
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-
             @Override
             public boolean onMarkerClick(Marker marker) {
-
-                Dialog d = new PostDialog(getActivity());
+                Dialog d = new PlaceDialog(parentActivity,marker.getTitle());
                 d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                 d.show();
-
                 return true;
-
             }
         });
 
@@ -296,15 +276,42 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
             public void onLocationResult(LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
                     LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                    CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(TILT).bearing(googleMap.getCameraPosition().bearing).build();
+                    googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
                 }
-
             }
-
         };
-
-        //fusedLocationClient.requestLocationUpdates(this.locReq, locationCallback, Looper.getMainLooper());
+        fusedLocationClient.requestLocationUpdates(this.locReq, locationCallback, Looper.getMainLooper());
     }
 
+    private void loadPlaces(GoogleMap googleMap) {
 
+        this.LocRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for(DataSnapshot ds : snapshot.getChildren()){
+                        Place p = ds.getValue(Place.class);
+                        googleMap.addMarker(p.getMarker());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 }
 

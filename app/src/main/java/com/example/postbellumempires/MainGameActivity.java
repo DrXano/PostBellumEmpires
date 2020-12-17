@@ -1,11 +1,15 @@
 package com.example.postbellumempires;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.postbellumempires.gameobjects.Player;
@@ -21,6 +25,7 @@ public class MainGameActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference playerRef;
+    private Player player;
     private MapListener listener;
 
     private static final String TAG = "MainGameActivity";
@@ -30,6 +35,13 @@ public class MainGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}, 10);
+            }
+        }
+
         this.listener = (MapListener) this.map;
         this.mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() != null) {
@@ -39,6 +51,7 @@ public class MainGameActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
                         Player p = snapshot.getValue(Player.class);
+                        player = p;
                         listener.updateUI(p);
                     } else {
                         Toast.makeText(MainGameActivity.this, "Player information was not found", Toast.LENGTH_SHORT).show();
@@ -57,6 +70,10 @@ public class MainGameActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
+    }
+
+    public Player getPlayer(){
+        return this.player;
     }
 
     public void changeToProfile(){

@@ -84,7 +84,7 @@ public class Place {
         if(ownerFaction == null){
             return null;
         }else{
-            return ownerFaction.name();
+            return ownerFaction.name;
         }
     }
 
@@ -92,7 +92,7 @@ public class Place {
         if(ownerFaction == null){
             this.ownerFaction = null;
         }else{
-            this.ownerFaction = Faction.valueOf(ownerFaction);
+            this.ownerFaction = Faction.valueOfName(ownerFaction);
         }
     }
 

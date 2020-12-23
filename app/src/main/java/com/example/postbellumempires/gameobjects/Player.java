@@ -67,7 +67,7 @@ public class Player {
         if(playerFaction == null){
             return null;
         }else{
-            return playerFaction.name();
+            return playerFaction.name;
         }
     }
 
@@ -75,7 +75,7 @@ public class Player {
         if(playerFaction == null){
             this.playerFaction = null;
         }else{
-            this.playerFaction = Faction.valueOf(playerFaction);
+            this.playerFaction = Faction.valueOfName(playerFaction);
         }
     }
 

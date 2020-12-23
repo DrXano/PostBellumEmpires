@@ -8,28 +8,13 @@
     android:background="@drawable/pbebackground"
     tools:context=".LoginActivity">
 
-    <ImageView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:contentDescription="title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/title" />
-
     <EditText
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
@@ -38,7 +23,7 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
     <EditText
         android:id="@+id/password"
@@ -87,19 +72,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/googlesignin"
+    <ImageView
+        android:id="@+id/imageView9"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:onClick="googleLogin"
-        android:text="@string/googlesignin"
+        android:layout_height="80dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

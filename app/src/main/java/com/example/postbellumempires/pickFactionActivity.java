@@ -21,16 +21,16 @@ public class pickFactionActivity extends AppCompatActivity {
         this.password = getIntent().getStringExtra("pass");
     }
 
-    public void chooseA(View view) {
-        nextStep(Faction.A);
+    public void chooseOC(View view) {
+        nextStep(Faction.OC);
     }
 
-    public void chooseB(View view) {
-        nextStep(Faction.B);
+    public void chooseDR(View view) {
+        nextStep(Faction.DR);
     }
 
-    public void chooseC(View view) {
-        nextStep(Faction.C);
+    public void chooseES(View view) {
+        nextStep(Faction.ES);
     }
 
     public void cancel(View view){

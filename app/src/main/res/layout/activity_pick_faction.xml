@@ -24,10 +24,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:orientation="vertical"
@@ -105,7 +105,7 @@
                 android:layout_marginEnd="0dp"
                 android:layout_marginRight="0dp"
                 android:layout_marginBottom="0dp"
-                android:onClick="chooseA"
+                android:onClick="chooseOC"
                 android:text="@string/choose" />
         </RelativeLayout>
 
@@ -179,7 +179,7 @@
                 android:layout_marginEnd="0dp"
                 android:layout_marginRight="0dp"
                 android:layout_marginBottom="0dp"
-                android:onClick="chooseB"
+                android:onClick="chooseDR"
                 android:text="@string/choose" />
         </RelativeLayout>
 
@@ -253,7 +253,7 @@
                 android:layout_marginEnd="0dp"
                 android:layout_marginRight="0dp"
                 android:layout_marginBottom="0dp"
-                android:onClick="chooseC"
+                android:onClick="chooseES"
                 android:text="@string/choose" />
         </RelativeLayout>
     </LinearLayout>

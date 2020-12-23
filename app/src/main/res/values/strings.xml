@@ -10,12 +10,11 @@
     <string name="logout">Logout</string>
     <string name="confirmpw">Confirm Password</string>
     <string name="existingAcc">I Have an Account</string>
-    <string name="factionA">Faction A</string>
-    <string name="factionADesc">This is faction A</string>
-    <string name="factionB">Faction B</string>
-    <string name="factionBDesc">This is faction B</string>
-    <string name="factionC">Faction C</string>
-    <string name="factionCDesc">This is faction C</string>
+    <string name="OC">Oratio Cult</string>
+    <string name="OCDesc">A group of religious people who believe that the beings that came to earth are their actual gods.</string>
+    <string name="DR">Dauntless Raiders</string>
+    <string name="ES">Erudite Sovereignty</string>
+    <string name="ESDesc">A team of scientists that seek to study and control the technology that belonged to the creatures that came to earth.</string>
     <string name="chooseAFaction">Choose Your Faction</string>
     <string name="choose">Choose</string>
     <string name="ok">Ok</string>
@@ -26,4 +25,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="back">Back</string>
     <string name="cancel">Cancel</string>
+    <string name="DRDesc">They were once peaceful soldiers, now they are a group of savage rebels who fight for loot.</string>
 </resources>

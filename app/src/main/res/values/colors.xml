@@ -8,10 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="maincolor">#3A3A3A</color>
-    <color name="factionAprimary">#FF0505</color>
-    <color name="factionAsecondary">#630000</color>
-    <color name="factionBprimary">#002AFF</color>
-    <color name="factionBsecondary">#001E77</color>
-    <color name="factionCprimary">#38CA01</color>
-    <color name="factionCsecondary">#227A00</color>
+    <color name="OCprimary">#04B18F</color>
+    <color name="OCsecondary">#198380</color>
+    <color name="DRprimary">#A61010</color>
+    <color name="DRsecondary">#590915</color>
+    <color name="ESprimary">#A5942C</color>
+    <color name="ESsecondary">#636022</color>
 </resources>

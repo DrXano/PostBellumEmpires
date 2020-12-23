@@ -38,9 +38,9 @@
         <RelativeLayout
             android:id="@+id/rl_factionA"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:layout_marginBottom="32dp"
-            android:background="@color/factionAsecondary">
+            android:background="@color/OCsecondary">
 
             <ImageView
                 android:id="@+id/factionAlogo"
@@ -54,7 +54,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="0dp"
-                android:contentDescription="@string/factionADesc"
+                android:contentDescription="@string/OCDesc"
                 app:srcCompat="@drawable/ic_launcher_foreground"
                 tools:ignore="VectorDrawableCompat" />
 
@@ -72,8 +72,9 @@
                 android:layout_marginRight="0dp"
                 android:layout_toEndOf="@+id/factionAlogo"
                 android:layout_toRightOf="@+id/factionAlogo"
-                android:background="@color/factionAprimary"
-                android:text="@string/factionA" />
+                android:background="@color/OCprimary"
+                android:text="@string/OC"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/factionAdesc"
@@ -91,8 +92,8 @@
                 android:layout_toLeftOf="@+id/chooseAbutton"
                 android:layout_toEndOf="@+id/factionAlogo"
                 android:layout_toRightOf="@+id/factionAlogo"
-                android:background="@color/factionAprimary"
-                android:text="@string/factionADesc" />
+                android:background="@color/OCprimary"
+                android:text="@string/OCDesc" />
 
             <Button
                 android:id="@+id/chooseAbutton"
@@ -111,9 +112,9 @@
         <RelativeLayout
             android:id="@+id/rl_factionB"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:layout_marginBottom="32dp"
-            android:background="@color/factionBsecondary">
+            android:background="@color/DRsecondary">
 
             <ImageView
                 android:id="@+id/factionBlogo"
@@ -127,7 +128,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="0dp"
-                android:contentDescription="@string/factionBDesc"
+                android:contentDescription="@string/DRDesc"
                 app:srcCompat="@drawable/ic_launcher_foreground"
                 tools:ignore="VectorDrawableCompat" />
 
@@ -145,8 +146,9 @@
                 android:layout_marginRight="0dp"
                 android:layout_toEndOf="@+id/factionBlogo"
                 android:layout_toRightOf="@+id/factionBlogo"
-                android:background="@color/factionBprimary"
-                android:text="@string/factionB" />
+                android:background="@color/DRprimary"
+                android:text="@string/DR"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/factionBdesc"
@@ -164,8 +166,8 @@
                 android:layout_toLeftOf="@+id/chooseBbutton"
                 android:layout_toEndOf="@+id/factionBlogo"
                 android:layout_toRightOf="@+id/factionBlogo"
-                android:background="@color/factionBprimary"
-                android:text="@string/factionBDesc" />
+                android:background="@color/DRprimary"
+                android:text="@string/DRDesc" />
 
             <Button
                 android:id="@+id/chooseBbutton"
@@ -184,9 +186,9 @@
         <RelativeLayout
             android:id="@+id/rl_factionC"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:layout_marginBottom="32dp"
-            android:background="@color/factionCsecondary">
+            android:background="@color/ESsecondary">
 
             <ImageView
                 android:id="@+id/factionClogo"
@@ -200,7 +202,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="0dp"
-                android:contentDescription="@string/factionCDesc"
+                android:contentDescription="@string/ESDesc"
                 app:srcCompat="@drawable/ic_launcher_foreground"
                 tools:ignore="VectorDrawableCompat" />
 
@@ -218,8 +220,9 @@
                 android:layout_marginRight="0dp"
                 android:layout_toEndOf="@+id/factionClogo"
                 android:layout_toRightOf="@+id/factionClogo"
-                android:background="@color/factionCprimary"
-                android:text="@string/factionC" />
+                android:background="@color/ESprimary"
+                android:text="@string/ES"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/factionCdesc"
@@ -237,8 +240,8 @@
                 android:layout_toLeftOf="@+id/chooseCbutton"
                 android:layout_toEndOf="@+id/factionClogo"
                 android:layout_toRightOf="@+id/factionClogo"
-                android:background="@color/factionCprimary"
-                android:text="@string/factionCDesc" />
+                android:background="@color/ESprimary"
+                android:text="@string/ESDesc" />
 
             <Button
                 android:id="@+id/chooseCbutton"

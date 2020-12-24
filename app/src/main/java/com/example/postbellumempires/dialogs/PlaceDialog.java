@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import com.example.postbellumempires.LoginActivity;
 import com.example.postbellumempires.MainGameActivity;
 import com.example.postbellumempires.R;
+import com.example.postbellumempires.enums.GameResource;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.Player;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Random;
 
 public class PlaceDialog extends Dialog implements View.OnClickListener {
 
@@ -70,7 +73,6 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
 
     private void updateUI(Place p) {
         Player player = parentActivity.getPlayer();
-        this.friendly = p.getOwnerFaction() == null || p.getOwnerFaction().equals(player.getPlayerFaction());
         this.p = p;
         action = findViewById(R.id.actionButton);
         collect = findViewById(R.id.collectionButton);
@@ -82,14 +84,6 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         currcap = findViewById(R.id.currCap);
         maxcap = findViewById(R.id.maxcap);
         PlaceName.setText(p.getName());
-
-        if(friendly){
-            action.setText("Deploy Troops");
-            collect.setText("Collect");
-        }else{
-            action.setText("Attack");
-            collect.setText("Steal");
-        }
 
         String owner = p.getOwner();
         String ownerFaction = p.getOwnerFaction();
@@ -103,6 +97,16 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
 
         Owner.setText((owner == null)?"---":owner);
         OwnerFaction.setText((ownerFaction == null)?"---":ownerFaction);
+        this.friendly = (p.getOwnerFaction() == null || p.getOwnerFaction().equals(player.getPFaction()));
+
+        if(this.friendly){
+            action.setText("Deploy Troops");
+            collect.setText("Collect");
+        }else{
+            action.setText("Attack");
+            collect.setText("Steal");
+        }
+
         action.setOnClickListener(this);
         collect.setOnClickListener(this);
         cancel.setOnClickListener(this);
@@ -124,12 +128,33 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.collectionButton:
-                Toast.makeText(context, Reward.getText().toString() + " acquired", Toast.LENGTH_SHORT).show();
+                Player player = parentActivity.getPlayer();
+                GameResource res = this.p.getResourceRewardType();
+
+                Random r = new Random();
+                int min = 400;
+                int max = 500;
+                int reward = (int) ((r.nextInt(max-min) + min) * bonusMultiplier(player));
+                player.addItem(res,reward);
+                player.updatePlayer();
+                Toast.makeText(context, reward + " " + Reward.getText().toString() + " acquired", Toast.LENGTH_SHORT).show();
                 dismiss();
                 break;
             default:
                 break;
         }
         dismiss();
+    }
+
+    private double bonusMultiplier(Player player) {
+        if(!this.friendly){
+            return 0.5;
+        }else{
+            if(p.getOwner() != null && p.getOwner().equals(player.getInGameName())){
+                return 1.5;
+            }else{
+                return 1.0;
+            }
+        }
     }
 }

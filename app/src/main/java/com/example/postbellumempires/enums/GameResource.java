@@ -1,5 +1,5 @@
 package com.example.postbellumempires.enums;
 
-public enum Item {
+public enum GameResource {
     FOOD, KNOWLEDGE, WOOD, IRON
 }

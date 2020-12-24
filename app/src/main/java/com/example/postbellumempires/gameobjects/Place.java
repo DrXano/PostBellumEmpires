@@ -1,7 +1,7 @@
 package com.example.postbellumempires.gameobjects;
 
 import com.example.postbellumempires.enums.Faction;
-import com.example.postbellumempires.enums.Item;
+import com.example.postbellumempires.enums.GameResource;
 import com.example.postbellumempires.enums.PlaceType;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -37,7 +37,7 @@ public class Place {
         this.type = type;
         this.maxCapacity = MAX_CAPACITY_BY_DEFAULT;
         this.capacity = 0;
-        this.id = this.id();
+        this.id = this.generateId();
     }
 
     public String getId() {
@@ -145,16 +145,16 @@ public class Place {
     }
 
     @Exclude
-    public Item getResourceRewardType(){
+    public GameResource getResourceRewardType(){
         switch (type){
             case RESTAURANT:
-                return Item.FOOD;
+                return GameResource.FOOD;
             case UNIVERSITY:
-                return Item.KNOWLEDGE;
+                return GameResource.KNOWLEDGE;
             case SHOP:
-                return Item.WOOD;
+                return GameResource.WOOD;
             case OTHER:
-                return Item.IRON;
+                return GameResource.IRON;
             default:
                 return null;
         }
@@ -171,7 +171,7 @@ public class Place {
     }
 
     @Exclude
-    public String id() {
+    private String generateId() {
         int hash = 31;
         hash = 31 * hash + this.name.hashCode();
         hash = 31 * hash + (int) latitude;

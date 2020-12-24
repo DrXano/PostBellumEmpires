@@ -1,7 +1,11 @@
 package com.example.postbellumempires.gameobjects;
 
 import com.example.postbellumempires.enums.Faction;
+import com.example.postbellumempires.enums.GameResource;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Player {
 
@@ -11,6 +15,7 @@ public class Player {
     private int exp;
     private int maxExp;
     private Faction playerFaction;
+    private Inventory inv;
 
     public Player() {}
 
@@ -21,6 +26,7 @@ public class Player {
         this.level = level;
         this.exp = exp;
         this.maxExp = maxExp;
+        this.inv = new Inventory(this.inGameName);
     }
 
     public String getEmail() {
@@ -87,5 +93,34 @@ public class Player {
     @Exclude
     public void setPlayerFaction(Faction playerFaction) {
         this.playerFaction = playerFaction;
+    }
+
+    public Inventory getInv() {
+        return inv;
+    }
+
+    public void setInv(Inventory inv) {
+        this.inv = inv;
+    }
+
+    @Exclude
+    public void addItem(GameResource resource, int quantity){
+        this.inv.addItem(resource,quantity);
+    }
+
+    @Exclude
+    public void removeItem(GameResource resource, int quantity){
+        this.inv.removeItem(resource,quantity);
+    }
+
+    @Exclude
+    public boolean hasItem(GameResource resource){
+        return this.inv.hasItem(resource);
+    }
+
+    @Exclude
+    public void updatePlayer(){
+        DatabaseReference playerRef = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        playerRef.setValue(this);
     }
 }

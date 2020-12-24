@@ -26,4 +26,6 @@
     <string name="back">Back</string>
     <string name="cancel">Cancel</string>
     <string name="DRDesc">They were once peaceful soldiers, now they are a group of savage rebels who fight for loot.</string>
+    <string name="emptyInventory">Your inventory is empty</string>
+    <string name="quantity">Quantity:</string>
 </resources>

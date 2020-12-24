@@ -276,7 +276,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
             public void onLocationResult(LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
                     LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                    CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(TILT).bearing(googleMap.getCameraPosition().bearing).build();
+                    CameraPosition cp = new CameraPosition.Builder()
+                            .target(loc)
+                            .tilt(TILT)
+                            .bearing(googleMap.getCameraPosition().bearing)
+                            .zoom(googleMap.getCameraPosition().zoom)
+                            .build();
                     googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
                 }
             }

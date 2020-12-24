@@ -29,7 +29,11 @@ public class Inventory {
 
     @Exclude
     public List<Item> getInventory(){
-        return new ArrayList<>(this.inv.values());
+        if(this.inv != null) {
+            return new ArrayList<>(this.inv.values());
+        }else{
+            return null;
+        }
     }
 
     @Exclude

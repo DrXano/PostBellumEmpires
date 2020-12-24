@@ -27,11 +27,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inventoryToolbar">
 
-        <LinearLayout
-            android:id="@+id/inventoryLL"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/inventoryRV"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:layout_height="wrap_content" />
     </ScrollView>
 
     <TextView

@@ -3,12 +3,12 @@ package com.example.postbellumempires;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.postbellumempires.gameobjects.Inventory;
@@ -26,7 +26,9 @@ import java.util.List;
 public class InventoryActivity extends AppCompatActivity {
 
     private DatabaseReference playerRef;
-    private LinearLayout Layout;
+    private RecyclerView Layout;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
     private TextView text;
 
     @Override
@@ -42,7 +44,10 @@ public class InventoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Your Inventory");
 
-        this.Layout = findViewById(R.id.inventoryLL);
+        this.Layout = findViewById(R.id.inventoryRV);
+        layoutManager = new LinearLayoutManager(this);
+        this.Layout.setLayoutManager(layoutManager);
+
         this.text = findViewById(R.id.inventoryTV);
 
         playerRef.addValueEventListener(new ValueEventListener() {
@@ -61,32 +66,28 @@ public class InventoryActivity extends AppCompatActivity {
 
     private void updateUI(Inventory inventory) {
 
-        if(inventory == null || inventory.getInventory().isEmpty()){
+        if(inventory == null || inventory.getInventory() == null || inventory.getInventory().isEmpty()){
             text.setText(getResources().getString(R.string.emptyInventory));
             this.Layout.removeAllViews();
         }else{
             text.setText("");
             List<Item> items = inventory.getInventory();
-            for(Item i : items){
-                //ItemViewHolder holder = new ItemViewHolder(this);
-                //this.Layout.addView(holder, holder.getLayoutParams());
-            }
+            Item[] arr = items.toArray(new Item[items.size()]);
+            mAdapter = new InventoryAdapter(arr);
+            Layout.setAdapter(mAdapter);
         }
     }
 
-    public static class ItemViewHolder extends View {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
         TextView resourceNameView;
         TextView resourceQuantityView;
         ImageView resourceImageView;
 
-        public ItemViewHolder(Context context){
-            super(context);
-
-            /*
+        public ItemViewHolder(View v){
+            super(v);
             resourceNameView = itemView.findViewById(R.id.resourceName);
             resourceQuantityView = itemView.findViewById(R.id.quantityNumber);
             resourceImageView = itemView.findViewById(R.id.itemImage);
-            */
         }
     }
 }

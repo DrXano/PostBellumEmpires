@@ -3,11 +3,13 @@ package com.example.postbellumempires.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
     private MainGameActivity parentActivity;
     private DatabaseReference PlaceRef;
     private boolean friendly;
+    private int color;
     private Place p;
 
     public TextView PlaceName;
@@ -40,6 +43,8 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
     public TextView Reward;
     public TextView currcap;
     public TextView maxcap;
+
+    public ImageView symbol;
 
     public ImageButton cancel;
     public Button action;
@@ -60,8 +65,10 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         PlaceRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Place p = snapshot.getValue(Place.class);
-                updateUI(p);
+                if(snapshot.exists()) {
+                    Place p = snapshot.getValue(Place.class);
+                    updateUI(p);
+                }
             }
 
             @Override
@@ -83,7 +90,35 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         Reward = findViewById(R.id.ResourceReward);
         currcap = findViewById(R.id.currCap);
         maxcap = findViewById(R.id.maxcap);
+        symbol = findViewById(R.id.ownerFactionSymbol);
         PlaceName.setText(p.getName());
+
+        if(p.getFaction() != null) {
+            switch (p.getFaction()) {
+                case OC:
+                    color = getContext().getResources().getColor(R.color.OCprimary);
+                    this.symbol.setImageResource(R.drawable.ocsymbol);
+                    this.symbol.setColorFilter(color);
+                    break;
+                case DR:
+                    color = getContext().getResources().getColor(R.color.DRprimary);
+                    this.symbol.setImageResource(R.drawable.drsymbol);
+                    this.symbol.setColorFilter(color);
+                    break;
+                case ES:
+                    color = getContext().getResources().getColor(R.color.ESprimary);
+                    this.symbol.setImageResource(R.drawable.essymbol);
+                    this.symbol.setColorFilter(color);
+                    break;
+                default:
+                    color = getContext().getResources().getColor(R.color.black);
+                    this.symbol.setImageDrawable(null);
+                    break;
+            }
+        }else{
+            color = getContext().getResources().getColor(R.color.black);
+            this.symbol.setImageDrawable(null);
+        }
 
         String owner = p.getOwner();
         String ownerFaction = p.getOwnerFaction();

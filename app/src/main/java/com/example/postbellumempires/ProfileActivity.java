@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +32,10 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView playerExp;
     private TextView playerMaxExp;
 
+    private ImageView symbol;
+
+    private int color;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +56,9 @@ public class ProfileActivity extends AppCompatActivity {
         this.playerProgress = findViewById(R.id.pfUserExp);
         this.playerExp = findViewById(R.id.pfExp);
         this.playerMaxExp = findViewById(R.id.pfMaxExp);
+        this.symbol = findViewById(R.id.factionSymbol);
 
-        playerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        playerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -79,5 +86,26 @@ public class ProfileActivity extends AppCompatActivity {
 
         this.playerExp.setText(String.valueOf(p.getExp()));
         this.playerMaxExp.setText(String.valueOf(p.getMaxExp()));
+
+        switch (p.getPlayerFaction()){
+            case OC:
+                color = getResources().getColor(R.color.OCprimary);
+                this.playerProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                this.symbol.setImageResource(R.drawable.ocsymbol);
+                this.symbol.setColorFilter(color);
+                break;
+            case DR:
+                color = getResources().getColor(R.color.DRprimary);
+                this.playerProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                this.symbol.setImageResource(R.drawable.drsymbol);
+                this.symbol.setColorFilter(color);
+                break;
+            case ES:
+                color = getResources().getColor(R.color.ESprimary);
+                this.playerProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                this.symbol.setImageResource(R.drawable.essymbol);
+                this.symbol.setColorFilter(color);
+                break;
+        }
     }
 }

@@ -44,8 +44,8 @@
 
             <ImageView
                 android:id="@+id/factionAlogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
@@ -53,10 +53,12 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_marginBottom="0dp"
                 android:contentDescription="@string/OCDesc"
-                app:srcCompat="@drawable/ic_launcher_foreground"
-                tools:ignore="VectorDrawableCompat" />
+                android:padding="5dp"
+                app:srcCompat="@drawable/ocsymbol" />
 
             <TextView
                 android:id="@+id/factionAname"
@@ -93,7 +95,9 @@
                 android:layout_toEndOf="@+id/factionAlogo"
                 android:layout_toRightOf="@+id/factionAlogo"
                 android:background="@color/OCprimary"
-                android:text="@string/OCDesc" />
+                android:padding="2dp"
+                android:text="@string/OCDesc"
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/chooseAbutton"
@@ -118,8 +122,8 @@
 
             <ImageView
                 android:id="@+id/factionBlogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
@@ -129,8 +133,8 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="0dp"
                 android:contentDescription="@string/DRDesc"
-                app:srcCompat="@drawable/ic_launcher_foreground"
-                tools:ignore="VectorDrawableCompat" />
+                android:padding="5dp"
+                app:srcCompat="@drawable/drsymbol" />
 
             <TextView
                 android:id="@+id/factionBname"
@@ -167,7 +171,9 @@
                 android:layout_toEndOf="@+id/factionBlogo"
                 android:layout_toRightOf="@+id/factionBlogo"
                 android:background="@color/DRprimary"
-                android:text="@string/DRDesc" />
+                android:padding="2dp"
+                android:text="@string/DRDesc"
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/chooseBbutton"
@@ -192,8 +198,8 @@
 
             <ImageView
                 android:id="@+id/factionClogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
@@ -203,8 +209,8 @@
                 android:layout_marginTop="0dp"
                 android:layout_marginBottom="0dp"
                 android:contentDescription="@string/ESDesc"
-                app:srcCompat="@drawable/ic_launcher_foreground"
-                tools:ignore="VectorDrawableCompat" />
+                android:padding="5dp"
+                app:srcCompat="@drawable/essymbol" />
 
             <TextView
                 android:id="@+id/factionCname"
@@ -241,7 +247,9 @@
                 android:layout_toEndOf="@+id/factionClogo"
                 android:layout_toRightOf="@+id/factionClogo"
                 android:background="@color/ESprimary"
-                android:text="@string/ESDesc" />
+                android:padding="2dp"
+                android:text="@string/ESDesc"
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/chooseCbutton"

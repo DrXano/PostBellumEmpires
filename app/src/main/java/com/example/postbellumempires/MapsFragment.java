@@ -6,16 +6,22 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -35,12 +41,14 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -74,12 +82,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
     private ProgressBar userexp;
     private TextView playerIGN;
     private TextView playerLevel;
+    private ImageView symbol;
 
     private LocationCallback locationCallback;
     private LocationRequest locReq;
     private FusedLocationProviderClient fusedLocationClient;
 
+    private int color;
+
     private GoogleMap mMap;
+    private Marker playerPos;
 
     @Nullable
     @Override
@@ -103,6 +115,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
         this.userexp = view.findViewById(R.id.userExp);
         this.playerIGN = view.findViewById(R.id.playerIGN);
         this.playerLevel = view.findViewById(R.id.playerLevel);
+        this.symbol = view.findViewById(R.id.FactionSymbol);
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,6 +169,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
         this.playerLevel.setText(String.valueOf(p.getLevel()));
         this.userexp.setProgress(p.getExp());
         this.userexp.setMax(p.getMaxExp());
+
+        switch (p.getPlayerFaction()){
+            case OC:
+                color = getResources().getColor(R.color.OCprimary);
+                this.userexp.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                this.symbol.setImageResource(R.drawable.ocsymbol);
+                this.symbol.setColorFilter(color);
+                break;
+            case DR:
+                color = getResources().getColor(R.color.DRprimary);
+                this.userexp.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                this.symbol.setImageResource(R.drawable.drsymbol);
+                this.symbol.setColorFilter(color);
+                break;
+            case ES:
+                color = getResources().getColor(R.color.ESprimary);
+                this.userexp.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                this.symbol.setImageResource(R.drawable.essymbol);
+                this.symbol.setColorFilter(color);
+                break;
+        }
     }
 
     private void logout() {
@@ -228,20 +262,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
                 this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}, 10);
             }
         }
-        //LatLng dummy = new LatLng(38.71652427178074, -9.215800978110437);
 
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.mapstyle));
         googleMap.setBuildingsEnabled(false);
         googleMap.getUiSettings().setCompassEnabled(false);
-        googleMap.setMyLocationEnabled(true);
         googleMap.setMinZoomPreference(MIN_ZOOM);
         googleMap.setMaxZoomPreference(MAX_ZOOM);
         googleMap.getUiSettings().setScrollGesturesEnabled(false);
         googleMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-        loadPlaces(googleMap);
 
-        // googleMap.addMarker(new MarkerOptions().position(dummy));
+        loadPlaces(googleMap);
 
         this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         this.locReq = LocationRequest.create()
@@ -254,7 +285,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
+
                             LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                            if(playerPos == null){
+                                playerPos = mMap.addMarker(new MarkerOptions()
+                                .flat(true)
+                                .anchor(0.5f, 0.5f)
+                                .position(loc));
+                            }
+
                             CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(TILT).build();
                             googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
                         }
@@ -264,9 +303,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Dialog d = new PlaceDialog(parentActivity,marker.getTitle());
-                d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                d.show();
+                if(!marker.equals(playerPos)) {
+                    Dialog d = new PlaceDialog(parentActivity, marker.getTitle());
+                    d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                    d.show();
+                }
                 return true;
             }
         });
@@ -276,28 +317,70 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
             public void onLocationResult(LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
                     LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                    CameraPosition cp = new CameraPosition.Builder()
-                            .target(loc)
-                            .tilt(TILT)
-                            .bearing(googleMap.getCameraPosition().bearing)
-                            .zoom(googleMap.getCameraPosition().zoom)
-                            .build();
-                    googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
+                    animateMarker(playerPos,location);
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
                 }
             }
         };
         fusedLocationClient.requestLocationUpdates(this.locReq, locationCallback, Looper.getMainLooper());
     }
 
+    public void animateMarker(final Marker marker, final Location location) {
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        final LatLng startLatLng = marker.getPosition();
+        final double startRotation = marker.getRotation();
+        final long duration = 500;
+
+        final Interpolator interpolator = new LinearInterpolator();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = interpolator.getInterpolation((float) elapsed
+                        / duration);
+
+                double lng = t * location.getLongitude() + (1 - t)
+                        * startLatLng.longitude;
+                double lat = t * location.getLatitude() + (1 - t)
+                        * startLatLng.latitude;
+
+                float rotation = (float) (t * location.getBearing() + (1 - t)
+                        * startRotation);
+
+                marker.setPosition(new LatLng(lat, lng));
+                marker.setRotation(rotation);
+
+                if (t < 1.0) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 16);
+                }
+            }
+        });
+    }
+
     private void loadPlaces(GoogleMap googleMap) {
 
-        this.LocRef.addValueEventListener(new ValueEventListener() {
+        this.LocRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for(DataSnapshot ds : snapshot.getChildren()){
-                        Place p = ds.getValue(Place.class);
-                        googleMap.addMarker(p.getMarker());
+                        LocRef.child(ds.getKey()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()) {
+                                    Place p = snapshot.getValue(Place.class);
+                                    googleMap.addMarker(p.getMarker());
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 }
             }

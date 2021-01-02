@@ -46,13 +46,15 @@ public class MainGameActivity extends AppCompatActivity {
         this.mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() != null) {
             this.playerRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
-            playerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            playerRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        Player p = snapshot.getValue(Player.class);
-                        player = p;
-                        listener.updateUI(p);
+                        if(map.isResumed()) {
+                            Player p = snapshot.getValue(Player.class);
+                            player = p;
+                            listener.updateUI(p);
+                        }
                     } else {
                         Toast.makeText(MainGameActivity.this, "Player information was not found", Toast.LENGTH_SHORT).show();
                     }
@@ -63,9 +65,12 @@ public class MainGameActivity extends AppCompatActivity {
 
                 }
             });
+
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.mainfrag, this.map)
                     .commit();
+
+
         }else{
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -95,5 +100,41 @@ public class MainGameActivity extends AppCompatActivity {
         mAuth.signOut();
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getSupportFragmentManager().beginTransaction()
+                .detach(this.map)
+                .commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getSupportFragmentManager().beginTransaction()
+                .attach(this.map)
+                .commit();
+
+        playerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if(map.isResumed()) {
+                        Player p = snapshot.getValue(Player.class);
+                        player = p;
+                        listener.updateUI(p);
+                    }
+                } else {
+                    Toast.makeText(MainGameActivity.this, "Player information was not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

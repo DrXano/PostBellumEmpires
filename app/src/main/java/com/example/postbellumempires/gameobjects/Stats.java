@@ -2,8 +2,6 @@ package com.example.postbellumempires.gameobjects;
 
 import com.google.firebase.database.Exclude;
 
-import java.util.Objects;
-
 public class Stats {
 
     private int health;

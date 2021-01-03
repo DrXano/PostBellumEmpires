@@ -4,10 +4,10 @@ import com.example.postbellumempires.enums.UnitType;
 
 public abstract class Unit {
 
-    private String name;
-    private int size;
-    private Item[] trainCost;
-    private UnitType type;
+    private final String name;
+    private final int size;
+    private final Item[] trainCost;
+    private final UnitType type;
 
     public Unit(String name, int size, Item[] trainCost, UnitType type) {
         this.name = name;
@@ -36,7 +36,7 @@ public abstract class Unit {
 
     public abstract void setStats(Stats stats);
 
-    public abstract int getLevelInfo();
+    public abstract int getLevel();
 
     public abstract int getMaxLevel();
 
@@ -47,4 +47,7 @@ public abstract class Unit {
     public abstract Item[] getUpgradeCost();
 
     public abstract void levelUp();
+
+    @Override
+    public abstract String toString();
 }

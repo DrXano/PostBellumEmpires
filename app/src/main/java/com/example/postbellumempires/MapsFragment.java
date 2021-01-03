@@ -114,39 +114,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
         this.playerLevel = view.findViewById(R.id.playerLevel);
         this.symbol = view.findViewById(R.id.FactionSymbol);
 
-        menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onAddButtonClicked();
-            }
-        });
-        inventory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                parentActivity.changeToInventory();
-            }
-        });
+        menu.setOnClickListener(v -> onAddButtonClicked());
+        inventory.setOnClickListener(v -> parentActivity.changeToInventory());
 
-        armymenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                parentActivity.changeToArmyMenu();
-            }
-        });
+        armymenu.setOnClickListener(v -> parentActivity.changeToArmyMenu());
 
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                parentActivity.changeToProfile();
-            }
-        });
+        profile.setOnClickListener(v -> parentActivity.changeToProfile());
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+        logout.setOnClickListener(v -> logout());
 
         return view;
     }
@@ -193,17 +168,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Attention");
         builder.setMessage("You are about to log out. Are you sure you want to leave?");
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                parentActivity.logout();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        builder.setPositiveButton("Ok", (dialog, which) -> parentActivity.logout());
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
 
-            }
         });
         AlertDialog d = builder.create();
         d.show();
@@ -278,35 +245,29 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
                 .setFastestInterval(1000);
         this.mMap = googleMap;
         fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
+                .addOnSuccessListener(getActivity(), location -> {
+                    if (location != null) {
 
-                            LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                            if (playerPos == null) {
-                                playerPos = mMap.addMarker(new MarkerOptions()
-                                        .flat(true)
-                                        .anchor(0.5f, 0.5f)
-                                        .position(loc));
-                            }
-
-                            CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(TILT).build();
-                            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
+                        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                        if (playerPos == null) {
+                            playerPos = mMap.addMarker(new MarkerOptions()
+                                    .flat(true)
+                                    .anchor(0.5f, 0.5f)
+                                    .position(loc));
                         }
+
+                        CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(TILT).build();
+                        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
                     }
                 });
 
-        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                if (!marker.equals(playerPos)) {
-                    Dialog d = new PlaceDialog(parentActivity, marker.getTitle());
-                    d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                    d.show();
-                }
-                return true;
+        googleMap.setOnMarkerClickListener(marker -> {
+            if (!marker.equals(playerPos)) {
+                Dialog d = new PlaceDialog(parentActivity, marker.getTitle());
+                d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                d.show();
             }
+            return true;
         });
 
         locationCallback = new LocationCallback() {

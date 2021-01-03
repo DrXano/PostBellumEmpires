@@ -18,9 +18,6 @@ public class ArmyMenuActivity extends AppCompatActivity {
     Fragment train = new ArmyTrainingFragment();
     Fragment upgrade = new ArmyUpgradeFragment();
 
-    private TabAdapter adapter;
-    private ViewPager pager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +29,8 @@ public class ArmyMenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Army");
 
-        adapter = new TabAdapter(getSupportFragmentManager());
-        pager = findViewById(R.id.viewPager);
+        TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
+        ViewPager pager = findViewById(R.id.viewPager);
         pager.setAdapter(adapter);
 
         TabLayout lay = findViewById(R.id.tabLayout);

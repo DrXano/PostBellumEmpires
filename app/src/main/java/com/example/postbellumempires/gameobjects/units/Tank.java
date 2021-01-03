@@ -13,15 +13,15 @@ import java.util.Map;
 public class Tank extends Unit {
     private static final String name = "Tank";
     private static final int size = 10;
-    private static Item[] trainCost = new Item[]{new Item(GameResource.FOOD, 300), new Item(GameResource.IRON, 500)};
-    private static UnitType type = UnitType.TANK;
+    private static final Item[] trainCost = new Item[]{new Item(GameResource.FOOD, 300), new Item(GameResource.IRON, 500)};
+    private static final UnitType type = UnitType.TANK;
 
     private Level levelInfo;
     private Stats stats;
 
     public Tank() {
         super(name, size, trainCost, type);
-        this.levelInfo = Level.Level1;
+        this.levelInfo = Level.Level0;
         this.stats = this.levelInfo.stats;
     }
 
@@ -43,7 +43,7 @@ public class Tank extends Unit {
     }
 
     @Override
-    public int getLevelInfo() {
+    public int getLevel() {
         return levelInfo.level;
     }
 
@@ -79,7 +79,13 @@ public class Tank extends Unit {
         return new GameUnit(this.levelInfo.level, super.getName(), super.getSize(), super.getType(), this.stats);
     }
 
+    @Override
+    public String toString() {
+        return "Level" + this.levelInfo.level + "_" + this.getName();
+    }
+
     private enum Level {
+        Level0(0,new Stats(0, 0, 0, 0),null),
         Level1(1, new Stats(500, 50, 100, 0.5), null),
         Level2(2, new Stats(600, 100, 200, 0.5), new Item[]{new Item(GameResource.KNOWLEDGE, 20), new Item(GameResource.FOOD, 500), new Item(GameResource.IRON, 500)}),
         Level3(3, new Stats(700, 150, 300, 0.5), new Item[]{new Item(GameResource.KNOWLEDGE, 30), new Item(GameResource.FOOD, 1000), new Item(GameResource.IRON, 1000)});

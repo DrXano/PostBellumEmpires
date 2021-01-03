@@ -2,6 +2,7 @@ package com.example.postbellumempires.gameobjects;
 
 import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.enums.GameResource;
+import com.example.postbellumempires.enums.UnitType;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
@@ -16,6 +17,7 @@ public class Player {
     private int maxExp;
     private Faction playerFaction;
     private Inventory inv;
+    private PlayerArmy army;
 
     public Player() {
     }
@@ -28,6 +30,7 @@ public class Player {
         this.exp = exp;
         this.maxExp = maxExp;
         this.inv = new Inventory(this.inGameName);
+        this.army = new PlayerArmy(30);
     }
 
     public String getEmail() {
@@ -86,6 +89,14 @@ public class Player {
         }
     }
 
+    public PlayerArmy getArmy() {
+        return army;
+    }
+
+    public void setArmy(PlayerArmy army) {
+        this.army = army;
+    }
+
     @Exclude
     public Faction getPlayerFaction() {
         return playerFaction;
@@ -123,5 +134,43 @@ public class Player {
     public void updatePlayer() {
         DatabaseReference playerRef = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         playerRef.setValue(this);
+    }
+
+    @Exclude
+    public void emptyArmy(){
+        if(army != null){
+            this.army.emptyArmy();
+        }else {
+            this.army = new PlayerArmy(30);
+        }
+        this.updatePlayer();
+    }
+
+    @Exclude
+    public boolean addUnit(UnitType type, int quantity){
+        boolean result = this.army.add(type,quantity);
+        if(result)
+            this.updatePlayer();
+        return result;
+    }
+
+    @Exclude
+    public boolean removeUnit(UnitType type, int quantity){
+        boolean result = this.army.remove(type,quantity);
+        if(result)
+            this.updatePlayer();
+        return result;
+    }
+
+    @Exclude
+    public void levelUpUnit(UnitType type){
+        this.army.levelUp(type);
+        this.updatePlayer();
+    }
+
+    @Exclude
+    public void unlockUnit(UnitType type){
+        this.army.unlock(type);
+        this.updatePlayer();
     }
 }

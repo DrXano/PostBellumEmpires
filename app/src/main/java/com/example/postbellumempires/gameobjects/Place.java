@@ -3,6 +3,7 @@ package com.example.postbellumempires.gameobjects;
 import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.enums.GameResource;
 import com.example.postbellumempires.enums.PlaceType;
+import com.example.postbellumempires.enums.UnitType;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -23,8 +24,7 @@ public class Place {
     private String owner;
     private Faction ownerFaction;
     private PlaceType type;
-    private int maxCapacity;
-    private int capacity;
+    private PlaceArmy army;
 
     public Place() {
     }
@@ -36,8 +36,7 @@ public class Place {
         this.owner = null;
         this.ownerFaction = null;
         this.type = type;
-        this.maxCapacity = MAX_CAPACITY_BY_DEFAULT;
-        this.capacity = 0;
+        this.army = new PlaceArmy(MAX_CAPACITY_BY_DEFAULT);
         this.id = this.generateId();
     }
 
@@ -114,20 +113,22 @@ public class Place {
         }
     }
 
+    public PlaceArmy getArmy() {
+        return army;
+    }
+
+    public void setArmy(PlaceArmy army) {
+        this.army = army;
+    }
+
+    @Exclude
     public int getMaxCapacity() {
-        return maxCapacity;
+        return this.army.getMaxCapacity();
     }
 
-    public void setMaxCapacity(int maxCapacity) {
-        this.maxCapacity = maxCapacity;
-    }
-
+    @Exclude
     public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+        return this.army.getSize();
     }
 
     @Exclude
@@ -219,5 +220,20 @@ public class Place {
     @Exclude
     public LatLng getLatLng() {
         return new LatLng(latitude, longitude);
+    }
+
+    @Exclude
+    public boolean remove(GameUnit gu, int quantity){
+        return this.army.remove(gu, quantity);
+    }
+
+    @Exclude
+    public boolean deployUnit(Player p, UnitType type, int quantity){
+        return this.army.deployUnit(p, type, quantity);
+    }
+
+    @Exclude
+    public boolean deployAll(Player p){
+        return this.army.deployAll(p);
     }
 }

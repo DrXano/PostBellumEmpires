@@ -8,7 +8,7 @@ import com.example.postbellumempires.gameobjects.units.Tank;
 public class UnitFactory {
 
     public static Unit getUnit(UnitType type) {
-        return getUnitAux(type, 1);
+        return getUnitAux(type, 0);
     }
 
     public static Unit getUnit(UnitType type, int level) {

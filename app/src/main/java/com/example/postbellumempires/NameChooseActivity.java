@@ -51,21 +51,18 @@ public class NameChooseActivity extends AppCompatActivity {
             Player p = new Player(email, ign, faction, 1, 0, 1000);
 
             mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
 
-                                Log.d(TAG, "createUserWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                FirebaseDatabase.getInstance().getReference("users").child(user.getUid()).setValue(p);
-                                startActivity(new Intent(NameChooseActivity.this, MainActivity.class));
-                                finish();
-                            } else {
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseDatabase.getInstance().getReference("users").child(user.getUid()).setValue(p);
+                            startActivity(new Intent(NameChooseActivity.this, MainActivity.class));
+                            finish();
+                        } else {
 
-                                Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                Toast.makeText(NameChooseActivity.this, "Player register failed.", Toast.LENGTH_SHORT).show();
-                            }
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(NameChooseActivity.this, "Player register failed.", Toast.LENGTH_SHORT).show();
                         }
                     });
         }

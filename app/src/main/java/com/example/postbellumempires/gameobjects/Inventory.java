@@ -48,7 +48,7 @@ public class Inventory {
             i.increase(quantity);
             this.inv.put(resName, i);
         } else {
-            this.inv.put(resName, new Item(resName, quantity));
+            this.inv.put(resName, new Item(resource, quantity));
         }
     }
 

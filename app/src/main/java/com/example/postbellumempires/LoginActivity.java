@@ -62,18 +62,15 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Please insert your password", Toast.LENGTH_SHORT).show();
         } else {
             mFirebaseAuth.signInWithEmailAndPassword(mail, pass)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Log.d(TAG, "signInWithEmail:success");
-                                FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
-                            } else {
-                                Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(LoginActivity.this, "email or password incorrect!", Toast.LENGTH_SHORT).show();
-                            }
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        } else {
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "email or password incorrect!", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -107,19 +104,16 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mFirebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                .addOnCompleteListener(this, task -> {
+                    Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finish();
-                        }
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "signInWithCredential", task.getException());
+                        Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
                     }
                 });
     }

@@ -1,29 +1,31 @@
 package com.example.postbellumempires.gameobjects;
 
+import com.example.postbellumempires.enums.GameResource;
 import com.google.firebase.database.Exclude;
 
 public class Item {
-    private String resource;
+    private GameResource resource;
     private int quantity;
 
-    public Item(){}
+    public Item() {
+    }
 
-    public Item(String resource){
+    public Item(GameResource resource) {
         this.resource = resource;
         this.quantity = 0;
     }
 
-    public Item(String resource, int quantity){
+    public Item(GameResource resource, int quantity) {
         this.resource = resource;
         this.quantity = quantity;
     }
 
     public String getResource() {
-        return resource;
+        return resource.name();
     }
 
     public void setResource(String resource) {
-        this.resource = resource;
+        this.resource = GameResource.valueOf(resource);
     }
 
     public int getQuantity() {
@@ -35,17 +37,22 @@ public class Item {
     }
 
     @Exclude
-    public boolean isExhausted(){
+    public boolean isExhausted() {
         return this.quantity <= 0;
     }
 
     @Exclude
-    public void increase(int quantity){
+    public GameResource getResourceItem() {
+        return this.resource;
+    }
+
+    @Exclude
+    public void increase(int quantity) {
         this.quantity += quantity;
     }
 
     @Exclude
-    public void decrease(int quantity){
+    public void decrease(int quantity) {
         this.quantity -= quantity;
     }
 }

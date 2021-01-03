@@ -1,5 +1,7 @@
 package com.example.postbellumempires;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,8 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -26,7 +26,7 @@ public class ArmyMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_army_menu);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.armyMenuToolbar);
+        Toolbar myToolbar = findViewById(R.id.armyMenuToolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

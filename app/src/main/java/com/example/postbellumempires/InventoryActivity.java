@@ -1,15 +1,15 @@
 package com.example.postbellumempires;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.postbellumempires.gameobjects.Inventory;
 import com.example.postbellumempires.gameobjects.Item;
@@ -38,7 +38,7 @@ public class InventoryActivity extends AppCompatActivity {
 
         this.playerRef = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.inventoryToolbar);
+        Toolbar myToolbar = findViewById(R.id.inventoryToolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -60,16 +60,17 @@ public class InventoryActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
     }
 
     private void updateUI(Inventory inventory) {
 
-        if(inventory == null || inventory.getInventory() == null || inventory.getInventory().isEmpty()){
+        if (inventory == null || inventory.getInventory() == null || inventory.getInventory().isEmpty()) {
             text.setText(getResources().getString(R.string.emptyInventory));
             this.Layout.removeAllViews();
-        }else{
+        } else {
             text.setText("");
             List<Item> items = inventory.getInventory();
             Item[] arr = items.toArray(new Item[items.size()]);
@@ -83,7 +84,7 @@ public class InventoryActivity extends AppCompatActivity {
         TextView resourceQuantityView;
         ImageView resourceImageView;
 
-        public ItemViewHolder(View v){
+        public ItemViewHolder(View v) {
             super(v);
             resourceNameView = itemView.findViewById(R.id.resourceName);
             resourceQuantityView = itemView.findViewById(R.id.quantityNumber);

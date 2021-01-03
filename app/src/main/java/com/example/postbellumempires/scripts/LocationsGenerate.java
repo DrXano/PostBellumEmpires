@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocationsGenerate {
-    public static void generatepoints(){
+    public static void generatepoints() {
         DatabaseReference LocRef = FirebaseDatabase.getInstance().getReference("places");
 
         List<Place> places = new ArrayList<>();
@@ -18,12 +18,11 @@ public class LocationsGenerate {
         places.add(new Place("Ghost shop", 38.71550761076802, -9.217420864190045, PlaceType.SHOP));
 
 
-
         places.add(new Place("CV restaurant", 39.41403321231397, -7.457877936488816, PlaceType.RESTAURANT));
         places.add(new Place("CV college", 39.41352436926469, -7.45827632584793, PlaceType.UNIVERSITY));
         places.add(new Place("CV shop", 39.41368074581658, -7.4572707139979055, PlaceType.SHOP));
 
-        for(Place p: places){
+        for (Place p : places) {
             LocRef.child(p.getId()).setValue(p);
         }
     }

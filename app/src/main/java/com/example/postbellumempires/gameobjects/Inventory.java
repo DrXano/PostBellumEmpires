@@ -10,11 +10,12 @@ import java.util.List;
 public class Inventory {
 
     private String invOwner;
-    private HashMap<String,Item> inv;
+    private HashMap<String, Item> inv;
 
-    public Inventory(){}
+    public Inventory() {
+    }
 
-    public Inventory(String owner){
+    public Inventory(String owner) {
         this.inv = new HashMap<>();
         this.invOwner = owner;
     }
@@ -28,48 +29,48 @@ public class Inventory {
     }
 
     @Exclude
-    public List<Item> getInventory(){
-        if(this.inv != null) {
+    public List<Item> getInventory() {
+        if (this.inv != null) {
             return new ArrayList<>(this.inv.values());
-        }else{
+        } else {
             return null;
         }
     }
 
     @Exclude
-    public void addItem(GameResource resource, int quantity){
-        if(this.inv == null){
+    public void addItem(GameResource resource, int quantity) {
+        if (this.inv == null) {
             this.inv = new HashMap<>();
         }
         String resName = resource.name();
-        if(this.inv.containsKey(resName)){
+        if (this.inv.containsKey(resName)) {
             Item i = this.inv.get(resName);
             i.increase(quantity);
-            this.inv.put(resName,i);
-        }else{
+            this.inv.put(resName, i);
+        } else {
             this.inv.put(resName, new Item(resName, quantity));
         }
     }
 
     @Exclude
-    public void removeItem(GameResource resource, int quantity){
-        if(this.inv == null){
+    public void removeItem(GameResource resource, int quantity) {
+        if (this.inv == null) {
             this.inv = new HashMap<>();
         }
         String resName = resource.name();
-        if(this.inv.containsKey(resName)){
+        if (this.inv.containsKey(resName)) {
             Item i = this.inv.get(resName);
             i.decrease(quantity);
-            this.inv.put(resName,i);
+            this.inv.put(resName, i);
 
-            if(i.isExhausted()){
+            if (i.isExhausted()) {
                 this.inv.remove(resName);
             }
         }
     }
 
     @Exclude
-    public boolean hasItem(GameResource resource){
+    public boolean hasItem(GameResource resource) {
         return this.inv.containsKey(resource.name());
     }
 

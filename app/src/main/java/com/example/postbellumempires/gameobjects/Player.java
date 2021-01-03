@@ -17,7 +17,8 @@ public class Player {
     private Faction playerFaction;
     private Inventory inv;
 
-    public Player() {}
+    public Player() {
+    }
 
     public Player(String email, String inGameName, Faction faction, int level, int exp, int maxExp) {
         this.email = email;
@@ -70,17 +71,17 @@ public class Player {
     }
 
     public String getPFaction() {
-        if(playerFaction == null){
+        if (playerFaction == null) {
             return null;
-        }else{
+        } else {
             return playerFaction.name;
         }
     }
 
     public void setPFaction(String playerFaction) {
-        if(playerFaction == null){
+        if (playerFaction == null) {
             this.playerFaction = null;
-        }else{
+        } else {
             this.playerFaction = Faction.valueOfName(playerFaction);
         }
     }
@@ -104,22 +105,22 @@ public class Player {
     }
 
     @Exclude
-    public void addItem(GameResource resource, int quantity){
-        this.inv.addItem(resource,quantity);
+    public void addItem(GameResource resource, int quantity) {
+        this.inv.addItem(resource, quantity);
     }
 
     @Exclude
-    public void removeItem(GameResource resource, int quantity){
-        this.inv.removeItem(resource,quantity);
+    public void removeItem(GameResource resource, int quantity) {
+        this.inv.removeItem(resource, quantity);
     }
 
     @Exclude
-    public boolean hasItem(GameResource resource){
+    public boolean hasItem(GameResource resource) {
         return this.inv.hasItem(resource);
     }
 
     @Exclude
-    public void updatePlayer(){
+    public void updatePlayer() {
         DatabaseReference playerRef = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         playerRef.setValue(this);
     }

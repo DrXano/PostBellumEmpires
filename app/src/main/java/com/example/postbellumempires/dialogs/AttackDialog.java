@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.example.postbellumempires.R;
 
-public class AttackDialog extends Dialog implements View.OnClickListener{
+public class AttackDialog extends Dialog implements View.OnClickListener {
 
     public ImageButton cancel;
     public Button attack;

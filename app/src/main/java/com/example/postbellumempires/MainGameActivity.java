@@ -23,13 +23,12 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainGameActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainGameActivity";
+    Fragment map = new MapsFragment();
     private FirebaseAuth mAuth;
     private DatabaseReference playerRef;
     private Player player;
     private MapListener listener;
-
-    private static final String TAG = "MainGameActivity";
-    Fragment map = new MapsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +43,13 @@ public class MainGameActivity extends AppCompatActivity {
 
         this.listener = (MapListener) this.map;
         this.mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser() != null) {
+        if (mAuth.getCurrentUser() != null) {
             this.playerRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
             playerRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        if(map.isResumed()) {
+                        if (map.isResumed()) {
                             Player p = snapshot.getValue(Player.class);
                             player = p;
                             listener.updateUI(p);
@@ -71,32 +70,32 @@ public class MainGameActivity extends AppCompatActivity {
                     .commit();
 
 
-        }else{
+        } else {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
     }
 
-    public Player getPlayer(){
+    public Player getPlayer() {
         return this.player;
     }
 
-    public void changeToProfile(){
+    public void changeToProfile() {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 
-    public void changeToArmyMenu(){
+    public void changeToArmyMenu() {
         Intent intent = new Intent(this, ArmyMenuActivity.class);
         startActivity(intent);
     }
 
-    public void changeToInventory(){
+    public void changeToInventory() {
         Intent intent = new Intent(this, InventoryActivity.class);
         startActivity(intent);
     }
 
-    public void logout(){
+    public void logout() {
         mAuth.signOut();
         startActivity(new Intent(this, MainActivity.class));
         finish();
@@ -121,7 +120,7 @@ public class MainGameActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    if(map.isResumed()) {
+                    if (map.isResumed()) {
                         Player p = snapshot.getValue(Player.class);
                         player = p;
                         listener.updateUI(p);

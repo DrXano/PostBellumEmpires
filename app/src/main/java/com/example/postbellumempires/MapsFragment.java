@@ -41,7 +41,6 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -65,14 +64,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
     private static final float MIN_ZOOM = 18.0f;
 
     private static final String TAG = "MapsFragment";
-    private DatabaseReference LocRef = FirebaseDatabase.getInstance().getReference("places");
-
+    private final DatabaseReference LocRef = FirebaseDatabase.getInstance().getReference("places");
     FloatingActionButton menu;
     FloatingActionButton inventory;
     FloatingActionButton armymenu;
     FloatingActionButton profile;
     FloatingActionButton logout;
-
     private boolean clicked = false;
     private MainGameActivity parentActivity;
 
@@ -170,7 +167,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
         this.userexp.setProgress(p.getExp());
         this.userexp.setMax(p.getMaxExp());
 
-        switch (p.getPlayerFaction()){
+        switch (p.getPlayerFaction()) {
             case OC:
                 color = getResources().getColor(R.color.OCprimary);
                 this.userexp.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
@@ -287,11 +284,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
                         if (location != null) {
 
                             LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                            if(playerPos == null){
+                            if (playerPos == null) {
                                 playerPos = mMap.addMarker(new MarkerOptions()
-                                .flat(true)
-                                .anchor(0.5f, 0.5f)
-                                .position(loc));
+                                        .flat(true)
+                                        .anchor(0.5f, 0.5f)
+                                        .position(loc));
                             }
 
                             CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(TILT).build();
@@ -303,7 +300,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                if(!marker.equals(playerPos)) {
+                if (!marker.equals(playerPos)) {
                     Dialog d = new PlaceDialog(parentActivity, marker.getTitle());
                     d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                     d.show();
@@ -317,7 +314,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
             public void onLocationResult(LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
                     LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                    animateMarker(playerPos,location);
+                    animateMarker(playerPos, location);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
                 }
             }
@@ -366,11 +363,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, MapLis
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    for(DataSnapshot ds : snapshot.getChildren()){
+                    for (DataSnapshot ds : snapshot.getChildren()) {
                         LocRef.child(ds.getKey()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists()) {
+                                if (snapshot.exists()) {
                                     Place p = snapshot.getValue(Place.class);
                                     googleMap.addMarker(p.getMarker());
                                 }

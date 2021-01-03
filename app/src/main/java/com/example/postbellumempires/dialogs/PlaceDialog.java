@@ -3,7 +3,6 @@ package com.example.postbellumempires.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.postbellumempires.LoginActivity;
 import com.example.postbellumempires.MainGameActivity;
 import com.example.postbellumempires.R;
 import com.example.postbellumempires.enums.GameResource;
@@ -31,25 +29,22 @@ import java.util.Random;
 
 public class PlaceDialog extends Dialog implements View.OnClickListener {
 
-    private MainGameActivity parentActivity;
-    private DatabaseReference PlaceRef;
-    private boolean friendly;
-    private int color;
-    private Place p;
-
+    private final MainGameActivity parentActivity;
+    private final DatabaseReference PlaceRef;
     public TextView PlaceName;
     public TextView OwnerFaction;
     public TextView Owner;
     public TextView Reward;
     public TextView currcap;
     public TextView maxcap;
-
     public ImageView symbol;
-
     public ImageButton cancel;
     public Button action;
     public Button collect;
     Context context;
+    private boolean friendly;
+    private int color;
+    private Place p;
 
     public PlaceDialog(@NonNull Context context, String id) {
         super(context, android.R.style.Theme_Black_NoTitleBar);
@@ -65,7 +60,7 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         PlaceRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
+                if (snapshot.exists()) {
                     Place p = snapshot.getValue(Place.class);
                     updateUI(p);
                 }
@@ -93,7 +88,7 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         symbol = findViewById(R.id.ownerFactionSymbol);
         PlaceName.setText(p.getName());
 
-        if(p.getFaction() != null) {
+        if (p.getFaction() != null) {
             switch (p.getFaction()) {
                 case OC:
                     color = getContext().getResources().getColor(R.color.OCprimary);
@@ -115,7 +110,7 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                     this.symbol.setImageDrawable(null);
                     break;
             }
-        }else{
+        } else {
             color = getContext().getResources().getColor(R.color.black);
             this.symbol.setImageDrawable(null);
         }
@@ -123,21 +118,21 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         String owner = p.getOwner();
         String ownerFaction = p.getOwnerFaction();
         String reward = p.getResourceRewardType().name();
-        if(reward != null){
+        if (reward != null) {
             Reward.setText(reward);
         }
 
         currcap.setText(String.valueOf(p.getCapacity()));
         maxcap.setText(String.valueOf(p.getMaxCapacity()));
 
-        Owner.setText((owner == null)?"---":owner);
-        OwnerFaction.setText((ownerFaction == null)?"---":ownerFaction);
+        Owner.setText((owner == null) ? "---" : owner);
+        OwnerFaction.setText((ownerFaction == null) ? "---" : ownerFaction);
         this.friendly = (p.getOwnerFaction() == null || p.getOwnerFaction().equals(player.getPFaction()));
 
-        if(this.friendly){
+        if (this.friendly) {
             action.setText("Deploy Troops");
             collect.setText("Collect");
-        }else{
+        } else {
             action.setText("Attack");
             collect.setText("Steal");
         }
@@ -151,9 +146,9 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.actionButton:
-                if(friendly){
+                if (friendly) {
                     this.p.occupy(parentActivity.getPlayer());
-                }else {
+                } else {
                     Dialog d = new AttackDialog(context);
                     d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                     d.show();
@@ -169,8 +164,8 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 Random r = new Random();
                 int min = 400;
                 int max = 500;
-                int reward = (int) ((r.nextInt(max-min) + min) * bonusMultiplier(player));
-                player.addItem(res,reward);
+                int reward = (int) ((r.nextInt(max - min) + min) * bonusMultiplier(player));
+                player.addItem(res, reward);
                 player.updatePlayer();
                 Toast.makeText(context, reward + " " + Reward.getText().toString() + " acquired", Toast.LENGTH_SHORT).show();
                 dismiss();
@@ -182,12 +177,12 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
     }
 
     private double bonusMultiplier(Player player) {
-        if(!this.friendly){
+        if (!this.friendly) {
             return 0.5;
-        }else{
-            if(p.getOwner() != null && p.getOwner().equals(player.getInGameName())){
+        } else {
+            if (p.getOwner() != null && p.getOwner().equals(player.getInGameName())) {
                 return 1.5;
-            }else{
+            } else {
                 return 1.0;
             }
         }

@@ -8,17 +8,17 @@ public enum Faction {
     DR("Dauntless Raiders"),
     ES("Erudite Sovereignty");
 
-    public final String name;
-
     private static final Map<String, Faction> BY_NAME = new HashMap<>();
 
     static {
-        for (Faction e: values()) {
+        for (Faction e : values()) {
             BY_NAME.put(e.name, e);
         }
     }
 
-    private Faction(String name) {
+    public final String name;
+
+    Faction(String name) {
         this.name = name;
     }
 

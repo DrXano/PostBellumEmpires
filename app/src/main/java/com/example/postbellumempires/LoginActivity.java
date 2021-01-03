@@ -56,11 +56,11 @@ public class LoginActivity extends AppCompatActivity {
         String mail = ((EditText) findViewById(R.id.email)).getText().toString();
         String pass = ((EditText) findViewById(R.id.password)).getText().toString();
 
-        if(mail.length() == 0){
+        if (mail.length() == 0) {
             Toast.makeText(LoginActivity.this, "Please insert your email", Toast.LENGTH_SHORT).show();
-        }else if(pass.length() == 0){
+        } else if (pass.length() == 0) {
             Toast.makeText(LoginActivity.this, "Please insert your password", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             mFirebaseAuth.signInWithEmailAndPassword(mail, pass)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override

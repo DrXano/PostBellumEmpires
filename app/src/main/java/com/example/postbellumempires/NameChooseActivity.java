@@ -41,11 +41,11 @@ public class NameChooseActivity extends AppCompatActivity {
 
         String ign = ((EditText) findViewById(R.id.namePickView)).getText().toString();
 
-        if(ign.length() == 0) {
+        if (ign.length() == 0) {
             Toast.makeText(this, "Please choose your InGame name", Toast.LENGTH_SHORT).show();
-        }else if(ign.toLowerCase().equals("wisely")){
+        } else if (ign.toLowerCase().equals("wisely")) {
             Toast.makeText(this, "Ha! Ha! Very funny...", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
             Player p = new Player(email, ign, faction, 1, 0, 1000);
@@ -71,7 +71,7 @@ public class NameChooseActivity extends AppCompatActivity {
         }
     }
 
-    public void cancel(View view){
+    public void cancel(View view) {
         Intent intent = new Intent(this, pickFactionActivity.class);
         intent.putExtra("email", email);
         intent.putExtra("pass", password);

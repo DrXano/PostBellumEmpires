@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Place {
 
     @Exclude
-    private static int MAX_CAPACITY_BY_DEFAULT = 50;
+    private static final int MAX_CAPACITY_BY_DEFAULT = 50;
 
     private String id;
     private String name;
@@ -26,7 +26,8 @@ public class Place {
     private int maxCapacity;
     private int capacity;
 
-    public Place(){}
+    public Place() {
+    }
 
     public Place(String name, double latitude, double longitude, PlaceType type) {
         this.name = name;
@@ -81,34 +82,34 @@ public class Place {
     }
 
     public String getOwnerFaction() {
-        if(ownerFaction == null){
+        if (ownerFaction == null) {
             return null;
-        }else{
+        } else {
             return ownerFaction.name;
         }
     }
 
     public void setOwnerFaction(String ownerFaction) {
-        if(ownerFaction == null){
+        if (ownerFaction == null) {
             this.ownerFaction = null;
-        }else{
+        } else {
             this.ownerFaction = Faction.valueOfName(ownerFaction);
         }
     }
 
 
     public String getType() {
-        if(type == null){
+        if (type == null) {
             return null;
-        }else{
+        } else {
             return type.name();
         }
     }
 
     public void setType(String type) {
-        if(type == null){
+        if (type == null) {
             this.type = null;
-        }else{
+        } else {
             this.type = PlaceType.valueOf(type);
         }
     }
@@ -130,13 +131,13 @@ public class Place {
     }
 
     @Exclude
-    public void free(){
+    public void free() {
         this.owner = null;
         this.ownerFaction = null;
     }
 
     @Exclude
-    public void occupy(Player p){
+    public void occupy(Player p) {
         this.owner = p.getInGameName();
         this.ownerFaction = p.getPlayerFaction();
 
@@ -145,8 +146,8 @@ public class Place {
     }
 
     @Exclude
-    public GameResource getResourceRewardType(){
-        switch (type){
+    public GameResource getResourceRewardType() {
+        switch (type) {
             case RESTAURANT:
                 return GameResource.FOOD;
             case UNIVERSITY:
@@ -177,13 +178,13 @@ public class Place {
         hash = 31 * hash + (int) latitude;
         hash = 31 * hash + (int) longitude;
         hash = 31 * hash + type.hashCode();
-        return "place_"+hash;
+        return "place_" + hash;
     }
 
     @Exclude
-    public MarkerOptions getMarker(){
+    public MarkerOptions getMarker() {
         MarkerOptions m = new MarkerOptions();
-        m.position(new LatLng(latitude,longitude))
+        m.position(new LatLng(latitude, longitude))
                 .title(this.id)
                 .icon(getMarkerIcon());
         return m;
@@ -191,7 +192,7 @@ public class Place {
 
     @Exclude
     private BitmapDescriptor getMarkerIcon() {
-        switch (type){
+        switch (type) {
             case SHOP:
                 return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
             case RESTAURANT:
@@ -216,7 +217,7 @@ public class Place {
     }
 
     @Exclude
-    public LatLng getLatLng(){
-        return new LatLng(latitude,longitude);
+    public LatLng getLatLng() {
+        return new LatLng(latitude, longitude);
     }
 }

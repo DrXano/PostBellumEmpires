@@ -21,15 +21,15 @@ public class RegisterActivity extends AppCompatActivity {
         String regPass = ((EditText) findViewById(R.id.RegPass)).getText().toString();
         String regConfPass = ((EditText) findViewById(R.id.RegConfPass)).getText().toString();
 
-        if(regEmail.length() == 0){
+        if (regEmail.length() == 0) {
             Toast.makeText(this, "Please insert an email", Toast.LENGTH_SHORT).show();
-        }else if(regPass.length() == 0) {
+        } else if (regPass.length() == 0) {
             Toast.makeText(this, "Please choose a password", Toast.LENGTH_SHORT).show();
-        }else if(regPass.length() < 8){
+        } else if (regPass.length() < 8) {
             Toast.makeText(this, "Password too short, must have at least 8 characters", Toast.LENGTH_SHORT).show();
-        }else if(regConfPass.length() == 0){
+        } else if (regConfPass.length() == 0) {
             Toast.makeText(this, "Please confirm your password", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             if (regPass.equals(regConfPass)) {
                 Intent intent = new Intent(this, pickFactionActivity.class);
                 intent.putExtra("email", regEmail);

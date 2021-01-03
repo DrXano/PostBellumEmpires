@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.postbellumempires.gameobjects.Item;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.ItemViewHolder> {
-    private Item[] mDataset;
+    private final Item[] mDataset;
 
     public InventoryAdapter(Item[] myDataset) {
         mDataset = myDataset;
@@ -42,7 +42,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Item
         TextView resourceQuantityView;
         ImageView resourceImageView;
 
-        public ItemViewHolder(View v){
+        public ItemViewHolder(View v) {
             super(v);
             resourceNameView = itemView.findViewById(R.id.resourceName);
             resourceQuantityView = itemView.findViewById(R.id.quantityNumber);

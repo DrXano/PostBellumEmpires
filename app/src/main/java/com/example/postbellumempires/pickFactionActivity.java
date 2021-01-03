@@ -33,12 +33,12 @@ public class pickFactionActivity extends AppCompatActivity {
         nextStep(Faction.ES);
     }
 
-    public void cancel(View view){
+    public void cancel(View view) {
         startActivity(new Intent(this, RegisterActivity.class));
         finish();
     }
 
-    void nextStep(Faction faction){
+    void nextStep(Faction faction) {
         Intent intent = new Intent(this, NameChooseActivity.class);
         intent.putExtra("email", email);
         intent.putExtra("pass", password);

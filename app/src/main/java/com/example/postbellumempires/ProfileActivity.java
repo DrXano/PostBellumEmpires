@@ -1,15 +1,15 @@
 package com.example.postbellumempires;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.postbellumempires.gameobjects.Player;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,7 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.profileToolbar);
+        Toolbar myToolbar = findViewById(R.id.profileToolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -76,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void updateUI(Player p){
+    private void updateUI(Player p) {
         this.playerName.setText(p.getInGameName());
         this.playerFaction.setText(p.getPFaction());
         this.playerLevel.setText(String.valueOf(p.getLevel()));
@@ -87,7 +87,7 @@ public class ProfileActivity extends AppCompatActivity {
         this.playerExp.setText(String.valueOf(p.getExp()));
         this.playerMaxExp.setText(String.valueOf(p.getMaxExp()));
 
-        switch (p.getPlayerFaction()){
+        switch (p.getPlayerFaction()) {
             case OC:
                 color = getResources().getColor(R.color.OCprimary);
                 this.playerProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);

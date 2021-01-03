@@ -12,7 +12,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.example.postbellumempires.scripts.LocationsGenerate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -37,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
         YoYo.with(Techniques.FadeIn)
                 .withListener(new Animator.AnimatorListener() {
                     @Override
-                    public void onAnimationStart(Animator animation) {}
+                    public void onAnimationStart(Animator animation) {
+                    }
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -45,22 +45,24 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onAnimationCancel(Animator animation) {}
+                    public void onAnimationCancel(Animator animation) {
+                    }
 
                     @Override
-                    public void onAnimationRepeat(Animator animation) {}
+                    public void onAnimationRepeat(Animator animation) {
+                    }
                 })
                 .duration(4000)
                 .playOn(findViewById(R.id.gamename));
 
     }
 
-    public void proceed(){
+    public void proceed() {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        if(mFirebaseUser == null) {
+        if (mFirebaseUser == null) {
             startActivity(new Intent(this, LoginActivity.class));
-        }else{
+        } else {
             startActivity(new Intent(this, MainGameActivity.class));
         }
         finish();

@@ -3,7 +3,9 @@ package com.example.postbellumempires.gameobjects;
 import com.example.postbellumempires.enums.UnitType;
 import com.google.firebase.database.Exclude;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class PlaceArmy {
 
@@ -149,6 +151,12 @@ public class PlaceArmy {
         } else {
             return false;
         }
+    }
+
+    @Exclude
+    public GameUnit[] getUnitsArray(){
+        List<GameUnit> units = new ArrayList<>(this.units.values());
+        return units.toArray(new GameUnit[units.size()]);
     }
 
     @Exclude

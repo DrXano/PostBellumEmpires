@@ -13,11 +13,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.postbellumempires.MainGameActivity;
 import com.example.postbellumempires.R;
+import com.example.postbellumempires.adapters.PlaceArmyAdapter;
 import com.example.postbellumempires.enums.GameResource;
 import com.example.postbellumempires.gameobjects.Place;
+import com.example.postbellumempires.gameobjects.PlaceArmy;
 import com.example.postbellumempires.gameobjects.Player;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +45,7 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
     public ImageButton cancel;
     public Button action;
     public Button collect;
+    public RecyclerView armyView;
     Context context;
     private boolean friendly;
     private int color;
@@ -86,6 +91,15 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         currcap = findViewById(R.id.currCap);
         maxcap = findViewById(R.id.maxcap);
         symbol = findViewById(R.id.ownerFactionSymbol);
+        armyView = findViewById(R.id.placeArmyRV);
+        armyView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        PlaceArmy army = p.getArmy();
+
+        if(army != null && army.getUnits() != null) {
+            this.armyView.setAdapter(new PlaceArmyAdapter(army.getUnitsArray()));
+        }
+
         PlaceName.setText(p.getName());
 
         if (p.getFaction() != null) {
@@ -149,7 +163,7 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 if (friendly) {
                     this.p.occupy(parentActivity.getPlayer());
                 } else {
-                    Dialog d = new AttackDialog(context);
+                    Dialog d = new ActionDialog(context,this.p,parentActivity.getPlayer());
                     d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                     d.show();
                 }

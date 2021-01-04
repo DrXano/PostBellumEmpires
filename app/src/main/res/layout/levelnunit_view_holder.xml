@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/placelevelText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Level "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/placeunitLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/placelevelText"
+        app:layout_constraintTop_toTopOf="@+id/placelevelText" />
+
+    <TextView
+        android:id="@+id/separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:text="-"
+        app:layout_constraintStart_toEndOf="@+id/placeunitLevel"
+        app:layout_constraintTop_toTopOf="@+id/placeunitLevel" />
+
+    <TextView
+        android:id="@+id/placeunitname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintStart_toEndOf="@+id/separator"
+        app:layout_constraintTop_toTopOf="@+id/separator" />
+
+    <TextView
+        android:id="@+id/placecross"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:text="x"
+        app:layout_constraintStart_toEndOf="@+id/placeunitname"
+        app:layout_constraintTop_toTopOf="@+id/placeunitname" />
+
+    <TextView
+        android:id="@+id/placeunitquantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        app:layout_constraintStart_toEndOf="@+id/placecross"
+        app:layout_constraintTop_toTopOf="@+id/placecross" />
+</androidx.constraintlayout.widget.ConstraintLayout>

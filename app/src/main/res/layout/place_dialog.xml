@@ -215,7 +215,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/scrollView6" />
 
             <ScrollView
-                android:id="@+id/scrollView5"
+                android:id="@+id/placeArmySV"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -230,10 +230,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView46">
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/placeArmyRV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:isScrollContainer="true" />
             </ScrollView>
 
             <ImageButton
@@ -267,7 +268,7 @@
                 android:id="@+id/maxcap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/scrollView5"
+                app:layout_constraintEnd_toEndOf="@+id/placeArmySV"
                 app:layout_constraintTop_toTopOf="@+id/CapTextView" />
 
             <Button

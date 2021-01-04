@@ -6,14 +6,14 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="250dp"
-        android:layout_height="400dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="300dp"
+        android:layout_height="500dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
         app:cardBackgroundColor="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
             android:background="@drawable/border">
 
             <Button
-                android:id="@+id/attackButton2"
+                android:id="@+id/ADactionButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -37,143 +37,28 @@
                 android:text="Attack"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/allButton" />
 
             <ScrollView
+                android:id="@+id/armytodeploySV"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/border"
-                app:layout_constraintBottom_toTopOf="@+id/attackButton2"
+                app:layout_constraintBottom_toTopOf="@+id/ADactionButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cancelButton2">
+                app:layout_constraintTop_toBottomOf="@+id/ADcancelButton">
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/armytodeployRV"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/border"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/textView"
-                            android:layout_width="129dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Marine" />
-
-                        <EditText
-                            android:id="@+id/editTextNumber"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="2"
-                            android:inputType="number"
-                            android:text="0" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/border"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/textView1"
-                            android:layout_width="129dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Medic" />
-
-                        <EditText
-                            android:id="@+id/editTextNumber1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="2"
-                            android:inputType="number"
-                            android:text="0" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/border"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/nameview"
-                            android:layout_width="129dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Pyro" />
-
-                        <EditText
-                            android:id="@+id/editTextNumber2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="2"
-                            android:inputType="number"
-                            android:text="0" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/border"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/textView3"
-                            android:layout_width="129dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Sniper" />
-
-                        <EditText
-                            android:id="@+id/editTextNumber3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="2"
-                            android:inputType="number"
-                            android:text="0" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/border"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="129dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Tank" />
-
-                        <EditText
-                            android:id="@+id/editTextNumber4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:ems="2"
-                            android:inputType="number"
-                            android:text="0" />
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_height="wrap_content" />
             </ScrollView>
 
             <ImageButton
-                android:id="@+id/cancelButton2"
+                android:id="@+id/ADcancelButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -183,6 +68,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/close"
                 tools:ignore="VectorDrawableCompat" />
+
+            <Button
+                android:id="@+id/allButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="Send All"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

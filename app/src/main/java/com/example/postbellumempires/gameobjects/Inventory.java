@@ -81,4 +81,36 @@ public class Inventory {
     public void setInvOwner(String invOwner) {
         this.invOwner = invOwner;
     }
+
+    @Exclude
+    public boolean hasEnough(Item i) {
+        if (this.inv == null)
+            return false;
+
+        String resName = i.getResourceItem().name();
+
+        if (this.inv.containsKey(resName)) {
+            Item itm = this.inv.get(resName);
+
+            return i.getQuantity() <= itm.getQuantity();
+        } else {
+            return false;
+        }
+    }
+
+    @Exclude
+    public boolean hasEnough(Item[] items) {
+        for (Item i : items) {
+            if (!this.hasEnough(i))
+                return false;
+        }
+        return true;
+    }
+
+    @Exclude
+    public void remove(Item[] items) {
+        for (Item i : items) {
+            this.removeItem(i.getResourceItem(), i.getQuantity());
+        }
+    }
 }

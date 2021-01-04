@@ -60,9 +60,13 @@ public class GameUnit {
         this.size = size;
     }
 
-    public int getQuantity() {return quantity;}
+    public int getQuantity() {
+        return quantity;
+    }
 
-    public void setQuantity(int quantity) {this.quantity = quantity;}
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public String getType() {
         return type.name();
@@ -81,38 +85,38 @@ public class GameUnit {
     }
 
     @Exclude
-    public void addQuantity(int quantity){
+    public void addQuantity(int quantity) {
         this.quantity += quantity;
     }
 
     @Exclude
-    public void removeQuantity(int quantity){
+    public void removeQuantity(int quantity) {
         int quant = this.quantity - quantity;
         this.quantity = Math.max(quant, 0);
     }
 
     @Exclude
-    public void addQuantity(GameUnit unit){
-        if(this.type.equals(unit.getEType()) && this.level == unit.getLevel()){
+    public void addQuantity(GameUnit unit) {
+        if (this.type.equals(unit.getEType()) && this.level == unit.getLevel()) {
             this.quantity += unit.getQuantity();
         }
     }
 
     @Exclude
-    public void removeQuantity(GameUnit unit){
-        if(this.type.equals(unit.getEType()) && this.level == unit.getLevel()){
+    public void removeQuantity(GameUnit unit) {
+        if (this.type.equals(unit.getEType()) && this.level == unit.getLevel()) {
             int quant = this.quantity - unit.getQuantity();
             this.quantity = Math.max(quant, 0);
         }
     }
 
     @Exclude
-    public boolean allKilled(){
+    public boolean allKilled() {
         return this.quantity <= 0;
     }
 
     @Exclude
-    public int getTotalSize(){
+    public int getTotalSize() {
         return this.quantity * this.size;
     }
 
@@ -127,15 +131,15 @@ public class GameUnit {
     }
 
     @Exclude
-    public Unit getUnit(){
-        return UnitFactory.getUnit(this.type,this.level,this.stats);
+    public Unit getUnit() {
+        return UnitFactory.getUnit(this.type, this.level, this.stats);
     }
 
     @Exclude
-    public List<Unit> getAllUnits(){
+    public List<Unit> getAllUnits() {
         List<Unit> units = new ArrayList<>();
-        for(int i = 1; i <= this.quantity; i++){
-            units.add(UnitFactory.getUnit(this.type,this.level,this.stats));
+        for (int i = 1; i <= this.quantity; i++) {
+            units.add(UnitFactory.getUnit(this.type, this.level, this.stats));
         }
         return units;
     }
@@ -160,7 +164,7 @@ public class GameUnit {
     }
 
     @Exclude
-    public GameUnit clone(){
-        return new GameUnit(this.level,this.name,this.size,this.quantity,this.type,this.stats);
+    public GameUnit clone() {
+        return new GameUnit(this.level, this.name, this.size, this.quantity, this.type, this.stats);
     }
 }

@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.postbellumempires.adapters.InventoryAdapter;
 import com.example.postbellumempires.gameobjects.Inventory;
 import com.example.postbellumempires.gameobjects.Item;
 import com.example.postbellumempires.gameobjects.Player;

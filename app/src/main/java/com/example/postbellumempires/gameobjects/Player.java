@@ -137,40 +137,52 @@ public class Player {
     }
 
     @Exclude
-    public void emptyArmy(){
-        if(army != null){
+    public void emptyArmy() {
+        if (army != null) {
             this.army.emptyArmy();
-        }else {
+        } else {
             this.army = new PlayerArmy(30);
         }
         this.updatePlayer();
     }
 
     @Exclude
-    public boolean addUnit(UnitType type, int quantity){
-        boolean result = this.army.add(type,quantity);
-        if(result)
+    public boolean addUnit(UnitType type, int quantity) {
+        return this.army.add(type, quantity);
+    }
+
+    @Exclude
+    public boolean removeUnit(UnitType type, int quantity) {
+        boolean result = this.army.remove(type, quantity);
+        if (result)
             this.updatePlayer();
         return result;
     }
 
     @Exclude
-    public boolean removeUnit(UnitType type, int quantity){
-        boolean result = this.army.remove(type,quantity);
-        if(result)
-            this.updatePlayer();
-        return result;
-    }
-
-    @Exclude
-    public void levelUpUnit(UnitType type){
+    public void levelUpUnit(UnitType type) {
         this.army.levelUp(type);
         this.updatePlayer();
     }
 
     @Exclude
-    public void unlockUnit(UnitType type){
+    public void unlockUnit(UnitType type) {
         this.army.unlock(type);
         this.updatePlayer();
+    }
+
+    @Exclude
+    public boolean hasEnough(Item i) {
+        return this.inv.hasEnough(i);
+    }
+
+    @Exclude
+    public boolean hasEnough(Item[] items) {
+        return this.inv.hasEnough(items);
+    }
+
+    @Exclude
+    public void remove(Item[] items) {
+        this.inv.remove(items);
     }
 }

@@ -59,7 +59,8 @@ public class Tank extends Unit {
 
     @Override
     public Item[] getUpgradeCost() {
-        return this.levelInfo.upgradeCost;
+        Level lvl = Level.getByLevel(this.levelInfo.level + 1);
+        return lvl.upgradeCost;
     }
 
     @Override
@@ -85,7 +86,7 @@ public class Tank extends Unit {
     }
 
     private enum Level {
-        Level0(0,new Stats(0, 0, 0, 0),null),
+        Level0(0, new Stats(0, 0, 0, 0), null),
         Level1(1, new Stats(500, 50, 100, 0.5), null),
         Level2(2, new Stats(600, 100, 200, 0.5), new Item[]{new Item(GameResource.KNOWLEDGE, 20), new Item(GameResource.FOOD, 500), new Item(GameResource.IRON, 500)}),
         Level3(3, new Stats(700, 150, 300, 0.5), new Item[]{new Item(GameResource.KNOWLEDGE, 30), new Item(GameResource.FOOD, 1000), new Item(GameResource.IRON, 1000)});

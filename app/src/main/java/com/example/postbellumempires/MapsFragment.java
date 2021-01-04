@@ -3,7 +3,6 @@ package com.example.postbellumempires;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -33,7 +32,7 @@ import androidx.fragment.app.Fragment;
 import com.example.postbellumempires.dialogs.PlaceDialog;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.Player;
-import com.example.postbellumempires.interfaces.MapListener;
+import com.example.postbellumempires.interfaces.InterfaceListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -48,7 +47,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,7 +55,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback, MapListener {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, InterfaceListener {
 
     private static final int TILT = 60;
     private static final float MAX_ZOOM = 21.0f;

@@ -7,29 +7,27 @@
     tools:context=".ArmyTrainingFragment">
 
     <TextView
-        android:id="@+id/textView24"
+        android:id="@+id/currentarmyTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="Current Army:"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/CurrArmySV"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView25"
+        android:id="@+id/armycapacityTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Army Capacity: 44/100"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Army Capacity: "
+        app:layout_constraintEnd_toStartOf="@+id/currsize"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:id="@+id/scrollView3"
+        android:id="@+id/CurrArmySV"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginStart="16dp"
@@ -40,47 +38,17 @@
         android:background="@drawable/border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView24">
+        app:layout_constraintTop_toBottomOf="@+id/currentarmyTV">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/CurrArmyRV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView34"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="10 x Marine" />
-
-            <TextView
-                android:id="@+id/textView35"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="3 x Medic" />
-
-            <TextView
-                android:id="@+id/textView36"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="5 x Pyro" />
-
-            <TextView
-                android:id="@+id/textView37"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="2 x Sniper" />
-
-            <TextView
-                android:id="@+id/textView38"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1 x Tank" />
-        </LinearLayout>
+            android:isScrollContainer="true" />
     </ScrollView>
 
     <TextView
-        android:id="@+id/textView40"
+        android:id="@+id/trainTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -89,9 +57,10 @@
         android:text="Train:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+        app:layout_constraintTop_toBottomOf="@+id/CurrArmySV" />
 
     <ScrollView
+        android:id="@+id/ArmyTrainSV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -104,383 +73,48 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView40">
+        app:layout_constraintTop_toBottomOf="@+id/trainTV">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ArmyTrainRV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/border">
-
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Train"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView41"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Marine"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ScrollView
-                    android:id="@+id/scrollView4"
-                    android:layout_width="140dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@drawable/border"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/button4"
-                    app:layout_constraintTop_toBottomOf="@+id/textView42">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView44"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="50 x Food" />
-
-                        <TextView
-                            android:id="@+id/textView45"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="100 x GunPowder" />
-                    </LinearLayout>
-                </ScrollView>
-
-                <TextView
-                    android:id="@+id/textView42"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Requirements"
-                    app:layout_constraintStart_toStartOf="@+id/scrollView4"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView43"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:text="Size: 1"
-                    app:layout_constraintBottom_toTopOf="@+id/button4"
-                    app:layout_constraintEnd_toEndOf="@+id/button4"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/border">
-
-                <Button
-                    android:id="@+id/button40"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Train"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView410"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Medic"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ScrollView
-                    android:id="@+id/scrollView40"
-                    android:layout_width="140dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@drawable/border"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/button40"
-                    app:layout_constraintTop_toBottomOf="@+id/textView420">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView440"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="100 x Food" />
-
-                    </LinearLayout>
-                </ScrollView>
-
-                <TextView
-                    android:id="@+id/textView420"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Requirements"
-                    app:layout_constraintStart_toStartOf="@+id/scrollView40"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView430"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:text="Size: 1"
-                    app:layout_constraintBottom_toTopOf="@+id/button40"
-                    app:layout_constraintEnd_toEndOf="@+id/button40"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/border">
-
-                <Button
-                    android:id="@+id/button400"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Train"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView4100"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Pyro"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ScrollView
-                    android:id="@+id/scrollView400"
-                    android:layout_width="140dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@drawable/border"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/button400"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4200">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView4400"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="100 x Food" />
-
-                        <TextView
-                            android:id="@+id/textView4500"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="150 x GunPowder" />
-                    </LinearLayout>
-                </ScrollView>
-
-                <TextView
-                    android:id="@+id/textView4200"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Requirements"
-                    app:layout_constraintStart_toStartOf="@+id/scrollView400"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView4300"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:text="Size: 3"
-                    app:layout_constraintBottom_toTopOf="@+id/button400"
-                    app:layout_constraintEnd_toEndOf="@+id/button400"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/border">
-
-                <Button
-                    android:id="@+id/button4000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Train"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView41000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Sniper"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ScrollView
-                    android:id="@+id/scrollView4000"
-                    android:layout_width="140dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@drawable/border"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/button4000"
-                    app:layout_constraintTop_toBottomOf="@+id/textView42000">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView44000"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="150 x Food" />
-
-                        <TextView
-                            android:id="@+id/textView45000"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="100 x Metal" />
-                    </LinearLayout>
-                </ScrollView>
-
-                <TextView
-                    android:id="@+id/textView42000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Requirements"
-                    app:layout_constraintStart_toStartOf="@+id/scrollView4000"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView43000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:text="Size: 3"
-                    app:layout_constraintBottom_toTopOf="@+id/button4000"
-                    app:layout_constraintEnd_toEndOf="@+id/button4000"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/border">
-
-                <Button
-                    android:id="@+id/button40000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Train"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView410000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Tank"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ScrollView
-                    android:id="@+id/scrollView40000"
-                    android:layout_width="140dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@drawable/border"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/button40000"
-                    app:layout_constraintTop_toBottomOf="@+id/textView420000">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/textView440000"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="300 x Food" />
-
-                        <TextView
-                            android:id="@+id/textView450000"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="500 x Metal" />
-                    </LinearLayout>
-                </ScrollView>
-
-                <TextView
-                    android:id="@+id/textView420000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Requirements"
-                    app:layout_constraintStart_toStartOf="@+id/scrollView40000"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView430000"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:text="Size: 10"
-                    app:layout_constraintBottom_toTopOf="@+id/button40000"
-                    app:layout_constraintEnd_toEndOf="@+id/button40000"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
+            android:isScrollContainer="true" />
     </ScrollView>
+
+    <TextView
+        android:id="@+id/CurrArmyMSG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/CurrArmySV"
+        app:layout_constraintEnd_toEndOf="@+id/CurrArmySV"
+        app:layout_constraintStart_toStartOf="@+id/CurrArmySV"
+        app:layout_constraintTop_toTopOf="@+id/CurrArmySV" />
+
+    <TextView
+        android:id="@+id/maxCap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/CurrArmySV"
+        app:layout_constraintTop_toTopOf="@+id/slash" />
+
+    <TextView
+        android:id="@+id/slash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:text="/"
+        app:layout_constraintEnd_toStartOf="@+id/maxCap"
+        app:layout_constraintTop_toTopOf="@+id/currsize" />
+
+    <TextView
+        android:id="@+id/currsize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/slash"
+        app:layout_constraintTop_toTopOf="@+id/armycapacityTV" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

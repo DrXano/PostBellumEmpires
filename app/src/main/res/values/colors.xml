@@ -14,4 +14,5 @@
     <color name="DRsecondary">#590915</color>
     <color name="ESprimary">#A5942C</color>
     <color name="ESsecondary">#636022</color>
+    <color name="unavailable">#CC2525</color>
 </resources>

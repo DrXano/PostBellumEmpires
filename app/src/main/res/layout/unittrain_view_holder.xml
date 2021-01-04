@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/unittrainCL"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@drawable/border">
+
+    <TextView
+        android:id="@+id/unitName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sizetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="8dp"
+        android:text="Size:"
+        app:layout_constraintBottom_toTopOf="@+id/trainbuttonView"
+        app:layout_constraintEnd_toStartOf="@+id/unitsize"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/unitsize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/trainbuttonView"
+        app:layout_constraintTop_toTopOf="@+id/sizetext" />
+
+    <Button
+        android:id="@+id/trainbuttonView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Train"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trainreqRV"
+        android:layout_width="140dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/trainbuttonView"
+        app:layout_constraintTop_toBottomOf="@+id/trainreqview" />
+
+    <TextView
+        android:id="@+id/trainreqview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Requirements"
+        app:layout_constraintStart_toStartOf="@+id/trainreqRV"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/leveltext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Level "
+        app:layout_constraintStart_toStartOf="@+id/unitName"
+        app:layout_constraintTop_toBottomOf="@+id/unitName" />
+
+    <TextView
+        android:id="@+id/unitLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/leveltext"
+        app:layout_constraintStart_toEndOf="@+id/leveltext" />
+</androidx.constraintlayout.widget.ConstraintLayout>

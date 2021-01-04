@@ -135,6 +135,9 @@ public class Place {
     public void free() {
         this.owner = null;
         this.ownerFaction = null;
+        this.army.killArmy();
+
+        this.updatePlace();
     }
 
     @Exclude
@@ -142,8 +145,7 @@ public class Place {
         this.owner = p.getInGameName();
         this.ownerFaction = p.getPlayerFaction();
 
-        DatabaseReference placeRef = FirebaseDatabase.getInstance().getReference("places").child(this.id);
-        placeRef.setValue(this);
+        this.updatePlace();
     }
 
     @Exclude
@@ -223,17 +225,32 @@ public class Place {
     }
 
     @Exclude
-    public boolean remove(GameUnit gu, int quantity){
-        return this.army.remove(gu, quantity);
+    public boolean remove(GameUnit gu, int quantity) {
+        boolean result = this.army.remove(gu, quantity);
+        if (result)
+            this.updatePlace();
+        return result;
     }
 
     @Exclude
-    public boolean deployUnit(Player p, UnitType type, int quantity){
-        return this.army.deployUnit(p, type, quantity);
+    public boolean deployUnit(Player p, UnitType type, int quantity) {
+        boolean result = this.army.deployUnit(p, type, quantity);
+        if (result)
+            this.updatePlace();
+        return result;
     }
 
     @Exclude
-    public boolean deployAll(Player p){
-        return this.army.deployAll(p);
+    public boolean deployAll(Player p) {
+        boolean result = this.army.deployAll(p);
+        if (result)
+            this.updatePlace();
+        return result;
+    }
+
+    @Exclude
+    public void updatePlace() {
+        DatabaseReference placeRef = FirebaseDatabase.getInstance().getReference("places").child(this.id);
+        placeRef.setValue(this);
     }
 }

@@ -10,7 +10,6 @@ import com.example.postbellumempires.gameobjects.Unit;
 import java.util.HashMap;
 import java.util.Map;
 
-@SuppressWarnings("ALL")
 public class Pyro extends Unit {
     private static final String name = "Pyro";
     private static final int size = 3;
@@ -60,7 +59,8 @@ public class Pyro extends Unit {
 
     @Override
     public Item[] getUpgradeCost() {
-        return this.levelInfo.upgradeCost;
+        Level lvl = Level.getByLevel(this.levelInfo.level + 1);
+        return lvl.upgradeCost;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class Pyro extends Unit {
     }
 
     private enum Level {
-        Level0(0,new Stats(0, 0, 0, 0),null),
+        Level0(0, new Stats(0, 0, 0, 0), null),
         Level1(1, new Stats(150, 5, 15, 1.4), null),
         Level2(2, new Stats(160, 10, 30, 1.4), new Item[]{new Item(GameResource.KNOWLEDGE, 20), new Item(GameResource.FOOD, 300), new Item(GameResource.WOOD, 400)}),
         Level3(3, new Stats(170, 15, 45, 1.4), new Item[]{new Item(GameResource.KNOWLEDGE, 30), new Item(GameResource.FOOD, 600), new Item(GameResource.WOOD, 800)});

@@ -13,7 +13,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.postbellumempires.gameobjects.Player;
-import com.example.postbellumempires.interfaces.MapListener;
+import com.example.postbellumempires.interfaces.InterfaceListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +28,7 @@ public class MainGameActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference playerRef;
     private Player player;
-    private MapListener listener;
+    private InterfaceListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class MainGameActivity extends AppCompatActivity {
             }
         }
 
-        this.listener = (MapListener) this.map;
+        this.listener = (InterfaceListener) this.map;
         this.mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             this.playerRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());

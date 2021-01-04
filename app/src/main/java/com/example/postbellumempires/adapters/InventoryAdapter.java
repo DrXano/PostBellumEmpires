@@ -1,4 +1,4 @@
-package com.example.postbellumempires;
+package com.example.postbellumempires.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.postbellumempires.R;
 import com.example.postbellumempires.gameobjects.Item;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.ItemViewHolder> {

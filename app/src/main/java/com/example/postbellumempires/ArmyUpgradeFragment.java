@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -105,12 +106,33 @@ public class ArmyUpgradeFragment extends Fragment {
     }
 
     public void updateUI(Player p) {
-        PlayerArmy pa = p.getArmy();
-        if (pa != null && pa.getUnits() != null) {
-            List<GameUnit> units = (List<GameUnit>) pa.getUnits().values();
-            GameUnit[] arr = units.toArray(new GameUnit[units.size()]);
-            RecyclerView.Adapter upgradeMenuAdapter = new UpgradeMenuAdapter(arr, p, this.layoutManager, getActivity().getResources().getColor(R.color.unavailable), getContext());
-            this.upgradeMenu.setAdapter(upgradeMenuAdapter);
+        if(this.isResumed()) {
+            PlayerArmy pa = p.getArmy();
+            if (pa != null && pa.getUnits() != null) {
+                List<GameUnit> units = new ArrayList<>(pa.getUnits().values());
+                GameUnit[] arr = units.toArray(new GameUnit[units.size()]);
+                RecyclerView.Adapter upgradeMenuAdapter = new UpgradeMenuAdapter(arr, p, new LinearLayoutManager(getContext()), getActivity().getResources().getColor(R.color.unavailable), getContext());
+                this.upgradeMenu.setAdapter(upgradeMenuAdapter);
+            }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        playerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Player p = snapshot.getValue(Player.class);
+                    updateUI(p);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 }

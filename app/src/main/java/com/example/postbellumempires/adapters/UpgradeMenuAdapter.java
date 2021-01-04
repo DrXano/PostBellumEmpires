@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.postbellumempires.R;
@@ -45,7 +46,7 @@ public class UpgradeMenuAdapter extends RecyclerView.Adapter<UpgradeMenuAdapter.
         GameUnit gu = mDataset[position];
         Unit u = gu.getUnit();
         holder.unitName.setText(gu.getName());
-        holder.requirementsView.setLayoutManager(this.layoutManager);
+        holder.requirementsView.setLayoutManager(new LinearLayoutManager(context));
         if (gu.getLevel() == 0) {
             holder.levelText.setText("");
             holder.unitLevel.setText("");

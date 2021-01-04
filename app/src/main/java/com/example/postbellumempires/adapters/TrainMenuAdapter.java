@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.postbellumempires.R;
@@ -46,7 +47,7 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
         Unit u = gu.getUnit();
         holder.unitNameView.setText(gu.getName());
         holder.unitSizeView.setText(String.valueOf(gu.getSize()));
-        holder.requirementsView.setLayoutManager(this.layoutManager);
+        holder.requirementsView.setLayoutManager(new LinearLayoutManager(context));
 
         if (gu.getLevel() == 0) {
             holder.levelTextView.setText("");
@@ -65,9 +66,13 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
                 @Override
                 public void onClick(View v) {
                     if (player.hasEnough(cost)) {
-                        player.remove(cost);
-                        player.addUnit(gu.getEType(), 1);
-                        player.updatePlayer();
+                        boolean result = player.addUnit(gu.getEType(), 1);
+                        if(result){
+                            player.remove(cost);
+                            player.updatePlayer();
+                        }else{
+                            Toast.makeText(context, "Can't train more, capacity exceeded", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         Toast.makeText(context, "Insuficient Resources", Toast.LENGTH_SHORT).show();
                     }

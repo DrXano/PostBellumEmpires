@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +38,8 @@ public class ArmyTrainingFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private DatabaseReference playerRef;
-    private RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.LayoutManager calayoutManager;
+    private RecyclerView.LayoutManager tmlayoutManager;
     private RecyclerView currentArmy;
     private RecyclerView trainMenu;
     private TextView currarmyMSG;
@@ -88,10 +90,11 @@ public class ArmyTrainingFragment extends Fragment {
 
         this.currentArmy = v.findViewById(R.id.CurrArmyRV);
         this.trainMenu = v.findViewById(R.id.ArmyTrainRV);
-        this.layoutManager = new LinearLayoutManager(getContext());
+        this.calayoutManager = new LinearLayoutManager(getContext());
+        this.tmlayoutManager = new LinearLayoutManager(getContext());
 
-        this.currentArmy.setLayoutManager(layoutManager);
-        this.trainMenu.setLayoutManager(layoutManager);
+        this.currentArmy.setLayoutManager(calayoutManager);
+        this.trainMenu.setLayoutManager(tmlayoutManager);
 
         this.currarmyMSG = v.findViewById(R.id.CurrArmyMSG);
         this.maxCapacity = v.findViewById(R.id.maxCap);
@@ -115,8 +118,29 @@ public class ArmyTrainingFragment extends Fragment {
     }
 
     public void updateUI(Player p) {
-        this.updateCurrentArmy(p);
-        this.updateTrainMenu(p);
+        if(this.isResumed()) {
+            this.updateCurrentArmy(p);
+            this.updateTrainMenu(p);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        playerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Player p = snapshot.getValue(Player.class);
+                    updateUI(p);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 
     private void updateCurrentArmy(Player p) {
@@ -140,9 +164,9 @@ public class ArmyTrainingFragment extends Fragment {
     private void updateTrainMenu(Player p) {
         PlayerArmy pa = p.getArmy();
         if (pa != null && pa.getUnits() != null) {
-            List<GameUnit> units = (List<GameUnit>) pa.getUnits().values();
+            List<GameUnit> units = new ArrayList<>(pa.getUnits().values());
             GameUnit[] arr = units.toArray(new GameUnit[units.size()]);
-            RecyclerView.Adapter trainMenuAdapter = new TrainMenuAdapter(arr, p, this.layoutManager, getActivity().getResources().getColor(R.color.unavailable), getContext());
+            RecyclerView.Adapter trainMenuAdapter = new TrainMenuAdapter(arr, p, new LinearLayoutManager(getContext()), getActivity().getResources().getColor(R.color.unavailable), getContext());
             this.trainMenu.setAdapter(trainMenuAdapter);
         }
     }

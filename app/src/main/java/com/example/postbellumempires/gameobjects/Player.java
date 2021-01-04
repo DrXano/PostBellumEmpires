@@ -8,7 +8,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 public class Player {
+
+    @Exclude
+    private static final int MAX_CAPACITY_BY_DEFAULT = 30;
 
     private String email;
     private String inGameName;
@@ -30,7 +35,7 @@ public class Player {
         this.exp = exp;
         this.maxExp = maxExp;
         this.inv = new Inventory(this.inGameName);
-        this.army = new PlayerArmy(30);
+        this.army = new PlayerArmy(MAX_CAPACITY_BY_DEFAULT);
     }
 
     public String getEmail() {
@@ -137,11 +142,16 @@ public class Player {
     }
 
     @Exclude
+    public DatabaseReference getReference() {
+        return FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    }
+
+    @Exclude
     public void emptyArmy() {
         if (army != null) {
             this.army.emptyArmy();
         } else {
-            this.army = new PlayerArmy(30);
+            this.army = new PlayerArmy(MAX_CAPACITY_BY_DEFAULT);
         }
         this.updatePlayer();
     }
@@ -152,11 +162,10 @@ public class Player {
     }
 
     @Exclude
-    public boolean removeUnit(UnitType type, int quantity) {
+    public void removeUnit(UnitType type, int quantity) {
         boolean result = this.army.remove(type, quantity);
         if (result)
             this.updatePlayer();
-        return result;
     }
 
     @Exclude
@@ -182,7 +191,12 @@ public class Player {
     }
 
     @Exclude
-    public void remove(Item[] items) {
+    public void removeItems(Item[] items) {
         this.inv.remove(items);
+    }
+
+    @Exclude
+    public void removeUnits(List<GameUnit> unitsToRemove) {
+        this.army.remove(unitsToRemove);
     }
 }

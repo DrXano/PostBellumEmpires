@@ -118,7 +118,7 @@ public class ArmyTrainingFragment extends Fragment {
     }
 
     public void updateUI(Player p) {
-        if(this.isResumed()) {
+        if (this.isResumed()) {
             this.updateCurrentArmy(p);
             this.updateTrainMenu(p);
         }

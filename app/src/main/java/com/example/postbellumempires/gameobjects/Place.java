@@ -225,6 +225,11 @@ public class Place {
     }
 
     @Exclude
+    public boolean isOccupied() {
+        return this.owner != null && this.ownerFaction != null;
+    }
+
+    @Exclude
     public boolean remove(GameUnit gu, int quantity) {
         boolean result = this.army.remove(gu, quantity);
         if (result)
@@ -252,5 +257,11 @@ public class Place {
     public void updatePlace() {
         DatabaseReference placeRef = FirebaseDatabase.getInstance().getReference("places").child(this.id);
         placeRef.setValue(this);
+    }
+
+
+    @Exclude
+    public DatabaseReference getReference() {
+        return FirebaseDatabase.getInstance().getReference("places").child(this.id);
     }
 }

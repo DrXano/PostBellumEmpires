@@ -49,7 +49,7 @@ public class Pyro extends Unit {
 
     @Override
     public int getMaxLevel() {
-        return Level.values().length-1;
+        return Level.values().length - 1;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Pyro extends Unit {
     @Override
     public Item[] getUpgradeCost() {
         Level lvl = Level.getByLevel(this.levelInfo.level + 1);
-        if(lvl == null)
+        if (lvl == null)
             return new Item[0];
         return lvl.upgradeCost;
     }

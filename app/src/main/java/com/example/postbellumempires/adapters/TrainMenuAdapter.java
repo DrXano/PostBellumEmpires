@@ -67,10 +67,10 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
                 public void onClick(View v) {
                     if (player.hasEnough(cost)) {
                         boolean result = player.addUnit(gu.getEType(), 1);
-                        if(result){
-                            player.remove(cost);
+                        if (result) {
+                            player.removeItems(cost);
                             player.updatePlayer();
-                        }else{
+                        } else {
                             Toast.makeText(context, "Can't train more, capacity exceeded", Toast.LENGTH_SHORT).show();
                         }
                     } else {

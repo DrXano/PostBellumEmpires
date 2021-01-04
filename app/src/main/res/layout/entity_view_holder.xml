@@ -9,6 +9,8 @@
         android:id="@+id/quantityTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,6 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="x"
         app:layout_constraintStart_toEndOf="@+id/quantityTV"
         app:layout_constraintTop_toTopOf="@+id/quantityTV" />
@@ -30,6 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/entitycross"
         app:layout_constraintTop_toTopOf="@+id/entitycross" />

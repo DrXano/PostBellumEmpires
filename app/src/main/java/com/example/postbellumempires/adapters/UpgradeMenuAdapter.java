@@ -70,7 +70,7 @@ public class UpgradeMenuAdapter extends RecyclerView.Adapter<UpgradeMenuAdapter.
                 @Override
                 public void onClick(View v) {
                     if (player.hasEnough(cost)) {
-                        player.remove(cost);
+                        player.removeItems(cost);
                         player.levelUpUnit(gu.getEType());
                         player.updatePlayer();
                     } else {

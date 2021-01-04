@@ -48,7 +48,6 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
     public RecyclerView armyView;
     Context context;
     private boolean friendly;
-    private int color;
     private Place p;
 
     public PlaceDialog(@NonNull Context context, String id) {
@@ -96,12 +95,13 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
 
         PlaceArmy army = p.getArmy();
 
-        if(army != null && army.getUnits() != null) {
+        if (army != null && army.getUnits() != null) {
             this.armyView.setAdapter(new PlaceArmyAdapter(army.getUnitsArray()));
         }
 
         PlaceName.setText(p.getName());
 
+        int color;
         if (p.getFaction() != null) {
             switch (p.getFaction()) {
                 case OC:
@@ -158,23 +158,22 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Player player = parentActivity.getPlayer();
         switch (v.getId()) {
             case R.id.actionButton:
-                if (friendly) {
-                    this.p.occupy(parentActivity.getPlayer());
-                } else {
-                    Dialog d = new ActionDialog(context,this.p,parentActivity.getPlayer());
+                if (!player.getArmy().isEmpty()) {
+                    Dialog d = new ActionDialog(context, this.p, player);
                     d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                     d.show();
+                } else {
+                    Toast.makeText(context, "No army available, train more units", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.cancelButton:
                 dismiss();
                 break;
             case R.id.collectionButton:
-                Player player = parentActivity.getPlayer();
                 GameResource res = this.p.getResourceRewardType();
-
                 Random r = new Random();
                 int min = 400;
                 int max = 500;

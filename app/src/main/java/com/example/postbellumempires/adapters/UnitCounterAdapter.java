@@ -3,7 +3,7 @@ package com.example.postbellumempires.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.postbellumempires.R;
 import com.example.postbellumempires.gameobjects.GameUnit;
 
-public class UnitCounterAdapter extends RecyclerView.Adapter<UnitCounterAdapter.UnitCounterViewHolder>{
+public class UnitCounterAdapter extends RecyclerView.Adapter<UnitCounterAdapter.UnitCounterViewHolder> {
 
     private final GameUnit[] mDataset;
 
@@ -37,7 +37,7 @@ public class UnitCounterAdapter extends RecyclerView.Adapter<UnitCounterAdapter.
         holder.increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(counter[0] < gu.getQuantity()) {
+                if (counter[0] < gu.getQuantity()) {
                     counter[0]++;
                     holder.counterView.setText(String.valueOf(counter[0]));
                 }
@@ -47,7 +47,7 @@ public class UnitCounterAdapter extends RecyclerView.Adapter<UnitCounterAdapter.
         holder.decrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(counter[0] > 0) {
+                if (counter[0] > 0) {
                     counter[0]--;
                     holder.counterView.setText(String.valueOf(counter[0]));
                 }
@@ -65,8 +65,8 @@ public class UnitCounterAdapter extends RecyclerView.Adapter<UnitCounterAdapter.
     public static class UnitCounterViewHolder extends RecyclerView.ViewHolder {
         TextView unitName;
         TextView counterView;
-        Button increment;
-        Button decrement;
+        ImageButton increment;
+        ImageButton decrement;
 
         public UnitCounterViewHolder(View v) {
             super(v);

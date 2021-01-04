@@ -106,7 +106,7 @@ public class ArmyUpgradeFragment extends Fragment {
     }
 
     public void updateUI(Player p) {
-        if(this.isResumed()) {
+        if (this.isResumed()) {
             PlayerArmy pa = p.getArmy();
             if (pa != null && pa.getUnits() != null) {
                 List<GameUnit> units = new ArrayList<>(pa.getUnits().values());

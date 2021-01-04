@@ -57,7 +57,8 @@ public class PlaceArmy {
                 guu.addQuantity(gu);
                 this.units.put(gu.toString(), guu);
             } else {
-                this.units.put(gu.toString(), gu);
+                GameUnit guu = gu.clone();
+                this.units.put(gu.toString(), guu);
             }
             this.size += gu.getTotalSize();
             return true;
@@ -123,7 +124,7 @@ public class PlaceArmy {
     public boolean deployAll(Player p) {
         PlayerArmy pa = p.getArmy();
         if (pa.getSize() <= this.availableCapacity()) {
-            for (GameUnit gu : pa.getUnits().values()) {
+            for (GameUnit gu : pa.getAvailableUnits()) {
                 this.add(gu);
             }
             p.emptyArmy();
@@ -154,7 +155,7 @@ public class PlaceArmy {
     }
 
     @Exclude
-    public GameUnit[] getUnitsArray(){
+    public GameUnit[] getUnitsArray() {
         List<GameUnit> units = new ArrayList<>(this.units.values());
         return units.toArray(new GameUnit[units.size()]);
     }

@@ -59,9 +59,9 @@ public class PlayerArmy {
     public boolean add(UnitType type, int quantity) {
         GameUnit gu = units.get(type.name());
         if (gu != null) {
-            if (gu.getSize()*quantity  <= this.availableCapacity()) {
+            if (gu.getSize() * quantity <= this.availableCapacity()) {
                 gu.addQuantity(quantity);
-                this.size += gu.getSize()*quantity ;
+                this.size += gu.getSize() * quantity;
                 units.put(type.name(), gu);
                 return true;
             } else {
@@ -74,9 +74,9 @@ public class PlayerArmy {
             }
             gu = u.toGameUnit();
             gu.setQuantity(quantity);
-            if (gu.getSize()*quantity <= maxCapacity) {
+            if (gu.getSize() * quantity <= maxCapacity) {
                 units.put(type.name(), gu);
-                this.size += gu.getSize()*quantity;
+                this.size += gu.getSize() * quantity;
                 return true;
             } else {
                 return false;
@@ -90,7 +90,7 @@ public class PlayerArmy {
             GameUnit gu = units.get(type.name());
             int quant = Math.min(quantity, gu.getQuantity());
             gu.removeQuantity(quant);
-            this.size -= quant*gu.getSize();
+            this.size -= quant * gu.getSize();
             units.put(type.name(), gu);
             return true;
         } else {
@@ -167,6 +167,13 @@ public class PlayerArmy {
                     result.add(gu);
             }
             return result;
+        }
+    }
+
+    @Exclude
+    public void remove(List<GameUnit> unitsToRemove) {
+        for (GameUnit gu : unitsToRemove) {
+            this.remove(gu.getEType(), gu.getQuantity());
         }
     }
 }

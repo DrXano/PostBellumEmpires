@@ -1,5 +1,6 @@
 package com.example.postbellumempires.gameobjects;
 
+import com.example.postbellumempires.enums.ExpReward;
 import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.enums.GameResource;
 import com.example.postbellumempires.enums.PlaceType;
@@ -144,7 +145,8 @@ public class Place {
     public void occupy(Player p) {
         this.owner = p.getInGameName();
         this.ownerFaction = p.getPlayerFaction();
-
+        p.giveExp(ExpReward.POST_CLAIMED.reward);
+        p.updatePlayer();
         this.updatePlace();
     }
 
@@ -263,5 +265,13 @@ public class Place {
     @Exclude
     public DatabaseReference getReference() {
         return FirebaseDatabase.getInstance().getReference("places").child(this.id);
+    }
+
+    @Exclude
+    public boolean deploy(Player player, GameUnit[] toDeploy) {
+        boolean success = this.army.deploy(player, toDeploy);
+        if (success)
+            this.updatePlace();
+        return success;
     }
 }

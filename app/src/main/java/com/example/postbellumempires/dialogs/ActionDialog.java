@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.postbellumempires.R;
 import com.example.postbellumempires.adapters.UnitCounterAdapter;
+import com.example.postbellumempires.enums.ExpReward;
 import com.example.postbellumempires.gameobjects.GameUnit;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.Player;
@@ -26,14 +27,14 @@ import java.util.List;
 
 public class ActionDialog extends Dialog implements View.OnClickListener {
 
+    private final Place place;
+    private final Player player;
+    private final Context context;
     public ImageButton cancel;
     public Button action;
     public Button actionAll;
     public RecyclerView units;
-    private Place place;
-    private Player player;
-    private Context context;
-    private TextView actiontitleView;
+    private UnitCounterAdapter adapter;
 
     public ActionDialog(@NonNull Context context, Place p, Player player) {
         super(context, android.R.style.Theme_Black_NoTitleBar);
@@ -57,7 +58,7 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
         action = findViewById(R.id.ADactionButton);
         actionAll = findViewById(R.id.allButton);
         cancel = findViewById(R.id.ADcancelButton);
-        actiontitleView = findViewById(R.id.actionTitle);
+        TextView actiontitleView = findViewById(R.id.actionTitle);
 
         if (this.isFriendly()) {
             action.setText("Deploy");
@@ -75,7 +76,8 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
         List<GameUnit> playerunits = this.player.getArmy().getAvailableUnits();
         GameUnit[] arr = playerunits.toArray(new GameUnit[playerunits.size()]);
 
-        units.setAdapter(new UnitCounterAdapter(arr));
+        this.adapter = new UnitCounterAdapter(arr);
+        units.setAdapter(this.adapter);
 
         action.setOnClickListener(this);
         actionAll.setOnClickListener(this);
@@ -92,23 +94,28 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
                                 Place p = snapshot.getValue(Place.class);
-                                if (isFriendly(p, player)) {
-                                    boolean success = true; //p.deployAll(player);
-                                    //TODO
-                                    if (success) {
-                                        if (p.isOccupied()) {
-                                            Toast.makeText(context, "Units successfully deployed", Toast.LENGTH_SHORT).show();
+                                GameUnit[] toDeploy = adapter.getUnitsToDeploy();
+
+                                if (!isEmpty(toDeploy)) {
+                                    if (isFriendly(p, player)) {
+                                        boolean success = p.deploy(player, toDeploy);
+                                        if (success) {
+                                            if (p.isOccupied()) {
+                                                Toast.makeText(context, "Units successfully deployed", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                p.occupy(player);
+                                                Toast.makeText(context, "You have successfully claimed this post ", Toast.LENGTH_SHORT).show();
+                                            }
                                         } else {
-                                            p.occupy(player);
-                                            Toast.makeText(context, "You have successfully claimed this post ", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, "Limit exceeded, cannot deploy", Toast.LENGTH_SHORT).show();
                                         }
                                     } else {
-                                        Toast.makeText(context, "Limit exceeded, cannot deploy", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "This post has been claimed by the enemy", Toast.LENGTH_SHORT).show();
                                     }
+                                    dismiss();
                                 } else {
-                                    Toast.makeText(context, "This post has been claimed by the enemy", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "No units selected", Toast.LENGTH_SHORT).show();
                                 }
-                                dismiss();
                             } else {
                                 Toast.makeText(context, "Error on Deployment", Toast.LENGTH_SHORT).show();
                             }
@@ -124,15 +131,27 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
                                 Place p = snapshot.getValue(Place.class);
-                                if (!isFriendly(p, player)) {
-                                    //TODO
+                                GameUnit[] toDeploy = adapter.getUnitsToDeploy();
+                                if (!isEmpty(toDeploy)) {
+                                    if (!isFriendly(p, player)) {
+                                        player.removeUnits(toDeploy);
 
-                                    place.free();
-                                    Toast.makeText(context, "This post has been neutralized", Toast.LENGTH_SHORT).show();
+                                        int exp = ExpReward.VICTORY.reward;
+                                        for(GameUnit gu : p.getArmy().getUnitsArray()){
+                                            exp += gu.getQuantity() * ExpReward.UNIT_KILLED.reward;
+                                        }
+                                        player.giveExp(exp);
+                                        player.updatePlayer();
+
+                                        place.free();
+                                        Toast.makeText(context, "This post has been neutralized", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(context, "This post does not belong to the enemy anymore", Toast.LENGTH_SHORT).show();
+                                    }
+                                    dismiss();
                                 } else {
-                                    Toast.makeText(context, "This post does not belong to the enemy anymore", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "No units selected", Toast.LENGTH_SHORT).show();
                                 }
-                                dismiss();
                             } else {
                                 Toast.makeText(context, "Error on Attack", Toast.LENGTH_SHORT).show();
                             }
@@ -143,7 +162,6 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                         }
                     });
                 }
-                dismiss();
                 break;
             case R.id.allButton:
                 if (this.isFriendly()) {
@@ -187,6 +205,14 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                                 if (!isFriendly(p, player)) {
                                     List<GameUnit> units = player.getArmy().getAvailableUnits();
                                     player.emptyArmy();
+
+                                    int exp = ExpReward.VICTORY.reward;
+                                    for(GameUnit gu : p.getArmy().getUnitsArray()){
+                                        exp += gu.getQuantity() * ExpReward.UNIT_KILLED.reward;
+                                    }
+                                    player.giveExp(exp);
+                                    player.updatePlayer();
+
                                     place.free();
                                     Toast.makeText(context, "This post has been neutralized", Toast.LENGTH_SHORT).show();
                                 } else {
@@ -210,5 +236,16 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    private boolean isEmpty(GameUnit[] toDeploy) {
+        if (toDeploy == null || toDeploy.length == 0)
+            return true;
+
+        for (GameUnit gu : toDeploy) {
+            if (gu.getQuantity() > 0)
+                return false;
+        }
+        return true;
     }
 }

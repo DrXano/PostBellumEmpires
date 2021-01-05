@@ -171,7 +171,7 @@ public class PlayerArmy {
     }
 
     @Exclude
-    public void remove(List<GameUnit> unitsToRemove) {
+    public void remove(GameUnit[] unitsToRemove) {
         for (GameUnit gu : unitsToRemove) {
             this.remove(gu.getEType(), gu.getQuantity());
         }

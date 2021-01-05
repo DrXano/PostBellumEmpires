@@ -44,7 +44,7 @@ public class NameChooseActivity extends AppCompatActivity {
         } else {
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-            Player p = new Player(email, ign, faction, 1, 0, 1000);
+            Player p = new Player(email, ign, faction);
 
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {

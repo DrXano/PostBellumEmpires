@@ -13,14 +13,19 @@ public class LocationsGenerate {
         DatabaseReference LocRef = FirebaseDatabase.getInstance().getReference("places");
 
         List<Place> places = new ArrayList<>();
-        places.add(new Place("Ghost restaurant", 38.71571278026983, -9.217613694306705, PlaceType.RESTAURANT));
-        places.add(new Place("Ghost college", 38.71555035446279, -9.217819671931323, PlaceType.UNIVERSITY));
-        places.add(new Place("Ghost shop", 38.71550761076802, -9.217420864190045, PlaceType.SHOP));
 
+        //MrXano
+        places.add(new Place("Xano restaurant", 38.71571278026983, -9.217613694306705, PlaceType.RESTAURANT));
+        places.add(new Place("Xano college", 38.71555035446279, -9.217819671931323, PlaceType.UNIVERSITY));
+        places.add(new Place("Xano shop", 38.71550761076802, -9.217420864190045, PlaceType.SHOP));
+        places.add(new Place("Xano Mystery Zone", 38.71598420357416, -9.216387702114936, PlaceType.OTHER));
 
-        //places.add(new Place("CV restaurant", 39.41403321231397, -7.457877936488816, PlaceType.RESTAURANT));
-        //places.add(new Place("CV college", 39.41352436926469, -7.45827632584793, PlaceType.UNIVERSITY));
-        //places.add(new Place("CV shop", 39.41368074581658, -7.4572707139979055, PlaceType.SHOP));
+        //LAC
+        places.add(new Place("restaurant", 38.78820585446469, -9.327045428152713, PlaceType.RESTAURANT));
+        places.add(new Place("restaurant", 38.787783314556776, -9.327817316476297, PlaceType.SHOP));
+
+        //Mileide
+
 
         for (Place p : places) {
             LocRef.child(p.getId()).setValue(p);

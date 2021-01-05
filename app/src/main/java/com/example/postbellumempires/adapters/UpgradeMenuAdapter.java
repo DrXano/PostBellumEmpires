@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.postbellumempires.R;
+import com.example.postbellumempires.enums.PlayerLevel;
 import com.example.postbellumempires.gameobjects.GameUnit;
 import com.example.postbellumempires.gameobjects.Item;
 import com.example.postbellumempires.gameobjects.Player;
@@ -52,7 +53,8 @@ public class UpgradeMenuAdapter extends RecyclerView.Adapter<UpgradeMenuAdapter.
             holder.unitLevel.setText("");
             holder.upgradeButton.setClickable(false);
             holder.upgradeButton.getBackground().setAlpha(64);
-            holder.upgradeButton.setText("Locked");
+            int availableLevel = PlayerLevel.valueOfUnit(gu.getEType()).level;
+            holder.upgradeButton.setText("Reach \n Lvl. " + availableLevel);
         } else if (u.isMaxed()) {
             holder.levelText.setText("Level ");
             holder.unitLevel.setText(String.valueOf(gu.getLevel()));

@@ -15,9 +15,11 @@ import com.example.postbellumempires.gameobjects.GameUnit;
 public class UnitCounterAdapter extends RecyclerView.Adapter<UnitCounterAdapter.UnitCounterViewHolder> {
 
     private final GameUnit[] mDataset;
+    private final GameUnit[] resultSet;
 
     public UnitCounterAdapter(GameUnit[] mDataset) {
         this.mDataset = mDataset;
+        this.resultSet = new GameUnit[mDataset.length];
     }
 
     @NonNull
@@ -30,16 +32,18 @@ public class UnitCounterAdapter extends RecyclerView.Adapter<UnitCounterAdapter.
     @Override
     public void onBindViewHolder(@NonNull UnitCounterViewHolder holder, int position) {
         GameUnit gu = mDataset[position];
+        GameUnit guu = gu.clone();
+        guu.setQuantity(0);
+        resultSet[position] = guu;
         holder.unitName.setText(gu.getName());
-        final int[] counter = {0};
-        holder.counterView.setText(String.valueOf(counter[0]));
+        holder.counterView.setText(String.valueOf(0));
 
         holder.increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (counter[0] < gu.getQuantity()) {
-                    counter[0]++;
-                    holder.counterView.setText(String.valueOf(counter[0]));
+                if (resultSet[position].getQuantity() < gu.getQuantity()) {
+                    resultSet[position].setQuantity(resultSet[position].getQuantity() + 1);
+                    holder.counterView.setText(String.valueOf(resultSet[position].getQuantity()));
                 }
             }
         });
@@ -47,13 +51,17 @@ public class UnitCounterAdapter extends RecyclerView.Adapter<UnitCounterAdapter.
         holder.decrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (counter[0] > 0) {
-                    counter[0]--;
-                    holder.counterView.setText(String.valueOf(counter[0]));
+                if (resultSet[position].getQuantity() > 0) {
+                    resultSet[position].setQuantity(resultSet[position].getQuantity() - 1);
+                    holder.counterView.setText(String.valueOf(resultSet[position].getQuantity()));
                 }
             }
         });
 
+    }
+
+    public GameUnit[] getUnitsToDeploy() {
+        return this.resultSet;
     }
 
     @Override

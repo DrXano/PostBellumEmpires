@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.postbellumempires.R;
+import com.example.postbellumempires.enums.PlayerLevel;
 import com.example.postbellumempires.gameobjects.GameUnit;
 import com.example.postbellumempires.gameobjects.Item;
 import com.example.postbellumempires.gameobjects.Player;
@@ -54,7 +55,8 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
             holder.unitLevelView.setText("");
             holder.trainButton.setClickable(false);
             holder.trainButton.getBackground().setAlpha(64);
-            holder.trainButton.setText("Locked");
+            int availableLevel = PlayerLevel.valueOfUnit(gu.getEType()).level;
+            holder.trainButton.setText("Reach \n Lvl. " + availableLevel);
         } else {
             Item[] cost = u.getCost();
             RecyclerView.Adapter reqAdapter = new RequirementsAdapter(cost, this.player, this.unavailableColor);

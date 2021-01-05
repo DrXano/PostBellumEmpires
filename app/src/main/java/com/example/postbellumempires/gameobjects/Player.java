@@ -2,24 +2,19 @@ package com.example.postbellumempires.gameobjects;
 
 import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.enums.GameResource;
+import com.example.postbellumempires.enums.PlayerLevel;
 import com.example.postbellumempires.enums.UnitType;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.List;
-
 public class Player {
-
-    @Exclude
-    private static final int MAX_CAPACITY_BY_DEFAULT = 30;
 
     private String email;
     private String inGameName;
     private int level;
     private int exp;
-    private int maxExp;
     private Faction playerFaction;
     private Inventory inv;
     private PlayerArmy army;
@@ -27,15 +22,14 @@ public class Player {
     public Player() {
     }
 
-    public Player(String email, String inGameName, Faction faction, int level, int exp, int maxExp) {
+    public Player(String email, String inGameName, Faction faction) {
         this.email = email;
         this.inGameName = inGameName;
         this.playerFaction = faction;
-        this.level = level;
-        this.exp = exp;
-        this.maxExp = maxExp;
+        this.level = 1;
+        this.exp = 0;
         this.inv = new Inventory(this.inGameName);
-        this.army = new PlayerArmy(MAX_CAPACITY_BY_DEFAULT);
+        this.army = new PlayerArmy(PlayerLevel.valueOfLevel(this.level).maxCapacity);
     }
 
     public String getEmail() {
@@ -68,14 +62,6 @@ public class Player {
 
     public void setExp(int exp) {
         this.exp = exp;
-    }
-
-    public int getMaxExp() {
-        return maxExp;
-    }
-
-    public void setMaxExp(int maxExp) {
-        this.maxExp = maxExp;
     }
 
     public String getPFaction() {
@@ -121,6 +107,11 @@ public class Player {
     }
 
     @Exclude
+    public int getMaxExp() {
+        return PlayerLevel.valueOfLevel(this.level).maxExp;
+    }
+
+    @Exclude
     public void addItem(GameResource resource, int quantity) {
         this.inv.addItem(resource, quantity);
     }
@@ -151,7 +142,7 @@ public class Player {
         if (army != null) {
             this.army.emptyArmy();
         } else {
-            this.army = new PlayerArmy(MAX_CAPACITY_BY_DEFAULT);
+            this.army = new PlayerArmy(PlayerLevel.valueOfLevel(this.level).maxCapacity);
         }
         this.updatePlayer();
     }
@@ -171,13 +162,32 @@ public class Player {
     @Exclude
     public void levelUpUnit(UnitType type) {
         this.army.levelUp(type);
-        this.updatePlayer();
     }
 
     @Exclude
     public void unlockUnit(UnitType type) {
         this.army.unlock(type);
-        this.updatePlayer();
+    }
+
+    @Exclude
+    public void giveExp(int Exp){
+        if(!PlayerLevel.isMaxed(this.level)){
+            this.exp += Exp;
+            while(this.exp >= this.getMaxExp()){
+                if(!PlayerLevel.isMaxed(this.level)){
+                    this.exp -= this.getMaxExp();
+                    this.level++;
+                    PlayerLevel newLevel = PlayerLevel.valueOfLevel(this.level);
+                    UnitType type = newLevel.unitReward;
+                    if(type != null)
+                        this.unlockUnit(type);
+                    this.army.setMaxCapacity(newLevel.maxCapacity);
+                }else{
+                    this.exp = PlayerLevel.valueOfLevel(this.level).maxExp;
+                    break;
+                }
+            }
+        }
     }
 
     @Exclude
@@ -196,7 +206,8 @@ public class Player {
     }
 
     @Exclude
-    public void removeUnits(List<GameUnit> unitsToRemove) {
+    public void removeUnits(GameUnit[] unitsToRemove) {
         this.army.remove(unitsToRemove);
+        this.updatePlayer();
     }
 }

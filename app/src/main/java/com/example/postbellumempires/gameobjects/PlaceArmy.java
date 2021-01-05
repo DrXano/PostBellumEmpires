@@ -1,5 +1,6 @@
 package com.example.postbellumempires.gameobjects;
 
+import com.example.postbellumempires.enums.ExpReward;
 import com.example.postbellumempires.enums.UnitType;
 import com.google.firebase.database.Exclude;
 
@@ -124,9 +125,12 @@ public class PlaceArmy {
     public boolean deployAll(Player p) {
         PlayerArmy pa = p.getArmy();
         if (pa.getSize() <= this.availableCapacity()) {
+            int exp = 0;
             for (GameUnit gu : pa.getAvailableUnits()) {
                 this.add(gu);
+                exp += gu.getQuantity() * ExpReward.UNIT_DEPLOYED.reward;
             }
+            p.giveExp(exp);
             p.emptyArmy();
             return true;
         } else {
@@ -169,5 +173,30 @@ public class PlaceArmy {
     public void killArmy() {
         this.units = new HashMap<>();
         this.size = 0;
+    }
+
+    @Exclude
+    public boolean deploy(Player player, GameUnit[] toDeploy) {
+        if (calculateSize(toDeploy) <= this.availableCapacity()) {
+            int exp = 0;
+            for (GameUnit gu : toDeploy) {
+                if(gu.getQuantity() > 0) {
+                    this.add(gu);
+                    exp += gu.getQuantity() * ExpReward.UNIT_DEPLOYED.reward;
+                }
+            }
+            player.giveExp(exp);
+            player.removeUnits(toDeploy);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private int calculateSize(GameUnit[] toDeploy) {
+        int total = 0;
+        for (GameUnit gu : toDeploy)
+            total += gu.getTotalSize();
+        return total;
     }
 }

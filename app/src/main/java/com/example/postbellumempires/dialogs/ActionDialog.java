@@ -137,7 +137,7 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                                         player.removeUnits(toDeploy);
 
                                         int exp = ExpReward.VICTORY.reward;
-                                        for(GameUnit gu : p.getArmy().getUnitsArray()){
+                                        for (GameUnit gu : p.getArmy().getUnitsArray()) {
                                             exp += gu.getQuantity() * ExpReward.UNIT_KILLED.reward;
                                         }
                                         player.giveExp(exp);
@@ -207,7 +207,7 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                                     player.emptyArmy();
 
                                     int exp = ExpReward.VICTORY.reward;
-                                    for(GameUnit gu : p.getArmy().getUnitsArray()){
+                                    for (GameUnit gu : p.getArmy().getUnitsArray()) {
                                         exp += gu.getQuantity() * ExpReward.UNIT_KILLED.reward;
                                     }
                                     player.giveExp(exp);

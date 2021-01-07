@@ -112,6 +112,11 @@ public class Player {
     }
 
     @Exclude
+    public int getMaxCapacity() {
+        return PlayerLevel.valueOfLevel(this.level).maxCapacity;
+    }
+
+    @Exclude
     public void addItem(GameResource resource, int quantity) {
         this.inv.addItem(resource, quantity);
     }
@@ -170,19 +175,19 @@ public class Player {
     }
 
     @Exclude
-    public void giveExp(int Exp){
-        if(!PlayerLevel.isMaxed(this.level)){
+    public void giveExp(int Exp) {
+        if (!PlayerLevel.isMaxed(this.level)) {
             this.exp += Exp;
-            while(this.exp >= this.getMaxExp()){
-                if(!PlayerLevel.isMaxed(this.level)){
+            while (this.exp >= this.getMaxExp()) {
+                if (!PlayerLevel.isMaxed(this.level)) {
                     this.exp -= this.getMaxExp();
                     this.level++;
                     PlayerLevel newLevel = PlayerLevel.valueOfLevel(this.level);
                     UnitType type = newLevel.unitReward;
-                    if(type != null)
+                    if (type != null)
                         this.unlockUnit(type);
                     this.army.setMaxCapacity(newLevel.maxCapacity);
-                }else{
+                } else {
                     this.exp = PlayerLevel.valueOfLevel(this.level).maxExp;
                     break;
                 }

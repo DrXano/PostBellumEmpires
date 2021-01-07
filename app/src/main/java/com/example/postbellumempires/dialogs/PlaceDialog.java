@@ -20,6 +20,7 @@ import com.example.postbellumempires.MainGameActivity;
 import com.example.postbellumempires.R;
 import com.example.postbellumempires.adapters.PlaceArmyAdapter;
 import com.example.postbellumempires.enums.GameResource;
+import com.example.postbellumempires.gameobjects.Item;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.PlaceArmy;
 import com.example.postbellumempires.gameobjects.Player;
@@ -28,8 +29,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Random;
 
 public class PlaceDialog extends Dialog implements View.OnClickListener {
 
@@ -141,7 +140,8 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
 
         Owner.setText((owner == null) ? "---" : owner);
         OwnerFaction.setText((ownerFaction == null) ? "---" : ownerFaction);
-        this.friendly = (p.getOwnerFaction() == null || p.getOwnerFaction().equals(player.getPFaction()));
+        this.friendly = p.isFriendly(player);
+        //this.friendly = (p.getOwnerFaction() == null || p.getOwnerFaction().equals(player.getPFaction()));
 
         if (this.friendly) {
             action.setText("Deploy Troops");
@@ -174,30 +174,15 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 break;
             case R.id.collectionButton:
                 GameResource res = this.p.getResourceRewardType();
-                Random r = new Random();
-                int min = 400;
-                int max = 500;
-                int reward = (int) ((r.nextInt(max - min) + min) * bonusMultiplier(player));
-                player.addItem(res, reward);
+                Item reward = res.getReward(this.p.multiplier(player));
+                player.addItem(reward.getResourceItem(), reward.getQuantity());
                 player.updatePlayer();
-                Toast.makeText(context, reward + " " + Reward.getText().toString() + " acquired", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, reward.getQuantity() + " x " + reward.getResourceItem().name + " acquired", Toast.LENGTH_SHORT).show();
                 dismiss();
                 break;
             default:
                 break;
         }
         dismiss();
-    }
-
-    private double bonusMultiplier(Player player) {
-        if (!this.friendly) {
-            return 0.5;
-        } else {
-            if (p.getOwner() != null && p.getOwner().equals(player.getInGameName())) {
-                return 1.5;
-            } else {
-                return 1.0;
-            }
-        }
     }
 }

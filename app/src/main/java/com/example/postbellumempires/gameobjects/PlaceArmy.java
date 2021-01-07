@@ -48,45 +48,22 @@ public class PlaceArmy {
     }
 
     @Exclude
-    public boolean add(GameUnit gu) {
+    public boolean add(GameUnit gu, PlaceBonuses bonuses) {
         if (this.units == null)
             this.units = new HashMap<>();
 
         if (gu.getTotalSize() <= this.availableCapacity()) {
+            GameUnit guu;
             if (this.units.containsKey(gu.toString())) {
-                GameUnit guu = this.units.get(gu.toString());
+                guu = this.units.get(gu.toString());
                 guu.addQuantity(gu);
-                this.units.put(gu.toString(), guu);
             } else {
-                GameUnit guu = gu.clone();
-                this.units.put(gu.toString(), guu);
+                guu = gu.clone();
             }
+            if(bonuses != null)
+                guu.applyBonuses(bonuses);
+            this.units.put(gu.toString(), guu);
             this.size += gu.getTotalSize();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Exclude
-    public boolean add(GameUnit gu, int quantity) {
-        if (this.units == null)
-            this.units = new HashMap<>();
-
-        if (gu == null)
-            return false;
-
-        if (gu.getSize() * quantity <= this.availableCapacity()) {
-            if (this.units.containsKey(gu.toString())) {
-                GameUnit guu = this.units.get(gu.toString());
-                guu.addQuantity(quantity);
-                this.units.put(gu.toString(), guu);
-            } else {
-                GameUnit guu = gu.clone();
-                guu.setQuantity(quantity);
-                this.units.put(gu.toString(), guu);
-            }
-            this.size += gu.getSize() * quantity;
             return true;
         } else {
             return false;
@@ -122,36 +99,16 @@ public class PlaceArmy {
     }
 
     @Exclude
-    public boolean deployAll(Player p) {
+    public boolean deployAll(Player p, PlaceBonuses bonuses) {
         PlayerArmy pa = p.getArmy();
         if (pa.getSize() <= this.availableCapacity()) {
             int exp = 0;
             for (GameUnit gu : pa.getAvailableUnits()) {
-                this.add(gu);
+                this.add(gu, bonuses);
                 exp += gu.getQuantity() * ExpReward.UNIT_DEPLOYED.reward;
             }
             p.giveExp(exp);
             p.emptyArmy();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Exclude
-    public boolean deployUnit(Player p, UnitType type, int quantity) {
-        PlayerArmy pa = p.getArmy();
-        if (!pa.isUnitAvailable(type))
-            return false;
-
-        GameUnit gu = pa.get(type);
-
-        if (gu == null)
-            return false;
-
-        if (gu.getSize() * quantity <= this.availableCapacity()) {
-            this.add(gu, quantity);
-            p.removeUnit(type, quantity);
             return true;
         } else {
             return false;
@@ -176,12 +133,12 @@ public class PlaceArmy {
     }
 
     @Exclude
-    public boolean deploy(Player player, GameUnit[] toDeploy) {
+    public boolean deploy(Player player, GameUnit[] toDeploy, PlaceBonuses bonuses) {
         if (calculateSize(toDeploy) <= this.availableCapacity()) {
             int exp = 0;
             for (GameUnit gu : toDeploy) {
-                if(gu.getQuantity() > 0) {
-                    this.add(gu);
+                if (gu.getQuantity() > 0) {
+                    this.add(gu, bonuses);
                     exp += gu.getQuantity() * ExpReward.UNIT_DEPLOYED.reward;
                 }
             }
@@ -193,10 +150,20 @@ public class PlaceArmy {
         }
     }
 
+    @Exclude
     private int calculateSize(GameUnit[] toDeploy) {
         int total = 0;
         for (GameUnit gu : toDeploy)
             total += gu.getTotalSize();
         return total;
+    }
+
+    @Exclude
+    public void applyBonuses(PlaceBonuses bonuses) {
+        for(String key : this.units.keySet()){
+            GameUnit gu = this.units.get(key);
+            gu.applyBonuses(bonuses);
+            this.units.put(key,gu);
+        }
     }
 }

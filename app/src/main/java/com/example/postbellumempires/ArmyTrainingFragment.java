@@ -147,17 +147,16 @@ public class ArmyTrainingFragment extends Fragment {
         PlayerArmy pa = p.getArmy();
         if (pa == null || pa.getUnits() == null || pa.isEmpty()) {
             currarmyMSG.setText("No units trained");
-            this.maxCapacity.setText(String.valueOf(30));
+            this.maxCapacity.setText(String.valueOf(p.getMaxCapacity()));
             this.currentsize.setText(String.valueOf(0));
             this.currentArmy.removeAllViews();
         } else {
             currarmyMSG.setText("");
-            this.maxCapacity.setText(String.valueOf(pa.getMaxCapacity()));
+            this.maxCapacity.setText(String.valueOf(p.getMaxCapacity()));
             this.currentsize.setText(String.valueOf(pa.getSize()));
             List<GameUnit> units = pa.getAvailableUnits();
             GameUnit[] arr = units.toArray(new GameUnit[units.size()]);
-            RecyclerView.Adapter currentArmyAdapter = new CurrentArmyAdapter(arr);
-            this.currentArmy.setAdapter(currentArmyAdapter);
+            this.currentArmy.setAdapter(new CurrentArmyAdapter(arr));
         }
     }
 

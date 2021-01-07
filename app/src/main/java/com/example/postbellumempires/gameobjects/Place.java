@@ -4,6 +4,7 @@ import com.example.postbellumempires.enums.ExpReward;
 import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.enums.GameResource;
 import com.example.postbellumempires.enums.PlaceType;
+import com.example.postbellumempires.enums.Structure;
 import com.example.postbellumempires.enums.UnitType;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -18,6 +19,12 @@ public class Place {
     @Exclude
     private static final int MAX_CAPACITY_BY_DEFAULT = 50;
 
+    @Exclude
+    private static final double ENEMY_PENALTY = 0.5;
+
+    @Exclude
+    private static final double OWNER_BONUS = 1.5;
+
     private String id;
     private String name;
     private double latitude;
@@ -26,6 +33,11 @@ public class Place {
     private Faction ownerFaction;
     private PlaceType type;
     private PlaceArmy army;
+    private Structure struct1;
+    private Structure struct2;
+    private Structure struct3;
+    private Structure struct4;
+    private PlaceBonuses bonuses;
 
     public Place() {
     }
@@ -38,6 +50,11 @@ public class Place {
         this.ownerFaction = null;
         this.type = type;
         this.army = new PlaceArmy(MAX_CAPACITY_BY_DEFAULT);
+        this.struct1 = Structure.NONE;
+        this.struct2 = Structure.NONE;
+        this.struct3 = Structure.NONE;
+        this.struct4 = Structure.NONE;
+        this.bonuses = new PlaceBonuses(this);
         this.id = this.generateId();
     }
 
@@ -122,6 +139,46 @@ public class Place {
         this.army = army;
     }
 
+    public String getStruct1() {
+        return struct1.name();
+    }
+
+    public void setStruct1(String struct1) {
+        this.struct1 = Structure.valueOf(struct1);
+    }
+
+    public String getStruct2() {
+        return struct2.name();
+    }
+
+    public void setStruct2(String struct2) {
+        this.struct2 = Structure.valueOf(struct2);
+    }
+
+    public String getStruct3() {
+        return struct3.name();
+    }
+
+    public void setStruct3(String struct3) {
+        this.struct3 = Structure.valueOf(struct3);
+    }
+
+    public String getStruct4() {
+        return struct4.name;
+    }
+
+    public void setStruct4(String struct4) {
+        this.struct4 = Structure.valueOf(struct4);
+    }
+
+    public PlaceBonuses getBonuses() {
+        return bonuses;
+    }
+
+    public void setBonuses(PlaceBonuses bonuses) {
+        this.bonuses = bonuses;
+    }
+
     @Exclude
     public int getMaxCapacity() {
         return this.army.getMaxCapacity();
@@ -137,6 +194,12 @@ public class Place {
         this.owner = null;
         this.ownerFaction = null;
         this.army.killArmy();
+        this.army.setMaxCapacity(MAX_CAPACITY_BY_DEFAULT);
+        this.struct1 = Structure.NONE;
+        this.struct2 = Structure.NONE;
+        this.struct3 = Structure.NONE;
+        this.struct4 = Structure.NONE;
+        this.bonuses.reset();
 
         this.updatePlace();
     }
@@ -240,16 +303,8 @@ public class Place {
     }
 
     @Exclude
-    public boolean deployUnit(Player p, UnitType type, int quantity) {
-        boolean result = this.army.deployUnit(p, type, quantity);
-        if (result)
-            this.updatePlace();
-        return result;
-    }
-
-    @Exclude
-    public boolean deployAll(Player p) {
-        boolean result = this.army.deployAll(p);
+    public boolean deployAll(Player player) {
+        boolean result = this.army.deployAll(player,bonuses);
         if (result)
             this.updatePlace();
         return result;
@@ -269,9 +324,81 @@ public class Place {
 
     @Exclude
     public boolean deploy(Player player, GameUnit[] toDeploy) {
-        boolean success = this.army.deploy(player, toDeploy);
+        boolean success = this.army.deploy(player, toDeploy, bonuses);
         if (success)
             this.updatePlace();
         return success;
+    }
+
+    @Exclude
+    public boolean buildStructure(Structure struct, int pos) {
+        boolean result = false;
+        switch (pos) {
+            case 1:
+                if (struct1.equals(Structure.NONE)) {
+                    struct1 = struct;
+                    result = true;
+                }
+                break;
+            case 2:
+                if (struct2.equals(Structure.NONE)) {
+                    struct2 = struct;
+                    result = true;
+                }
+                break;
+            case 3:
+                if (struct3.equals(Structure.NONE)) {
+                    struct3 = struct;
+                    result = true;
+                }
+                break;
+            case 4:
+                if (struct4.equals(Structure.NONE)) {
+                    struct4 = struct;
+                    result = true;
+                }
+                break;
+            default:
+                result = false;
+        }
+
+        if (result) {
+            this.applyBonuses();
+            this.updatePlace();
+        }
+        return result;
+    }
+
+    @Exclude
+    public boolean isFriendly(Player player) {
+        return this.ownerFaction == null || this.ownerFaction.equals(player.getPlayerFaction());
+    }
+
+    @Exclude
+    public double multiplier(Player player) {
+        if (!this.isFriendly(player)) {
+            return ENEMY_PENALTY - this.bonuses.getResourcePenalty();
+        } else {
+            if (this.owner != null && this.owner.equals(player.getInGameName())) {
+                return OWNER_BONUS + this.bonuses.getResourceBonus();
+            } else {
+                return 1.0 + this.bonuses.getResourceBonus();
+            }
+        }
+    }
+
+    @Exclude
+    private void applyBonuses() {
+        this.struct1.applyBonus(this.bonuses);
+        this.struct2.applyBonus(this.bonuses);
+        this.struct3.applyBonus(this.bonuses);
+        this.struct4.applyBonus(this.bonuses);
+        applyBonusesOnArmy();
+    }
+
+    @Exclude
+    private void applyBonusesOnArmy(){
+        this.army.setMaxCapacity(MAX_CAPACITY_BY_DEFAULT + this.bonuses.getCapacityBonus());
+        this.army.applyBonuses(this.bonuses);
     }
 }

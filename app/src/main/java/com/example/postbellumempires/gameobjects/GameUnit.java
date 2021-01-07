@@ -167,4 +167,12 @@ public class GameUnit {
     public GameUnit clone() {
         return new GameUnit(this.level, this.name, this.size, this.quantity, this.type, this.stats);
     }
+
+    @Exclude
+    public void applyBonuses(PlaceBonuses bonuses) {
+        this.stats.setHealthBonus(bonuses.getHealthBonus());
+        this.stats.setAttackBonus(bonuses.getAttackBonus());
+        this.stats.setArmorBonus(bonuses.getArmorBonus());
+        this.stats.setSpeedBonus(bonuses.getSpeedBonus());
+    }
 }

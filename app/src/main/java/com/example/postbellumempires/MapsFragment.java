@@ -6,9 +6,11 @@ import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -33,8 +35,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.example.postbellumempires.dialogs.PlaceDialog;
 import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.gameobjects.Place;
@@ -45,6 +50,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -164,7 +170,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         }
 
         if(this.playerPosBase != null){
-            this.playerPosBase.setIcon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase,170,170,p.getPlayerFaction())));
+            this.playerPosBase.setIcon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase,200,200,p.getPlayerFaction())));
         }
     }
 
@@ -233,12 +239,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
 
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.mapstyle));
         googleMap.setBuildingsEnabled(false);
-        googleMap.getUiSettings().setCompassEnabled(false);
         googleMap.setMinZoomPreference(MIN_ZOOM);
         googleMap.setMaxZoomPreference(MAX_ZOOM);
+        googleMap.getUiSettings().setCompassEnabled(false);
         googleMap.getUiSettings().setScrollGesturesEnabled(false);
         googleMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+
 
         loadPlaces(googleMap);
 
@@ -260,6 +267,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
                     }
                 });
+
 
         googleMap.setOnMarkerClickListener(marker -> {
             if (!marker.equals(playerPos) && !marker.equals(playerPosBase)) {
@@ -295,7 +303,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
 
         if(playerPosBase == null){
             playerPosBase = mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase,180,180,null)))
+                    .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase,200,200,null)))
                     .flat(true)
                     .anchor(0.5f, 0.5f)
                     .position(loc));
@@ -304,14 +312,22 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
 
     private Bitmap getPlayerMarker(int id, int width, int heigt, Faction faction){
         BitmapDrawable bitmap = (BitmapDrawable) getResources().getDrawable(id);
-        ColorFilter filter = new LightingColorFilter(getResources().getColor(R.color.ESprimary),1);
-        //bitmap.setColorFilter(filter);
+        Bitmap markerBitmap = Bitmap.createScaledBitmap(bitmap.getBitmap(),width,heigt,false);
         if(faction != null){
-            //bitmap.setColorFilter(getResources().getColor(faction.primaryColor),PorterDuff.Mode.SRC_ATOP);
+            markerBitmap = changeBitmapColor(markerBitmap,getResources().getColor(faction.primaryColor));
         }
-        Bitmap b = bitmap.getBitmap();
+        return markerBitmap;
+    }
 
-        return Bitmap.createScaledBitmap(b,width,heigt,false);
+    private Bitmap changeBitmapColor(Bitmap sourceBitmap, int color)
+    {
+        Bitmap resultBitmap = sourceBitmap.copy(sourceBitmap.getConfig(),true);
+        Paint paint = new Paint();
+        ColorFilter filter = new LightingColorFilter(color, 0);
+        paint.setColorFilter(filter);
+        Canvas canvas = new Canvas(resultBitmap);
+        canvas.drawBitmap(resultBitmap, 0, 0, paint);
+        return resultBitmap;
     }
 
     public void animateMarker(final Marker marker, final Location location) {
@@ -351,12 +367,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
+                        Place p = ds.getValue(Place.class);
+                        Marker placeMarker = googleMap.addMarker(p.getMarker());
+
                         LocRef.child(ds.getKey()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.exists()) {
-                                    Place p = snapshot.getValue(Place.class);
-                                    googleMap.addMarker(p.getMarker());
+                                    Place p = ds.getValue(Place.class);
+                                    placeMarker.setIcon(p.getMarkerIcon());
                                 }
                             }
 

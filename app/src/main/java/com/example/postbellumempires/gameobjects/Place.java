@@ -247,7 +247,7 @@ public class Place {
     }
 
     @Exclude
-    private BitmapDescriptor getMarkerIcon() {
+    public BitmapDescriptor getMarkerIcon() {
         switch (type) {
             case SHOP:
                 return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);

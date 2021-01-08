@@ -39,7 +39,7 @@ public class UpgradeMenuAdapter extends RecyclerView.Adapter<UpgradeMenuAdapter.
     @Override
     public UnitUpgradeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new UnitUpgradeViewHolder(inflater.inflate(R.layout.unitupgrade_view_holder, parent, false));
+        return new UnitUpgradeViewHolder(inflater.inflate(R.layout.view_holder_unitupgrade, parent, false));
     }
 
     @Override

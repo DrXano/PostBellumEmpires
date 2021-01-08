@@ -37,6 +37,9 @@ public class Item {
     }
 
     @Exclude
+    public String getName(){return resource.name;}
+
+    @Exclude
     public boolean isExhausted() {
         return this.quantity <= 0;
     }

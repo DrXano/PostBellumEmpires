@@ -23,7 +23,7 @@ public class PlaceArmyAdapter extends RecyclerView.Adapter<PlaceArmyAdapter.Plac
     @Override
     public PlaceUnitViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new PlaceUnitViewHolder(inflater.inflate(R.layout.levelnunit_view_holder, parent, false));
+        return new PlaceUnitViewHolder(inflater.inflate(R.layout.view_holder_levelnunit, parent, false));
     }
 
     @Override

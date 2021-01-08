@@ -27,7 +27,7 @@ public class RequirementsAdapter extends RecyclerView.Adapter<RequirementsAdapte
     @Override
     public RequirementsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new RequirementsViewHolder(inflater.inflate(R.layout.entity_view_holder, parent, false));
+        return new RequirementsViewHolder(inflater.inflate(R.layout.view_holder_entity, parent, false));
     }
 
     @Override

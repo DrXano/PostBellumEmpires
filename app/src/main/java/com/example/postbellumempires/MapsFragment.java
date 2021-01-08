@@ -140,6 +140,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         this.userexp.setProgress(p.getExp());
         this.userexp.setMax(p.getMaxExp());
 
+
+        color = getResources().getColor(p.getPlayerFaction().primaryColor);
+        this.userexp.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        this.symbol.setImageResource(p.getPlayerFaction().symbol);
+        this.symbol.setColorFilter(color);
+
+        /*
         switch (p.getPlayerFaction()) {
             case OC:
                 color = getResources().getColor(R.color.OCprimary);
@@ -160,6 +167,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                 this.symbol.setColorFilter(color);
                 break;
         }
+        */
     }
 
     private void logout() {

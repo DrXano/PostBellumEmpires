@@ -20,6 +20,7 @@ import com.example.postbellumempires.MainGameActivity;
 import com.example.postbellumempires.R;
 import com.example.postbellumempires.adapters.PlaceArmyAdapter;
 import com.example.postbellumempires.enums.GameResource;
+import com.example.postbellumempires.enums.Structure;
 import com.example.postbellumempires.gameobjects.Item;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.PlaceArmy;
@@ -45,9 +46,12 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
     public Button action;
     public Button collect;
     public RecyclerView armyView;
+    public ImageButton struct1button;
+    public ImageButton struct2button;
+    public ImageButton struct3button;
+    public ImageButton struct4button;
     Context context;
-    private boolean friendly;
-    private Place p;
+    private Place place;
 
     public PlaceDialog(@NonNull Context context, String id) {
         super(context, android.R.style.Theme_Black_NoTitleBar);
@@ -59,7 +63,7 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.place_dialog);
+        setContentView(R.layout.dialog_place);
         PlaceRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -78,7 +82,7 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
 
     private void updateUI(Place p) {
         Player player = parentActivity.getPlayer();
-        this.p = p;
+        this.place = p;
         action = findViewById(R.id.actionButton);
         collect = findViewById(R.id.collectionButton);
         cancel = findViewById(R.id.cancelButton);
@@ -90,6 +94,10 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         maxcap = findViewById(R.id.maxcap);
         symbol = findViewById(R.id.ownerFactionSymbol);
         armyView = findViewById(R.id.placeArmyRV);
+        struct1button = findViewById(R.id.struct1button);
+        struct2button = findViewById(R.id.struct2button);
+        struct3button = findViewById(R.id.struct3button);
+        struct4button = findViewById(R.id.struct4button);
         armyView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         PlaceArmy army = p.getArmy();
@@ -102,6 +110,10 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
 
         int color;
         if (p.getFaction() != null) {
+            color = getContext().getResources().getColor(p.getFaction().primaryColor);
+            this.symbol.setImageResource(p.getFaction().symbol);
+            this.symbol.setColorFilter(color);
+            /*
             switch (p.getFaction()) {
                 case OC:
                     color = getContext().getResources().getColor(R.color.OCprimary);
@@ -123,27 +135,24 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                     this.symbol.setImageDrawable(null);
                     break;
             }
+            */
         } else {
-            color = getContext().getResources().getColor(R.color.black);
             this.symbol.setImageDrawable(null);
         }
 
         String owner = p.getOwner();
         String ownerFaction = p.getOwnerFaction();
-        String reward = p.getResourceRewardType().name();
-        if (reward != null) {
-            Reward.setText(reward);
-        }
+        Reward.setText(p.getResourceRewardType().name);
 
         currcap.setText(String.valueOf(p.getCapacity()));
         maxcap.setText(String.valueOf(p.getMaxCapacity()));
 
         Owner.setText((owner == null) ? "---" : owner);
         OwnerFaction.setText((ownerFaction == null) ? "---" : ownerFaction);
-        this.friendly = p.isFriendly(player);
+        boolean friendly = p.isFriendly(player);
         //this.friendly = (p.getOwnerFaction() == null || p.getOwnerFaction().equals(player.getPFaction()));
 
-        if (this.friendly) {
+        if (friendly) {
             action.setText("Deploy Troops");
             collect.setText("Collect");
         } else {
@@ -151,9 +160,18 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
             collect.setText("Steal");
         }
 
+        struct1button.setImageResource(p.getEStruct1().imageId);
+        struct2button.setImageResource(p.getEStruct2().imageId);
+        struct3button.setImageResource(p.getEStruct3().imageId);
+        struct4button.setImageResource(p.getEStruct4().imageId);
+
         action.setOnClickListener(this);
         collect.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        struct1button.setOnClickListener(this);
+        struct2button.setOnClickListener(this);
+        struct3button.setOnClickListener(this);
+        struct4button.setOnClickListener(this);
     }
 
     @Override
@@ -162,7 +180,7 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.actionButton:
                 if (!player.getArmy().isEmpty()) {
-                    Dialog d = new ActionDialog(context, this.p, player);
+                    Dialog d = new ActionDialog(context, this.place, player);
                     d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                     d.show();
                 } else {
@@ -173,16 +191,52 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.collectionButton:
-                GameResource res = this.p.getResourceRewardType();
-                Item reward = res.getReward(this.p.multiplier(player));
+                GameResource res = this.place.getResourceRewardType();
+                Item reward = res.getReward(this.place.multiplier(player));
                 player.addItem(reward.getResourceItem(), reward.getQuantity());
                 player.updatePlayer();
                 Toast.makeText(context, reward.getQuantity() + " x " + reward.getResourceItem().name + " acquired", Toast.LENGTH_SHORT).show();
                 dismiss();
                 break;
+            case R.id.struct1button:
+                if(this.place.getStruct1().equals(Structure.NONE)) {
+                    if (this.place.isOccupied() && this.place.isFriendly(player)) {
+                        Dialog d = new StructureDialog(context,1,this.place,player,getContext().getResources().getColor(R.color.unavailable));
+                        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                        d.show();
+                    }
+                }
+                break;
+            case R.id.struct2button:
+                if(this.place.getStruct2().equals(Structure.NONE)) {
+                    if (this.place.isOccupied() && this.place.isFriendly(player)) {
+                        Dialog d = new StructureDialog(context,2,this.place,player,getContext().getResources().getColor(R.color.unavailable));
+                        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                        d.show();
+                    }
+                }
+                break;
+            case R.id.struct3button:
+                if(this.place.getStruct3().equals(Structure.NONE)) {
+                    if (this.place.isOccupied() && this.place.isFriendly(player)) {
+                        Dialog d = new StructureDialog(context,3,this.place,player,getContext().getResources().getColor(R.color.unavailable));
+                        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                        d.show();
+                    }
+                }
+                break;
+            case R.id.struct4button:
+                if(this.place.getStruct4().equals(Structure.NONE)) {
+                    if (this.place.isOccupied() && this.place.isFriendly(player)) {
+                        Dialog d = new StructureDialog(context,4,this.place,player,getContext().getResources().getColor(R.color.unavailable));
+                        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                        d.show();
+                    }
+                }
+                break;
             default:
                 break;
         }
-        dismiss();
+        //dismiss();
     }
 }

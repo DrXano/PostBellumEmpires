@@ -215,18 +215,7 @@ public class Place {
 
     @Exclude
     public GameResource getResourceRewardType() {
-        switch (type) {
-            case RESTAURANT:
-                return GameResource.FOOD;
-            case UNIVERSITY:
-                return GameResource.KNOWLEDGE;
-            case SHOP:
-                return GameResource.WOOD;
-            case OTHER:
-                return GameResource.IRON;
-            default:
-                return null;
-        }
+        return this.type.resource;
     }
 
     @Exclude
@@ -386,6 +375,18 @@ public class Place {
             }
         }
     }
+
+    @Exclude
+    public Structure getEStruct1(){return this.struct1;}
+
+    @Exclude
+    public Structure getEStruct2(){return this.struct2;}
+
+    @Exclude
+    public Structure getEStruct3(){return this.struct3;}
+
+    @Exclude
+    public Structure getEStruct4(){return this.struct4;}
 
     @Exclude
     private void applyBonuses() {

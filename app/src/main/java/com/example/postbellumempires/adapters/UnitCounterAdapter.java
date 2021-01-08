@@ -26,7 +26,7 @@ public class UnitCounterAdapter extends RecyclerView.Adapter<UnitCounterAdapter.
     @Override
     public UnitCounterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new UnitCounterViewHolder(inflater.inflate(R.layout.unit_quantity_view_holder, parent, false));
+        return new UnitCounterViewHolder(inflater.inflate(R.layout.view_holder_unit_quantity, parent, false));
     }
 
     @Override

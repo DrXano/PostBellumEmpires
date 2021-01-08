@@ -25,28 +25,6 @@
             android:layout_height="match_parent"
             android:background="@drawable/border">
 
-            <ImageView
-                android:id="@+id/imageView13"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/border"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView12"
-                app:layout_constraintStart_toEndOf="@+id/imageView12"
-                app:srcCompat="@drawable/empty" />
-
-            <ImageView
-                android:id="@+id/imageView14"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/border"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView11"
-                app:layout_constraintStart_toEndOf="@+id/imageView11"
-                app:srcCompat="@drawable/empty" />
-
             <TextView
                 android:id="@+id/placeTitle"
                 android:layout_width="wrap_content"
@@ -125,35 +103,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/collectionButton" />
 
-            <ImageView
-                android:id="@+id/imageView11"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/border"
-                app:layout_constraintBottom_toTopOf="@+id/actionButton"
-                app:layout_constraintStart_toStartOf="@+id/collectionButton"
-                app:srcCompat="@drawable/empty" />
-
-            <ImageView
-                android:id="@+id/imageView12"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/border"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView14"
-                app:layout_constraintStart_toEndOf="@+id/imageView14"
-                app:srcCompat="@drawable/empty" />
-
             <TextView
                 android:id="@+id/textView32"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="24dp"
                 android:text="Post Structures:"
-                app:layout_constraintBottom_toTopOf="@+id/imageView11"
-                app:layout_constraintStart_toStartOf="@+id/imageView11" />
+                app:layout_constraintStart_toStartOf="@+id/placeArmySV"
+                app:layout_constraintTop_toBottomOf="@+id/placeArmySV" />
 
             <TextView
                 android:id="@+id/textView33"
@@ -162,35 +119,19 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Post's Resources:"
+                android:text="Post's Resource:"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ownerInPlace" />
 
-            <ScrollView
-                android:id="@+id/scrollView6"
+            <TextView
+                android:id="@+id/ResourceReward"
                 android:layout_width="0dp"
-                android:layout_height="70dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/border"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Food"
                 app:layout_constraintStart_toEndOf="@+id/textView33"
-                app:layout_constraintTop_toTopOf="@+id/textView33">
-
-                <LinearLayout
-                    android:id="@+id/rewards"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/ResourceReward"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </ScrollView>
+                app:layout_constraintTop_toTopOf="@+id/textView33" />
 
             <TextView
                 android:id="@+id/textView46"
@@ -201,31 +142,28 @@
                 android:layout_marginTop="16dp"
                 android:text="Army in this Post:"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scrollView6" />
+                app:layout_constraintTop_toBottomOf="@+id/textView33" />
 
             <TextView
                 android:id="@+id/CapTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
                 android:layout_marginRight="4dp"
                 android:text="Capacity:"
-                app:layout_constraintEnd_toStartOf="@+id/currCap"
-                app:layout_constraintTop_toBottomOf="@+id/scrollView6" />
+                app:layout_constraintBottom_toBottomOf="@+id/textView46"
+                app:layout_constraintEnd_toStartOf="@+id/currCap" />
 
             <ScrollView
                 android:id="@+id/placeArmySV"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
                 android:background="@drawable/border"
-                app:layout_constraintBottom_toTopOf="@+id/textView32"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView46">
@@ -244,6 +182,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:tint="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/close"
@@ -280,6 +219,57 @@
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageButton
+                android:id="@+id/struct1button"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/border"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                app:layout_constraintStart_toStartOf="@+id/textView32"
+                app:layout_constraintTop_toBottomOf="@+id/textView32"
+                app:srcCompat="@drawable/empty" />
+
+            <ImageButton
+                android:id="@+id/struct2button"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/border"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                app:layout_constraintStart_toEndOf="@+id/struct1button"
+                app:layout_constraintTop_toTopOf="@+id/struct1button"
+                app:srcCompat="@drawable/empty" />
+
+            <ImageButton
+                android:id="@+id/struct3button"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/border"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                app:layout_constraintStart_toEndOf="@+id/struct2button"
+                app:layout_constraintTop_toTopOf="@+id/struct2button"
+                app:srcCompat="@drawable/empty" />
+
+            <ImageButton
+                android:id="@+id/struct4button"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/border"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                app:layout_constraintStart_toEndOf="@+id/struct3button"
+                app:layout_constraintTop_toTopOf="@+id/struct3button"
+                app:srcCompat="@drawable/empty" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

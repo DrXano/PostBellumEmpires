@@ -39,7 +39,7 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
     @Override
     public UnitTrainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new UnitTrainViewHolder(inflater.inflate(R.layout.unittrain_view_holder, parent, false));
+        return new UnitTrainViewHolder(inflater.inflate(R.layout.view_holder_unittrain, parent, false));
     }
 
     @Override

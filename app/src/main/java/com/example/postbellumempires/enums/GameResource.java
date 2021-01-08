@@ -10,21 +10,21 @@ import java.util.Random;
 
 public enum GameResource {
     //Abstract item
-    BP(0, "Structure Blueprint", 1, 1, true, true),
+    BP(0, "Structure Blueprint", 1000, 1, 1, true, true),
     //Resources
 
-    FOOD(1, "Food", 400, 500, false, false),
-    KNOWLEDGE(2, "Knowledge", 10, 20, false, false),
-    WOOD(3, "Wood", 200, 400, false, false),
-    IRON(4, "Iron", 200, 300, false, false),
+    FOOD(1, "Food", 1000, 400, 500, false, false),
+    KNOWLEDGE(2, "Knowledge", 1000, 10, 20, false, false),
+    WOOD(3, "Wood", 1000, 200, 400, false, false),
+    IRON(4, "Iron", 1000, 200, 300, false, false),
 
     //Blueprints
-    BARRACK_BP(5, "Barrack Blueprint", 1, 1, true, false),
-    STORAGE_BP(6, "Storage Blueprint", 1, 1, true, false),
-    VAULT_BP(7, "Vault Blueprint", 1, 1, true, false),
-    ARMORY_BP(8, "Armory Blueprint", 1, 1, true, false),
-    MEDBAY_BP(9, "Medbay Blueprint", 1, 1, true, false),
-    LABORATORY_BP(10, "Laboratory Blueprint", 1, 1, true, false);
+    BARRACK_BP(5, "Barrack Blueprint", 1000, 1, 1, true, false),
+    STORAGE_BP(6, "Storage Blueprint", 1000, 1, 1, true, false),
+    VAULT_BP(7, "Vault Blueprint", 1000, 1, 1, true, false),
+    ARMORY_BP(8, "Armory Blueprint", 1000, 1, 1, true, false),
+    MEDBAY_BP(9, "Medbay Blueprint", 1000, 1, 1, true, false),
+    LABORATORY_BP(10, "Laboratory Blueprint", 1000, 1, 1, true, false);
 
     private static final List<GameResource> bps = new ArrayList<>();
     private static final Map<Integer, GameResource> BY_ID = new HashMap<>();
@@ -40,14 +40,16 @@ public enum GameResource {
 
     public final int id;
     public final String name;
+    public final int image;
     public final int min;
     public final int max;
     public final boolean isBp;
     public final boolean isAbstract;
 
-    GameResource(int id, String name, int min, int max, boolean isBp, boolean isAbstract) {
+    GameResource(int id, String name, int image, int min, int max, boolean isBp, boolean isAbstract) {
         this.id = id;
         this.name = name;
+        this.image = image;
         this.min = min;
         this.max = max;
         this.isBp = isBp;

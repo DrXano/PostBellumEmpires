@@ -87,6 +87,13 @@ public class ProfileActivity extends AppCompatActivity {
         this.playerExp.setText(String.valueOf(p.getExp()));
         this.playerMaxExp.setText(String.valueOf(p.getMaxExp()));
 
+
+        color = getResources().getColor(p.getPlayerFaction().primaryColor);
+        this.playerProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        this.symbol.setImageResource(p.getPlayerFaction().symbol);
+        this.symbol.setColorFilter(color);
+
+        /*
         switch (p.getPlayerFaction()) {
             case OC:
                 color = getResources().getColor(R.color.OCprimary);
@@ -107,5 +114,6 @@ public class ProfileActivity extends AppCompatActivity {
                 this.symbol.setColorFilter(color);
                 break;
         }
+        */
     }
 }

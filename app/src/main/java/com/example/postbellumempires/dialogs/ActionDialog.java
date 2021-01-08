@@ -54,7 +54,7 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.action_dialog);
+        setContentView(R.layout.dialog_action);
         action = findViewById(R.id.ADactionButton);
         actionAll = findViewById(R.id.allButton);
         cancel = findViewById(R.id.ADcancelButton);
@@ -71,7 +71,7 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
         }
 
         units = findViewById(R.id.armytodeployRV);
-        units.setLayoutManager((new LinearLayoutManager(getContext())));
+        units.setLayoutManager(new LinearLayoutManager(getContext()));
 
         List<GameUnit> playerunits = this.player.getArmy().getAvailableUnits();
         GameUnit[] arr = playerunits.toArray(new GameUnit[playerunits.size()]);

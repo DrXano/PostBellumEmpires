@@ -23,7 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-public class StructBuildAdapter extends RecyclerView.Adapter<StructBuildAdapter.StructureViewHolder>{
+public class StructBuildAdapter extends RecyclerView.Adapter<StructBuildAdapter.StructureViewHolder> {
 
     private final StructureDialog dialog;
     private final Structure[] mDataset;
@@ -34,7 +34,7 @@ public class StructBuildAdapter extends RecyclerView.Adapter<StructBuildAdapter.
     private Place place;
     private Context context;
 
-    public StructBuildAdapter(StructureDialog dialog, Structure[] mDataset, int position, RecyclerView.LayoutManager layoutManager, Player player, Place place, int unavailableColor, Context context){
+    public StructBuildAdapter(StructureDialog dialog, Structure[] mDataset, int position, RecyclerView.LayoutManager layoutManager, Player player, Place place, int unavailableColor, Context context) {
         this.dialog = dialog;
         this.mDataset = mDataset;
         this.pos = position;
@@ -58,30 +58,32 @@ public class StructBuildAdapter extends RecyclerView.Adapter<StructBuildAdapter.
         Item[] cost = struct.cost;
         holder.structureNameView.setText(struct.name);
         holder.requirementsView.setLayoutManager(new LinearLayoutManager(context));
-        holder.requirementsView.setAdapter(new RequirementsAdapter(cost, this.player,this.unavailableColor));
+        holder.requirementsView.setAdapter(new RequirementsAdapter(cost, this.player, this.unavailableColor));
 
         holder.buildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (player.hasEnough(cost)) {
-                    place.getReference().addValueEventListener(new ValueEventListener() {
+                    place.getReference().addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists()){
+                            if (snapshot.exists()) {
                                 Place p = snapshot.getValue(Place.class);
-                                boolean sucess = p.buildStructure(struct,pos);
-                                if(sucess){
+                                boolean sucess = p.buildStructure(struct, pos);
+                                if (sucess) {
                                     player.removeItems(cost);
                                     player.giveExp(ExpReward.STRUCTURE_BUILDED.reward);
                                     player.updatePlayer();
-                                }else
+                                    Toast.makeText(context, "Structure built with sucess", Toast.LENGTH_SHORT).show();
+                                } else
                                     Toast.makeText(context, "Cannot build structure", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             }
                         }
 
                         @Override
-                        public void onCancelled(@NonNull DatabaseError error) {}
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
                     });
                 } else {
                     Toast.makeText(context, "Insuficient Resources", Toast.LENGTH_SHORT).show();
@@ -95,7 +97,7 @@ public class StructBuildAdapter extends RecyclerView.Adapter<StructBuildAdapter.
         return mDataset.length;
     }
 
-    public static class StructureViewHolder extends RecyclerView.ViewHolder{
+    public static class StructureViewHolder extends RecyclerView.ViewHolder {
         TextView structureNameView;
         RecyclerView requirementsView;
         Button buildButton;

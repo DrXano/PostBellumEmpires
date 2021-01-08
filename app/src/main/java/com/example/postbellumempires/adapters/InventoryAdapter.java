@@ -29,7 +29,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Item
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Item i = mDataset[position];
-        holder.resourceNameView.setText(i.getResource());
+        holder.resourceNameView.setText(i.getResourceItem().name);
         holder.resourceQuantityView.setText(String.valueOf(i.getQuantity()));
     }
 

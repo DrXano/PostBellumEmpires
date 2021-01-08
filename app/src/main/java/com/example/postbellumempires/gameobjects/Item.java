@@ -37,7 +37,9 @@ public class Item {
     }
 
     @Exclude
-    public String getName(){return resource.name;}
+    public String getName() {
+        return resource.name;
+    }
 
     @Exclude
     public boolean isExhausted() {
@@ -56,6 +58,9 @@ public class Item {
 
     @Exclude
     public void decrease(int quantity) {
+
         this.quantity -= quantity;
+        if (this.quantity < 0)
+            this.quantity = 0;
     }
 }

@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 app:layout_constraintStart_toEndOf="@+id/ownerFactionSymbol"
                 app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 app:layout_constraintStart_toEndOf="@+id/ownerFactionSymbol"
                 app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="Food"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/textView33"
                 app:layout_constraintTop_toTopOf="@+id/textView33" />
 
@@ -157,7 +157,7 @@
             <ScrollView
                 android:id="@+id/placeArmySV"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
@@ -222,8 +222,8 @@
 
             <ImageButton
                 android:id="@+id/struct1button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/border"
                 android:padding="5dp"
@@ -234,8 +234,8 @@
 
             <ImageButton
                 android:id="@+id/struct2button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/border"
@@ -247,8 +247,8 @@
 
             <ImageButton
                 android:id="@+id/struct3button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/border"
@@ -260,8 +260,8 @@
 
             <ImageButton
                 android:id="@+id/struct4button"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/border"

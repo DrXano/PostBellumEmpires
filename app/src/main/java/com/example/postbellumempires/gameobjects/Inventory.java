@@ -18,6 +18,11 @@ public class Inventory {
     public Inventory(String owner) {
         this.inv = new HashMap<>();
         this.invOwner = owner;
+        for (GameResource g : GameResource.values()) {
+            if (!g.isAbstract) {
+                this.inv.put(g.name(), new Item(g, 0));
+            }
+        }
     }
 
     public HashMap<String, Item> getInv() {
@@ -30,11 +35,20 @@ public class Inventory {
 
     @Exclude
     public List<Item> getInventory() {
-        if (this.inv != null) {
-            return new ArrayList<>(this.inv.values());
-        } else {
+        if (this.inv == null || this.isEmpty())
             return null;
+
+
+        List<Item> items = new ArrayList<>();
+        for (GameResource g : GameResource.values()) {
+            String resName = g.name();
+            if (!g.isAbstract && this.inv.containsKey(resName)) {
+                Item i = this.inv.get(resName);
+                if (!i.isExhausted())
+                    items.add(i);
+            }
         }
+        return items;
     }
 
     @Exclude
@@ -62,16 +76,17 @@ public class Inventory {
             Item i = this.inv.get(resName);
             i.decrease(quantity);
             this.inv.put(resName, i);
-
-            if (i.isExhausted()) {
-                this.inv.remove(resName);
-            }
         }
     }
 
     @Exclude
     public boolean hasItem(GameResource resource) {
-        return this.inv.containsKey(resource.name());
+        String resname = resource.name();
+        if (!this.inv.containsKey(resname))
+            return false;
+
+        Item i = this.inv.get(resname);
+        return i.getQuantity() > 0;
     }
 
     public String getInvOwner() {
@@ -112,5 +127,14 @@ public class Inventory {
         for (Item i : items) {
             this.removeItem(i.getResourceItem(), i.getQuantity());
         }
+    }
+
+    @Exclude
+    private boolean isEmpty() {
+        for (Item i : this.inv.values()) {
+            if (!i.isExhausted())
+                return false;
+        }
+        return true;
     }
 }

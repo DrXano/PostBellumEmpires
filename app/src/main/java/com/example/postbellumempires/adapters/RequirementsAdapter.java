@@ -33,7 +33,7 @@ public class RequirementsAdapter extends RecyclerView.Adapter<RequirementsAdapte
     @Override
     public void onBindViewHolder(@NonNull RequirementsViewHolder holder, int position) {
         Item i = mDataset[position];
-        holder.entityView.setText(i.getResource());
+        holder.entityView.setText(i.getResourceItem().name);
         holder.quantityView.setText(String.valueOf(i.getQuantity()));
         if (!player.hasEnough(i)) {
             holder.quantityView.setTextColor(this.unavailableColor);

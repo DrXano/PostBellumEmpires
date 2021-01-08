@@ -16,15 +16,18 @@ import com.example.postbellumempires.enums.Structure;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.Player;
 
-public class StructureDialog extends Dialog implements View.OnClickListener{
+import java.util.ArrayList;
+import java.util.List;
 
-    Context context;
+public class StructureDialog extends Dialog implements View.OnClickListener {
+
     private final Player player;
     private final Place place;
     private final int position;
-    private int unavailableColor;
     public ImageButton cancel;
     public RecyclerView structures;
+    Context context;
+    private int unavailableColor;
 
     public StructureDialog(@NonNull Context context, int position, Place place, Player player, int unavailableColor) {
         super(context, android.R.style.Theme_Black_NoTitleBar);
@@ -43,8 +46,15 @@ public class StructureDialog extends Dialog implements View.OnClickListener{
 
         structures = findViewById(R.id.structuresRV);
         structures.setLayoutManager(new LinearLayoutManager(getContext()));
-        Structure[] structs = Structure.values();
-        structures.setAdapter(new StructBuildAdapter(StructureDialog.this, structs,this.position, new LinearLayoutManager(context),this.player,this.place,this.unavailableColor,context));
+        Structure[] strs = Structure.values();
+        List<Structure> structslist = new ArrayList<>();
+        for (Structure s : strs) {
+            if (!s.isEmpty)
+                structslist.add(s);
+        }
+        Structure[] structs = new Structure[structslist.size()];
+        structslist.toArray(structs);
+        structures.setAdapter(new StructBuildAdapter(StructureDialog.this, structs, this.position, new LinearLayoutManager(context), this.player, this.place, this.unavailableColor, context));
         cancel.setOnClickListener(this);
     }
 
@@ -59,7 +69,7 @@ public class StructureDialog extends Dialog implements View.OnClickListener{
         }
     }
 
-    public void dismissDialog(){
+    public void dismissDialog() {
         dismiss();
     }
 }

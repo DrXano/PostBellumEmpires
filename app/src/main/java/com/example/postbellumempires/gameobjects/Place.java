@@ -5,7 +5,6 @@ import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.enums.GameResource;
 import com.example.postbellumempires.enums.PlaceType;
 import com.example.postbellumempires.enums.Structure;
-import com.example.postbellumempires.enums.UnitType;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -164,7 +163,7 @@ public class Place {
     }
 
     public String getStruct4() {
-        return struct4.name;
+        return struct4.name();
     }
 
     public void setStruct4(String struct4) {
@@ -193,13 +192,13 @@ public class Place {
     public void free() {
         this.owner = null;
         this.ownerFaction = null;
-        this.army.killArmy();
-        this.army.setMaxCapacity(MAX_CAPACITY_BY_DEFAULT);
         this.struct1 = Structure.NONE;
         this.struct2 = Structure.NONE;
         this.struct3 = Structure.NONE;
         this.struct4 = Structure.NONE;
         this.bonuses.reset();
+        this.army.killArmy();
+        this.army.setMaxCapacity(MAX_CAPACITY_BY_DEFAULT);
 
         this.updatePlace();
     }
@@ -293,7 +292,7 @@ public class Place {
 
     @Exclude
     public boolean deployAll(Player player) {
-        boolean result = this.army.deployAll(player,bonuses);
+        boolean result = this.army.deployAll(player, bonuses);
         if (result)
             this.updatePlace();
         return result;
@@ -377,19 +376,28 @@ public class Place {
     }
 
     @Exclude
-    public Structure getEStruct1(){return this.struct1;}
+    public Structure getEStruct1() {
+        return this.struct1;
+    }
 
     @Exclude
-    public Structure getEStruct2(){return this.struct2;}
+    public Structure getEStruct2() {
+        return this.struct2;
+    }
 
     @Exclude
-    public Structure getEStruct3(){return this.struct3;}
+    public Structure getEStruct3() {
+        return this.struct3;
+    }
 
     @Exclude
-    public Structure getEStruct4(){return this.struct4;}
+    public Structure getEStruct4() {
+        return this.struct4;
+    }
 
     @Exclude
     private void applyBonuses() {
+        this.bonuses.reset();
         this.struct1.applyBonus(this.bonuses);
         this.struct2.applyBonus(this.bonuses);
         this.struct3.applyBonus(this.bonuses);
@@ -398,7 +406,7 @@ public class Place {
     }
 
     @Exclude
-    private void applyBonusesOnArmy(){
+    private void applyBonusesOnArmy() {
         this.army.setMaxCapacity(MAX_CAPACITY_BY_DEFAULT + this.bonuses.getCapacityBonus());
         this.army.applyBonuses(this.bonuses);
     }

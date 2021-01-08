@@ -113,29 +113,6 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
             color = getContext().getResources().getColor(p.getFaction().primaryColor);
             this.symbol.setImageResource(p.getFaction().symbol);
             this.symbol.setColorFilter(color);
-            /*
-            switch (p.getFaction()) {
-                case OC:
-                    color = getContext().getResources().getColor(R.color.OCprimary);
-                    this.symbol.setImageResource(R.drawable.ocsymbol);
-                    this.symbol.setColorFilter(color);
-                    break;
-                case DR:
-                    color = getContext().getResources().getColor(R.color.DRprimary);
-                    this.symbol.setImageResource(R.drawable.drsymbol);
-                    this.symbol.setColorFilter(color);
-                    break;
-                case ES:
-                    color = getContext().getResources().getColor(R.color.ESprimary);
-                    this.symbol.setImageResource(R.drawable.essymbol);
-                    this.symbol.setColorFilter(color);
-                    break;
-                default:
-                    color = getContext().getResources().getColor(R.color.black);
-                    this.symbol.setImageDrawable(null);
-                    break;
-            }
-            */
         } else {
             this.symbol.setImageDrawable(null);
         }
@@ -199,36 +176,36 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.struct1button:
-                if(this.place.getStruct1().equals(Structure.NONE)) {
+                if (this.place.getEStruct1().equals(Structure.NONE)) {
                     if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                        Dialog d = new StructureDialog(context,1,this.place,player,getContext().getResources().getColor(R.color.unavailable));
+                        Dialog d = new StructureDialog(context, 1, this.place, player, getContext().getResources().getColor(R.color.unavailable));
                         d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                         d.show();
                     }
                 }
                 break;
             case R.id.struct2button:
-                if(this.place.getStruct2().equals(Structure.NONE)) {
+                if (this.place.getEStruct2().equals(Structure.NONE)) {
                     if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                        Dialog d = new StructureDialog(context,2,this.place,player,getContext().getResources().getColor(R.color.unavailable));
+                        Dialog d = new StructureDialog(context, 2, this.place, player, getContext().getResources().getColor(R.color.unavailable));
                         d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                         d.show();
                     }
                 }
                 break;
             case R.id.struct3button:
-                if(this.place.getStruct3().equals(Structure.NONE)) {
+                if (this.place.getEStruct3().equals(Structure.NONE)) {
                     if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                        Dialog d = new StructureDialog(context,3,this.place,player,getContext().getResources().getColor(R.color.unavailable));
+                        Dialog d = new StructureDialog(context, 3, this.place, player, getContext().getResources().getColor(R.color.unavailable));
                         d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                         d.show();
                     }
                 }
                 break;
             case R.id.struct4button:
-                if(this.place.getStruct4().equals(Structure.NONE)) {
+                if (this.place.getEStruct4().equals(Structure.NONE)) {
                     if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                        Dialog d = new StructureDialog(context,4,this.place,player,getContext().getResources().getColor(R.color.unavailable));
+                        Dialog d = new StructureDialog(context, 4, this.place, player, getContext().getResources().getColor(R.color.unavailable));
                         d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                         d.show();
                     }
@@ -237,6 +214,5 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
             default:
                 break;
         }
-        //dismiss();
     }
 }

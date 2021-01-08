@@ -1,7 +1,6 @@
 package com.example.postbellumempires.gameobjects;
 
 import com.example.postbellumempires.enums.ExpReward;
-import com.example.postbellumempires.enums.UnitType;
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
@@ -60,7 +59,7 @@ public class PlaceArmy {
             } else {
                 guu = gu.clone();
             }
-            if(bonuses != null)
+            if (bonuses != null)
                 guu.applyBonuses(bonuses);
             this.units.put(gu.toString(), guu);
             this.size += gu.getTotalSize();
@@ -160,10 +159,12 @@ public class PlaceArmy {
 
     @Exclude
     public void applyBonuses(PlaceBonuses bonuses) {
-        for(String key : this.units.keySet()){
-            GameUnit gu = this.units.get(key);
-            gu.applyBonuses(bonuses);
-            this.units.put(key,gu);
+        if (this.units != null) {
+            for (String key : this.units.keySet()) {
+                GameUnit gu = this.units.get(key);
+                gu.applyBonuses(bonuses);
+                this.units.put(key, gu);
+            }
         }
     }
 }

@@ -4,9 +4,15 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +36,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.postbellumempires.dialogs.PlaceDialog;
+import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.Player;
 import com.example.postbellumempires.interfaces.InterfaceListener;
@@ -42,6 +49,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
@@ -87,6 +96,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
 
     private GoogleMap mMap;
     private Marker playerPos;
+    private Marker playerPosBase;
+
+    private Player player;
 
     @Nullable
     @Override
@@ -135,6 +147,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
 
     @Override
     public void updateUI(Player p) {
+        this.player = p;
         this.playerIGN.setText(p.getInGameName());
         this.playerLevel.setText(String.valueOf(p.getLevel()));
         this.userexp.setProgress(p.getExp());
@@ -146,28 +159,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         this.symbol.setImageResource(p.getPlayerFaction().symbol);
         this.symbol.setColorFilter(color);
 
-        /*
-        switch (p.getPlayerFaction()) {
-            case OC:
-                color = getResources().getColor(R.color.OCprimary);
-                this.userexp.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                this.symbol.setImageResource(R.drawable.ocsymbol);
-                this.symbol.setColorFilter(color);
-                break;
-            case DR:
-                color = getResources().getColor(R.color.DRprimary);
-                this.userexp.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                this.symbol.setImageResource(R.drawable.drsymbol);
-                this.symbol.setColorFilter(color);
-                break;
-            case ES:
-                color = getResources().getColor(R.color.ESprimary);
-                this.userexp.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                this.symbol.setImageResource(R.drawable.essymbol);
-                this.symbol.setColorFilter(color);
-                break;
+        if(this.playerPos != null){
+            this.playerPos.setIcon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.marker,150,300,p.getPlayerFaction())));
         }
-        */
+
+        if(this.playerPosBase != null){
+            this.playerPosBase.setIcon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase,170,170,p.getPlayerFaction())));
+        }
     }
 
     private void logout() {
@@ -255,12 +253,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                     if (location != null) {
 
                         LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-                        if (playerPos == null) {
-                            playerPos = mMap.addMarker(new MarkerOptions()
-                                    .flat(true)
-                                    .anchor(0.5f, 0.5f)
-                                    .position(loc));
-                        }
+
+                        createPlayerMarker(loc);
 
                         CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(TILT).build();
                         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
@@ -268,7 +262,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                 });
 
         googleMap.setOnMarkerClickListener(marker -> {
-            if (!marker.equals(playerPos)) {
+            if (!marker.equals(playerPos) && !marker.equals(playerPosBase)) {
                 Dialog d = new PlaceDialog(parentActivity, marker.getTitle());
                 d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                 d.show();
@@ -281,19 +275,50 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             public void onLocationResult(LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
                     LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                    createPlayerMarker(loc);
                     animateMarker(playerPos, location);
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+                    animateMarker(playerPosBase, location);
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(loc));
                 }
             }
         };
         fusedLocationClient.requestLocationUpdates(this.locReq, locationCallback, Looper.getMainLooper());
     }
 
+    private void createPlayerMarker(LatLng loc) {
+        if (playerPos == null) {
+            playerPos = mMap.addMarker(new MarkerOptions()
+                    .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.marker,150,300,null)))
+                    .anchor(0.5f, 0.5f)
+                    .position(loc));
+        }
+
+        if(playerPosBase == null){
+            playerPosBase = mMap.addMarker(new MarkerOptions()
+                    .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase,180,180,null)))
+                    .flat(true)
+                    .anchor(0.5f, 0.5f)
+                    .position(loc));
+        }
+    }
+
+    private Bitmap getPlayerMarker(int id, int width, int heigt, Faction faction){
+        BitmapDrawable bitmap = (BitmapDrawable) getResources().getDrawable(id);
+        ColorFilter filter = new LightingColorFilter(getResources().getColor(R.color.ESprimary),1);
+        //bitmap.setColorFilter(filter);
+        if(faction != null){
+            //bitmap.setColorFilter(getResources().getColor(faction.primaryColor),PorterDuff.Mode.SRC_ATOP);
+        }
+        Bitmap b = bitmap.getBitmap();
+
+        return Bitmap.createScaledBitmap(b,width,heigt,false);
+    }
+
     public void animateMarker(final Marker marker, final Location location) {
         final Handler handler = new Handler();
         final long start = SystemClock.uptimeMillis();
         final LatLng startLatLng = marker.getPosition();
-        final double startRotation = marker.getRotation();
+        //final double startRotation = marker.getRotation();
         final long duration = 500;
 
         final Interpolator interpolator = new LinearInterpolator();
@@ -302,22 +327,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             @Override
             public void run() {
                 long elapsed = SystemClock.uptimeMillis() - start;
-                float t = interpolator.getInterpolation((float) elapsed
-                        / duration);
+                float t = interpolator.getInterpolation((float) elapsed / duration);
 
-                double lng = t * location.getLongitude() + (1 - t)
-                        * startLatLng.longitude;
-                double lat = t * location.getLatitude() + (1 - t)
-                        * startLatLng.latitude;
+                double lng = t * location.getLongitude() + (1 - t) * startLatLng.longitude;
+                double lat = t * location.getLatitude() + (1 - t) * startLatLng.latitude;
 
-                float rotation = (float) (t * location.getBearing() + (1 - t)
-                        * startRotation);
+                //float rotation = (float) (t * location.getBearing() + (1 - t)*startRotation);
 
                 marker.setPosition(new LatLng(lat, lng));
-                marker.setRotation(rotation);
+                //marker.setRotation(rotation);
 
                 if (t < 1.0) {
-                    // Post again 16ms later.
                     handler.postDelayed(this, 16);
                 }
             }
@@ -341,18 +361,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                             }
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
+                            public void onCancelled(@NonNull DatabaseError error) {}
                         });
                     }
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 

@@ -59,6 +59,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -245,7 +246,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         googleMap.getUiSettings().setScrollGesturesEnabled(false);
         googleMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-
 
         loadPlaces(googleMap);
 

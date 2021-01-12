@@ -3,11 +3,12 @@ package com.example.postbellumempires.gameobjects;
 import com.example.postbellumempires.enums.UnitType;
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PlayerArmy {
+public class PlayerArmy implements Serializable {
 
     private HashMap<String, GameUnit> units;
     private int size;

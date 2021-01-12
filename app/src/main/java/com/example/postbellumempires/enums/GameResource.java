@@ -11,12 +11,15 @@ import java.util.Random;
 public enum GameResource {
     //Abstract item
     BP(0, "Structure Blueprint", 1000, 1, 1, true, true),
-    //Resources
 
+    //Resources
     FOOD(1, "Food", 1000, 400, 500, false, false),
     KNOWLEDGE(2, "Knowledge", 1000, 10, 20, false, false),
     WOOD(3, "Wood", 1000, 200, 400, false, false),
     IRON(4, "Iron", 1000, 200, 300, false, false),
+    MEDICINE(4, "Medicine", 1000, 200, 300, false, false),
+    STONE(4, "Stone", 1000, 200, 300, false, false),
+    URANIUM(4, "Uranium", 1000, 200, 300, false, false),
 
     //Blueprints
     BARRACK_BP(5, "Barrack Blueprint", 1000, 1, 1, true, false),

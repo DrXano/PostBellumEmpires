@@ -3,11 +3,12 @@ package com.example.postbellumempires.gameobjects;
 import com.example.postbellumempires.enums.GameResource;
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Inventory {
+public class Inventory implements Serializable {
 
     private String invOwner;
     private HashMap<String, Item> inv;

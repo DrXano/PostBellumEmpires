@@ -15,8 +15,11 @@
         android:roundIcon="@mipmap/pbe_launcher_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.PostBellumEmpires">
+        <activity android:name=".BattleActivity"></activity>
         <activity
             android:name=".ArmyMenuActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainGameActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -24,6 +27,8 @@
         </activity>
         <activity
             android:name=".InventoryActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainGameActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -31,6 +36,8 @@
         </activity>
         <activity
             android:name=".ProfileActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainGameActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -48,22 +55,34 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".NameChooseActivity" />
-        <activity android:name=".pickFactionActivity" />
+        <activity android:name=".NameChooseActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity android:name=".pickFactionActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RegisterActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:noHistory="true"
             android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
-        <activity android:name=".MainGameActivity" />
+        <activity android:name=".MainGameActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:noHistory="true" />
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

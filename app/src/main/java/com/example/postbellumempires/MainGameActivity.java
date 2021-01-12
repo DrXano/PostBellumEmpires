@@ -1,6 +1,7 @@
 package com.example.postbellumempires;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -115,7 +116,6 @@ public class MainGameActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .attach(this.map)
                 .commit();
-
         playerRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -135,5 +135,11 @@ public class MainGameActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
+
+    @Override
+    @SuppressLint("MissingSuperCall")
+    public void onBackPressed() {}
 }

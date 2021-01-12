@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -14,7 +13,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,11 +33,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.example.postbellumempires.dialogs.PlaceDialog;
 import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.gameobjects.Place;
@@ -50,16 +45,13 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -166,12 +158,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         this.symbol.setImageResource(p.getPlayerFaction().symbol);
         this.symbol.setColorFilter(color);
 
-        if(this.playerPos != null){
-            this.playerPos.setIcon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.marker,150,300,p.getPlayerFaction())));
+        if (this.playerPos != null) {
+            this.playerPos.setIcon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.marker, 150, 300, p.getPlayerFaction())));
         }
 
-        if(this.playerPosBase != null){
-            this.playerPosBase.setIcon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase,200,200,p.getPlayerFaction())));
+        if (this.playerPosBase != null) {
+            this.playerPosBase.setIcon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase, 200, 200, p.getPlayerFaction())));
         }
     }
 
@@ -295,33 +287,47 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
 
     private void createPlayerMarker(LatLng loc) {
         if (playerPos == null) {
-            playerPos = mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.marker,150,300,null)))
-                    .anchor(0.5f, 0.5f)
-                    .position(loc));
+            if(player == null) {
+                playerPos = mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.marker, 150, 300, null)))
+                        .anchor(0.5f, 0.5f)
+                        .position(loc));
+            }else{
+                playerPos = mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.marker, 150, 300, player.getPlayerFaction())))
+                        .anchor(0.5f, 0.5f)
+                        .position(loc));
+            }
         }
 
-        if(playerPosBase == null){
-            playerPosBase = mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase,200,200,null)))
-                    .flat(true)
-                    .anchor(0.5f, 0.5f)
-                    .position(loc));
+        if (playerPosBase == null) {
+            if(player == null) {
+                playerPosBase = mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase, 200, 200, null)))
+                        .flat(true)
+                        .anchor(0.5f, 0.5f)
+                        .position(loc));
+            }else{
+                playerPosBase = mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase, 200, 200, player.getPlayerFaction())))
+                        .flat(true)
+                        .anchor(0.5f, 0.5f)
+                        .position(loc));
+            }
         }
     }
 
-    private Bitmap getPlayerMarker(int id, int width, int heigt, Faction faction){
+    private Bitmap getPlayerMarker(int id, int width, int heigt, Faction faction) {
         BitmapDrawable bitmap = (BitmapDrawable) getResources().getDrawable(id);
-        Bitmap markerBitmap = Bitmap.createScaledBitmap(bitmap.getBitmap(),width,heigt,false);
-        if(faction != null){
-            markerBitmap = changeBitmapColor(markerBitmap,getResources().getColor(faction.primaryColor));
+        Bitmap markerBitmap = Bitmap.createScaledBitmap(bitmap.getBitmap(), width, heigt, false);
+        if (faction != null) {
+            markerBitmap = changeBitmapColor(markerBitmap, getResources().getColor(faction.primaryColor));
         }
         return markerBitmap;
     }
 
-    private Bitmap changeBitmapColor(Bitmap sourceBitmap, int color)
-    {
-        Bitmap resultBitmap = sourceBitmap.copy(sourceBitmap.getConfig(),true);
+    private Bitmap changeBitmapColor(Bitmap sourceBitmap, int color) {
+        Bitmap resultBitmap = sourceBitmap.copy(sourceBitmap.getConfig(), true);
         Paint paint = new Paint();
         ColorFilter filter = new LightingColorFilter(color, 0);
         paint.setColorFilter(filter);
@@ -380,14 +386,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                             }
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError error) {}
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
                         });
                     }
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
     }
 

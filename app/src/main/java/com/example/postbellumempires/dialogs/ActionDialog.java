@@ -2,6 +2,7 @@ package com.example.postbellumempires.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.postbellumempires.BattleActivity;
+import com.example.postbellumempires.MainGameActivity;
 import com.example.postbellumempires.R;
 import com.example.postbellumempires.adapters.UnitCounterAdapter;
-import com.example.postbellumempires.enums.ExpReward;
+import com.example.postbellumempires.gameobjects.Battle;
 import com.example.postbellumempires.gameobjects.GameUnit;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.Player;
@@ -30,17 +33,19 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
     private final Place place;
     private final Player player;
     private final Context context;
+    private final MainGameActivity activity;
     public ImageButton cancel;
     public Button action;
     public Button actionAll;
     public RecyclerView units;
     private UnitCounterAdapter adapter;
 
-    public ActionDialog(@NonNull Context context, Place p, Player player) {
+    public ActionDialog(@NonNull Context context, Place p, Player player, MainGameActivity activity) {
         super(context, android.R.style.Theme_Black_NoTitleBar);
         this.context = context;
         this.player = player;
         this.place = p;
+        this.activity = activity;
     }
 
     private boolean isFriendly() {
@@ -134,17 +139,13 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                                 GameUnit[] toDeploy = adapter.getUnitsToDeploy();
                                 if (!isEmpty(toDeploy)) {
                                     if (!isFriendly(p, player)) {
-                                        player.removeUnits(toDeploy);
+                                        Battle battle = new Battle(player, place, toDeploy);
 
-                                        int exp = ExpReward.VICTORY.reward;
-                                        for (GameUnit gu : p.getArmy().getUnitsArray()) {
-                                            exp += gu.getQuantity() * ExpReward.UNIT_KILLED.reward;
-                                        }
-                                        player.giveExp(exp);
-                                        player.updatePlayer();
+                                        Intent intent = new Intent(activity, BattleActivity.class);
+                                        intent.putExtra("battleObj", battle);
 
-                                        place.free();
-                                        Toast.makeText(context, "This post has been neutralized", Toast.LENGTH_SHORT).show();
+                                        battle.start();
+                                        //Toast.makeText(context, "This post has been neutralized", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(context, "This post does not belong to the enemy anymore", Toast.LENGTH_SHORT).show();
                                     }
@@ -204,17 +205,15 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                                 Place p = snapshot.getValue(Place.class);
                                 if (!isFriendly(p, player)) {
                                     List<GameUnit> units = player.getArmy().getAvailableUnits();
-                                    player.emptyArmy();
+                                    GameUnit[] toDeploy = new GameUnit[units.size()];
+                                    units.toArray(toDeploy);
+                                    Battle battle = new Battle(player, place, toDeploy);
 
-                                    int exp = ExpReward.VICTORY.reward;
-                                    for (GameUnit gu : p.getArmy().getUnitsArray()) {
-                                        exp += gu.getQuantity() * ExpReward.UNIT_KILLED.reward;
-                                    }
-                                    player.giveExp(exp);
-                                    player.updatePlayer();
+                                    Intent intent = new Intent(activity, BattleActivity.class);
+                                    intent.putExtra("battleObj", battle);
 
-                                    place.free();
-                                    Toast.makeText(context, "This post has been neutralized", Toast.LENGTH_SHORT).show();
+                                    battle.start();
+                                    //Toast.makeText(context, "This post has been neutralized", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(context, "This post does not belong to the enemy anymore", Toast.LENGTH_SHORT).show();
                                 }

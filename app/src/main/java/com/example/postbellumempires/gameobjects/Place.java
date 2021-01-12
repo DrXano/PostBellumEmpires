@@ -13,7 +13,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Place {
+import java.io.Serializable;
+
+public class Place implements Serializable {
 
     @Exclude
     private static final int MAX_CAPACITY_BY_DEFAULT = 50;
@@ -37,6 +39,7 @@ public class Place {
     private Structure struct3;
     private Structure struct4;
     private PlaceBonuses bonuses;
+    private boolean underAttack;
 
     public Place() {
     }
@@ -54,6 +57,7 @@ public class Place {
         this.struct3 = Structure.NONE;
         this.struct4 = Structure.NONE;
         this.bonuses = new PlaceBonuses(this);
+        this.underAttack = false;
         this.id = this.generateId();
     }
 
@@ -249,14 +253,10 @@ public class Place {
     @Exclude
     public BitmapDescriptor getMarkerIcon() {
         switch (type) {
-            case SHOP:
-                return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
             case RESTAURANT:
                 return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
             case UNIVERSITY:
                 return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
-            case OTHER:
-                return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
             default:
                 return BitmapDescriptorFactory.defaultMarker();
         }
@@ -409,5 +409,18 @@ public class Place {
     private void applyBonusesOnArmy() {
         this.army.setMaxCapacity(MAX_CAPACITY_BY_DEFAULT + this.bonuses.getCapacityBonus());
         this.army.applyBonuses(this.bonuses);
+    }
+
+    @Exclude
+    public void removeUnits(GameUnit[] toRemove){
+        this.army.removeUnits(toRemove);
+    }
+
+    public boolean getUnderAttack() {
+        return underAttack;
+    }
+
+    public void setUnderAttack(boolean underAttack) {
+        this.underAttack = underAttack;
     }
 }

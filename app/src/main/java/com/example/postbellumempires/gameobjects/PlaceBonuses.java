@@ -2,7 +2,9 @@ package com.example.postbellumempires.gameobjects;
 
 import com.google.firebase.database.Exclude;
 
-public class PlaceBonuses {
+import java.io.Serializable;
+
+public class PlaceBonuses implements Serializable {
 
     private int healthBonus;
     private int attackBonus;

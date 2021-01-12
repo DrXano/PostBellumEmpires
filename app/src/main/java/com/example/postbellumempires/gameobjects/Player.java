@@ -9,7 +9,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
 
     private String email;
     private String inGameName;

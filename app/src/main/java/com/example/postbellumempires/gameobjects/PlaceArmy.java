@@ -3,11 +3,12 @@ package com.example.postbellumempires.gameobjects;
 import com.example.postbellumempires.enums.ExpReward;
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PlaceArmy {
+public class PlaceArmy implements Serializable {
 
     private HashMap<String, GameUnit> units;
     private int size;
@@ -95,6 +96,13 @@ public class PlaceArmy {
             this.units.put(gu.toString(), guu);
         }
         return true;
+    }
+
+    @Exclude
+    public void removeUnits(GameUnit[] toRemove){
+        for(GameUnit gu : toRemove){
+            this.remove(gu,gu.getQuantity());
+        }
     }
 
     @Exclude

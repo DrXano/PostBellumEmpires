@@ -156,59 +156,83 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         Player player = parentActivity.getPlayer();
         switch (v.getId()) {
             case R.id.actionButton:
-                if (!player.getArmy().isEmpty()) {
-                    Dialog d = new ActionDialog(context, this.place, player);
-                    d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                    d.show();
+                if (!this.place.getUnderAttack()) {
+                    if (!player.getArmy().isEmpty()) {
+                        Dialog d = new ActionDialog(context, this.place, player, this.parentActivity);
+                        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                        d.show();
+                    } else {
+                        Toast.makeText(context, "No army available, train more units", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(context, "No army available, train more units", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.cancelButton:
                 dismiss();
                 break;
             case R.id.collectionButton:
-                GameResource res = this.place.getResourceRewardType();
-                Item reward = res.getReward(this.place.multiplier(player));
-                player.addItem(reward.getResourceItem(), reward.getQuantity());
-                player.updatePlayer();
-                Toast.makeText(context, reward.getQuantity() + " x " + reward.getResourceItem().name + " acquired", Toast.LENGTH_SHORT).show();
-                dismiss();
+                if (!this.place.getUnderAttack()) {
+                    GameResource res = this.place.getResourceRewardType();
+                    Item reward = res.getReward(this.place.multiplier(player));
+                    player.addItem(reward.getResourceItem(), reward.getQuantity());
+                    player.updatePlayer();
+                    Toast.makeText(context, reward.getQuantity() + " x " + reward.getResourceItem().name + " acquired", Toast.LENGTH_SHORT).show();
+                    dismiss();
+                } else {
+                    Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.struct1button:
-                if (this.place.getEStruct1().equals(Structure.NONE)) {
-                    if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                        Dialog d = new StructureDialog(context, 1, this.place, player, getContext().getResources().getColor(R.color.unavailable));
-                        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                        d.show();
+                if (!this.place.getUnderAttack()) {
+                    if (this.place.getEStruct1().equals(Structure.NONE)) {
+                        if (this.place.isOccupied() && this.place.isFriendly(player)) {
+                            Dialog d = new StructureDialog(context, 1, this.place, player, getContext().getResources().getColor(R.color.unavailable));
+                            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                            d.show();
+                        }
                     }
+                } else {
+                    Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.struct2button:
-                if (this.place.getEStruct2().equals(Structure.NONE)) {
-                    if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                        Dialog d = new StructureDialog(context, 2, this.place, player, getContext().getResources().getColor(R.color.unavailable));
-                        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                        d.show();
+                if (!this.place.getUnderAttack()) {
+                    if (this.place.getEStruct2().equals(Structure.NONE)) {
+                        if (this.place.isOccupied() && this.place.isFriendly(player)) {
+                            Dialog d = new StructureDialog(context, 2, this.place, player, getContext().getResources().getColor(R.color.unavailable));
+                            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                            d.show();
+                        }
                     }
+                } else {
+                    Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.struct3button:
-                if (this.place.getEStruct3().equals(Structure.NONE)) {
-                    if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                        Dialog d = new StructureDialog(context, 3, this.place, player, getContext().getResources().getColor(R.color.unavailable));
-                        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                        d.show();
+                if (!this.place.getUnderAttack()) {
+                    if (this.place.getEStruct3().equals(Structure.NONE)) {
+                        if (this.place.isOccupied() && this.place.isFriendly(player)) {
+                            Dialog d = new StructureDialog(context, 3, this.place, player, getContext().getResources().getColor(R.color.unavailable));
+                            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                            d.show();
+                        }
                     }
+                } else {
+                    Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.struct4button:
-                if (this.place.getEStruct4().equals(Structure.NONE)) {
-                    if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                        Dialog d = new StructureDialog(context, 4, this.place, player, getContext().getResources().getColor(R.color.unavailable));
-                        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                        d.show();
+                if (!this.place.getUnderAttack()) {
+                    if (this.place.getEStruct4().equals(Structure.NONE)) {
+                        if (this.place.isOccupied() && this.place.isFriendly(player)) {
+                            Dialog d = new StructureDialog(context, 4, this.place, player, getContext().getResources().getColor(R.color.unavailable));
+                            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                            d.show();
+                        }
                     }
+                } else {
+                    Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

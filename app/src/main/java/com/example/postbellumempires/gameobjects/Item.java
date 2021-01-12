@@ -3,7 +3,9 @@ package com.example.postbellumempires.gameobjects;
 import com.example.postbellumempires.enums.GameResource;
 import com.google.firebase.database.Exclude;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private GameResource resource;
     private int quantity;
 

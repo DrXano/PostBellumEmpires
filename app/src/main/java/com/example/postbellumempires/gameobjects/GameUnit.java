@@ -3,10 +3,11 @@ package com.example.postbellumempires.gameobjects;
 import com.example.postbellumempires.enums.UnitType;
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameUnit {
+public class GameUnit implements Serializable {
 
     private int level;
     private String name;
@@ -174,5 +175,10 @@ public class GameUnit {
         this.stats.setAttackBonus(bonuses.getAttackBonus());
         this.stats.setArmorBonus(bonuses.getArmorBonus());
         this.stats.setSpeedBonus(bonuses.getSpeedBonus());
+    }
+
+    @Exclude
+    public BattleUnit toBattleUnit(){
+        return new BattleUnit(this);
     }
 }

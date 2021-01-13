@@ -177,4 +177,9 @@ public class PlayerArmy implements Serializable {
             this.remove(gu.getEType(), gu.getQuantity());
         }
     }
+
+    @Exclude
+    public void remove(BattleUnit battleUnit) {
+        this.remove(battleUnit.getType(),1);
+    }
 }

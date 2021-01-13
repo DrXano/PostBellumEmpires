@@ -1,5 +1,6 @@
 package com.example.postbellumempires;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -45,5 +46,10 @@ public class pickFactionActivity extends AppCompatActivity {
         intent.putExtra("faction", faction.name());
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    @SuppressLint("MissingSuperCall")
+    public void onBackPressed() {
     }
 }

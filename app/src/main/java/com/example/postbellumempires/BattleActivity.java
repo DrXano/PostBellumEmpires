@@ -1,14 +1,29 @@
 package com.example.postbellumempires;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.postbellumempires.adapters.CurrentArmyAdapter;
+import com.example.postbellumempires.adapters.MessageAdapter;
+import com.example.postbellumempires.enums.UnitType;
 import com.example.postbellumempires.gameobjects.Battle;
+import com.example.postbellumempires.gameobjects.GameUnit;
+import com.example.postbellumempires.gameobjects.BattleMessage;
+import com.example.postbellumempires.gameobjects.Stats;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class BattleActivity extends AppCompatActivity {
 
@@ -16,20 +31,101 @@ public class BattleActivity extends AppCompatActivity {
     private RecyclerView playerArmy;
     private RecyclerView placeArmy;
     private RecyclerView events;
+    private TextView myRemaining;
+    private TextView myTotal;
+    private TextView enemyRemaining;
+    private TextView enemyTotal;
     private Button retreatButton;
+    private MessageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battle);
+        this.battle = (Battle) getIntent().getSerializableExtra("battleObj");
         this.playerArmy = findViewById(R.id.myArmyRV);
         this.placeArmy = findViewById(R.id.enemyArmyRV);
         this.events = findViewById(R.id.eventsRV);
         this.retreatButton = findViewById(R.id.retreatButton);
+        this.myRemaining = findViewById(R.id.myRemaining);
+        this.myTotal = findViewById(R.id.myTotal);
+        this.enemyRemaining = findViewById(R.id.enemyRemaining);
+        this.enemyTotal = findViewById(R.id.enemyTotal);
+        int playerColor = getResources().getColor(battle.getPlayer().getPlayerFaction().primaryColor);
+        int enemyColor = getResources().getColor(battle.getPlace().getFaction().primaryColor);
+        ShapeDrawable playerBG = (ShapeDrawable) this.playerArmy.getBackground();
+        playerBG.getPaint().setColor(changeOpacity(playerColor));
+        ShapeDrawable enemyBG = (ShapeDrawable) this.placeArmy.getBackground();
+        enemyBG.getPaint().setColor(changeOpacity(enemyColor));
+        this.playerArmy.setLayoutManager(new LinearLayoutManager(this));
+        this.placeArmy.setLayoutManager(new LinearLayoutManager(this));
+        this.events.setLayoutManager(new LinearLayoutManager(this));
+        this.adapter = new MessageAdapter(new ArrayList<>());
+        battle.setActivity(this,getResources());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void UpdateUI(Map<String, Integer> myArmyCount, Map<String, Integer> enemyArmyCount, int myArmyTotal, int enemyArmyTotal){
+        this.myTotal.setText(String.valueOf(myArmyTotal));
+        this.enemyTotal.setText(String.valueOf(enemyArmyTotal));
+        this.updateMyArmy(myArmyCount,myArmyTotal);
+        this.updateEnemyArmy(enemyArmyCount,enemyArmyTotal);
+    }
+
+    public void addMessage(BattleMessage message){
+        adapter.addMessage(message);
+    }
+
+    private int changeOpacity(int color){
+        int alpha = Color.alpha(color);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+
+        alpha *= 0.5;
+
+        return Color.argb(alpha, red, green, blue);
+    }
+
+    public void updateMyArmy(Map<String, Integer> myArmyCount, int myCurrent){
+        GameUnit[] guArr = makeArrayOfUnits(myArmyCount);
+        this.myRemaining.setText(String.valueOf(myCurrent));
+        this.playerArmy.setAdapter(new CurrentArmyAdapter(guArr));
+    }
+
+    public void updateEnemyArmy(Map<String, Integer> enemyArmyCount, int enemyCurrent){
+        GameUnit[] guArr = makeArrayOfUnits(enemyArmyCount);
+        this.enemyRemaining.setText(String.valueOf(enemyCurrent));
+        this.placeArmy.setAdapter(new CurrentArmyAdapter(guArr));
+    }
+
+    private GameUnit[] makeArrayOfUnits(Map<String, Integer> armyCount) {
+        List<GameUnit> units = new ArrayList<>();
+        for(UnitType t : UnitType.values()){
+            if(armyCount.containsKey(t.name)){
+                units.add(new GameUnit(0, t.name, 0, armyCount.get(t.name), t, null));
+            }
+        }
+
+        if(units.isEmpty()){
+            return new GameUnit[0];
+        }else{
+            GameUnit[] unitsArr = new GameUnit[units.size()];
+            units.toArray(unitsArr);
+            return unitsArr;
+        }
+    }
+
+    public void finishActivity(){
+        finish();
+    }
+
+    @Override
+    @SuppressLint("MissingSuperCall")
+    public void onBackPressed() {
     }
 }

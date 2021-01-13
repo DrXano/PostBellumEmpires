@@ -412,8 +412,13 @@ public class Place implements Serializable {
     }
 
     @Exclude
-    public void removeUnits(GameUnit[] toRemove){
+    public void removeUnits(GameUnit[] toRemove) {
         this.army.removeUnits(toRemove);
+    }
+
+    @Exclude
+    public void remove(BattleUnit bu){
+        this.army.remove(bu);
     }
 
     public boolean getUnderAttack() {

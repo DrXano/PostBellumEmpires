@@ -144,7 +144,7 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                                         Intent intent = new Intent(activity, BattleActivity.class);
                                         intent.putExtra("battleObj", battle);
 
-                                        battle.start();
+                                        activity.startActivity(intent);
                                         //Toast.makeText(context, "This post has been neutralized", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(context, "This post does not belong to the enemy anymore", Toast.LENGTH_SHORT).show();
@@ -212,7 +212,7 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                                     Intent intent = new Intent(activity, BattleActivity.class);
                                     intent.putExtra("battleObj", battle);
 
-                                    battle.start();
+                                    activity.startActivity(intent);
                                     //Toast.makeText(context, "This post has been neutralized", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(context, "This post does not belong to the enemy anymore", Toast.LENGTH_SHORT).show();

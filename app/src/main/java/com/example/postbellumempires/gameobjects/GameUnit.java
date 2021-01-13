@@ -178,7 +178,7 @@ public class GameUnit implements Serializable {
     }
 
     @Exclude
-    public BattleUnit toBattleUnit(){
+    public BattleUnit toBattleUnit() {
         return new BattleUnit(this);
     }
 }

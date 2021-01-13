@@ -287,12 +287,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
 
     private void createPlayerMarker(LatLng loc) {
         if (playerPos == null) {
-            if(player == null) {
+            if (player == null) {
                 playerPos = mMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.marker, 150, 300, null)))
                         .anchor(0.5f, 0.5f)
                         .position(loc));
-            }else{
+            } else {
                 playerPos = mMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.marker, 150, 300, player.getPlayerFaction())))
                         .anchor(0.5f, 0.5f)
@@ -301,13 +301,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         }
 
         if (playerPosBase == null) {
-            if(player == null) {
+            if (player == null) {
                 playerPosBase = mMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase, 200, 200, null)))
                         .flat(true)
                         .anchor(0.5f, 0.5f)
                         .position(loc));
-            }else{
+            } else {
                 playerPosBase = mMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase, 200, 200, player.getPlayerFaction())))
                         .flat(true)

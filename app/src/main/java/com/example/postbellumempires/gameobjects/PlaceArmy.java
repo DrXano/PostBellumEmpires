@@ -99,9 +99,9 @@ public class PlaceArmy implements Serializable {
     }
 
     @Exclude
-    public void removeUnits(GameUnit[] toRemove){
-        for(GameUnit gu : toRemove){
-            this.remove(gu,gu.getQuantity());
+    public void removeUnits(GameUnit[] toRemove) {
+        for (GameUnit gu : toRemove) {
+            this.remove(gu, gu.getQuantity());
         }
     }
 
@@ -174,5 +174,11 @@ public class PlaceArmy implements Serializable {
                 this.units.put(key, gu);
             }
         }
+    }
+
+    @Exclude
+    public void remove(BattleUnit battleUnit) {
+        GameUnit gu = battleUnit.toGameUnit();
+        this.remove(gu,1);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.postbellumempires;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -47,5 +48,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void goToLoginScreen(View view) {
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    @Override
+    @SuppressLint("MissingSuperCall")
+    public void onBackPressed() {
     }
 }

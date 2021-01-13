@@ -1,5 +1,6 @@
 package com.example.postbellumempires;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -113,5 +114,10 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     }
                 });
+    }
+
+    @Override
+    @SuppressLint("MissingSuperCall")
+    public void onBackPressed() {
     }
 }

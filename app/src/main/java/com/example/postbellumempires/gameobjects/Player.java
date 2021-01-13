@@ -217,4 +217,9 @@ public class Player implements Serializable {
         this.army.remove(unitsToRemove);
         this.updatePlayer();
     }
+
+    @Exclude
+    public void remove(BattleUnit bu){
+        this.army.remove(bu);
+    }
 }

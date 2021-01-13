@@ -19,8 +19,8 @@
         <activity
             android:name=".ArmyMenuActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainGameActivity">
+            android:parentActivityName=".MainGameActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainGameActivity" />
@@ -28,8 +28,8 @@
         <activity
             android:name=".InventoryActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainGameActivity">
+            android:parentActivityName=".MainGameActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainGameActivity" />
@@ -37,8 +37,8 @@
         <activity
             android:name=".ProfileActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainGameActivity">
+            android:parentActivityName=".MainGameActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainGameActivity" />
@@ -55,35 +55,38 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".NameChooseActivity"
+        <activity
+            android:name=".NameChooseActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
-        <activity android:name=".pickFactionActivity"
+        <activity
+            android:name=".pickFactionActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
             android:name=".RegisterActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
             android:noHistory="true"
-            android:parentActivityName=".LoginActivity">
+            android:parentActivityName=".LoginActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
-        <activity android:name=".MainGameActivity"
+        <activity
+            android:name=".MainGameActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

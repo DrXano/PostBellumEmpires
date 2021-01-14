@@ -73,6 +73,11 @@ public class BattleActivity extends AppCompatActivity {
         this.adapter = new MessageAdapter(new ArrayList<>());
         this.events.setAdapter(adapter);
         battle.setActivity(this, getResources());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         battle.start();
     }
 

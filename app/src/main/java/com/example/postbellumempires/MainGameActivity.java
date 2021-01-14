@@ -71,6 +71,9 @@ public class MainGameActivity extends AppCompatActivity {
                     .add(R.id.mainfrag, this.map)
                     .commit();
 
+            if(map.isResumed()){
+                listener.loadPlaces();
+            }
 
         } else {
             startActivity(new Intent(this, LoginActivity.class));
@@ -137,6 +140,7 @@ public class MainGameActivity extends AppCompatActivity {
             }
         });
 
+        listener.loadPlaces();
 
     }
 

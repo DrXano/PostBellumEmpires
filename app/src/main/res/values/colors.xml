@@ -15,7 +15,7 @@
     <color name="ESprimary">#A5942C</color>
     <color name="ESsecondary">#636022</color>
     <color name="unavailable">#CC2525</color>
-    <color name="neutralized">#404040</color>
-    <color name="underattack">#FF4242</color>
+    <color name="neutralized">#9F9F9F</color>
+    <color name="underattack">#FF6060</color>
     <color name="neutral">#5A5A5A</color>
 </resources>

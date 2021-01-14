@@ -230,6 +230,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             }
         }
 
+        this.mMap = googleMap;
+
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.mapstyle));
         googleMap.setBuildingsEnabled(false);
         googleMap.setMinZoomPreference(MIN_ZOOM);
@@ -239,14 +241,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         googleMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
 
-        loadPlaces(googleMap);
+        //loadPlaces();
 
         this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         this.locReq = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(5000)
                 .setFastestInterval(1000);
-        this.mMap = googleMap;
+
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), location -> {
                     if (location != null) {
@@ -366,7 +368,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         });
     }
 
-    private void loadPlaces(GoogleMap googleMap) {
+    @Override
+    public void loadPlaces() {
 
         this.LocRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -374,20 +377,19 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                 if (snapshot.exists()) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         Place p = ds.getValue(Place.class);
-                        Marker placeMarker = googleMap.addMarker(p.getMarker());
+                        Marker placeMarker = mMap.addMarker(p.getMarker(getResources()));
 
-                        LocRef.child(ds.getKey()).addValueEventListener(new ValueEventListener() {
+                        p.getReference().addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.exists()) {
                                     Place p = ds.getValue(Place.class);
-                                    placeMarker.setIcon(p.getMarkerIcon());
+                                    mMap.addMarker(p.getMarker(getResources()));
                                 }
                             }
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
+                            public void onCancelled(@NonNull DatabaseError error) {}
                         });
                     }
                 }
@@ -402,6 +404,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
     @Override
     public void onResume() {
         super.onResume();
+
     }
 
     @Override

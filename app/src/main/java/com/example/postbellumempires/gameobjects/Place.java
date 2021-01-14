@@ -1,5 +1,14 @@
 package com.example.postbellumempires.gameobjects;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+
+import com.example.postbellumempires.R;
 import com.example.postbellumempires.enums.ExpReward;
 import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.enums.GameResource;
@@ -242,24 +251,37 @@ public class Place implements Serializable {
     }
 
     @Exclude
-    public MarkerOptions getMarker() {
+    public MarkerOptions getMarker(Resources resources) {
         MarkerOptions m = new MarkerOptions();
         m.position(new LatLng(latitude, longitude))
                 .title(this.id)
-                .icon(getMarkerIcon());
+                .icon(getMarkerIcon(resources));
         return m;
     }
 
     @Exclude
-    public BitmapDescriptor getMarkerIcon() {
-        switch (type) {
-            case RESTAURANT:
-                return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
-            case UNIVERSITY:
-                return BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
-            default:
-                return BitmapDescriptorFactory.defaultMarker();
+    public BitmapDescriptor getMarkerIcon(Resources resources) {
+        BitmapDrawable bitmap = (BitmapDrawable) resources.getDrawable(this.type.icon);
+        Bitmap markerBitmap = Bitmap.createScaledBitmap(bitmap.getBitmap(), 120, 200, false);
+
+        int colorId;
+        if(this.underAttack){
+            colorId = R.color.underattack;
+        }else{
+            if(this.ownerFaction == null){
+                colorId = R.color.neutralized;
+            }else{
+                colorId = this.ownerFaction.primaryColor;
+            }
         }
+
+        Bitmap resultBitmap = markerBitmap.copy(markerBitmap.getConfig(), true);
+        Paint paint = new Paint();
+        ColorFilter filter = new LightingColorFilter(resources.getColor(colorId), 0);
+        paint.setColorFilter(filter);
+        Canvas canvas = new Canvas(resultBitmap);
+        canvas.drawBitmap(resultBitmap, 0, 0, paint);
+        return BitmapDescriptorFactory.fromBitmap(resultBitmap);
     }
 
     @Exclude

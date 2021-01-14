@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 
 import com.example.postbellumempires.BattleActivity;
 import com.example.postbellumempires.R;
@@ -222,21 +223,6 @@ public class Battle implements Serializable {
     }
 
     private void startTimer() {
-        final long[] remaining = new long[1];
-        timer = new CountDownTimer(30000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                remaining[0] = millisUntilFinished;
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        }.start();
-
-        while (remaining[0] > 0) {
-        }
     }
 
     public Player getPlayer() {

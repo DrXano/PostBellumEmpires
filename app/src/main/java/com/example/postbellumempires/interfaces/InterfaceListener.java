@@ -4,4 +4,6 @@ import com.example.postbellumempires.gameobjects.Player;
 
 public interface InterfaceListener {
     void updateUI(Player p);
+
+    void loadPlaces();
 }

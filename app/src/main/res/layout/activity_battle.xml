@@ -50,7 +50,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/myArmyRV"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:layout_marginEnd="8dp"
@@ -61,7 +61,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/enemyArmyRV"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:layout_marginStart="8dp"

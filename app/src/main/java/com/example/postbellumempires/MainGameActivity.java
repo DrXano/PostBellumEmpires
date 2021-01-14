@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.Player;
 import com.example.postbellumempires.interfaces.InterfaceListener;
+import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +32,7 @@ public class MainGameActivity extends AppCompatActivity {
     Fragment map = new MapsFragment();
     private FirebaseAuth mAuth;
     private DatabaseReference playerRef;
+    private final DatabaseReference LocRef = FirebaseDatabase.getInstance().getReference("places");
     private Player player;
     private InterfaceListener listener;
 
@@ -70,10 +74,6 @@ public class MainGameActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.mainfrag, this.map)
                     .commit();
-
-            if(map.isResumed()){
-                listener.loadPlaces();
-            }
 
         } else {
             startActivity(new Intent(this, LoginActivity.class));
@@ -140,7 +140,24 @@ public class MainGameActivity extends AppCompatActivity {
             }
         });
 
-        listener.loadPlaces();
+        this.LocRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        if(map.isResumed()) {
+                            Place p = ds.getValue(Place.class);
+                            listener.getMap().addMarker(p.getMarker(getResources()));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
+        //listener.loadPlaces();
 
     }
 

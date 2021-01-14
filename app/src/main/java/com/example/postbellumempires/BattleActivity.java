@@ -161,5 +161,6 @@ public class BattleActivity extends AppCompatActivity {
     @Override
     @SuppressLint("MissingSuperCall")
     public void onBackPressed() {
+        battle.retreat();
     }
 }

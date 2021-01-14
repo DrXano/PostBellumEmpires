@@ -24,6 +24,10 @@ public class Battle implements Serializable {
 
     private static final int NUMBER_OF_ROUNDS = 60;
 
+    private static final int INTERVAL = 1500;
+
+    final Handler thisBattle = new Handler();
+
     private static Battle currentBattle = null;
     private final Player player;
     private final Place place;
@@ -76,91 +80,113 @@ public class Battle implements Serializable {
     }
 
     public void start() {
-        final Handler thisBattle = new Handler();
-        thisBattle.post(new Runnable() {
+        thisBattle.postDelayed(new Runnable() {
             @Override
             public void run() {
                 place.setUnderAttack(true);
                 place.updatePlace();
-                startTimer();
                 parent.addMessage(new BattleMessage("The Battle has begun!", resources.getColor(R.color.neutral)));
-                for (int i = 1; i <= NUMBER_OF_ROUNDS && inBattle; i++) {
-                    startTimer();
+                for (int i = 0; i < NUMBER_OF_ROUNDS; i++) {
 
-                    ActionReport myReport = new ActionReport();
-                    ActionReport enemyReport = new ActionReport();
-
-                    if (!isDefeated(myArmy) && !isDefeated(enemyArmy)) {
-                        for (BattleUnit bu : myArmy) {
-                            if (!bu.isDead()) {
-                                bu.getType().act(bu, myArmy, enemyArmy, myReport, myArmyCount, enemyArmyCount, null, place);
-                            }
+                    thisBattle.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            playerTurn();
                         }
-                        if (myReport.getKills() > 0) {
-                            enemykilled += myReport.getKills();
-                            parent.updateEnemyArmy(enemyArmyCount, enemyArmy.length - enemykilled);
+                    },INTERVAL * (2*i+1));
+
+                    thisBattle.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            enemyTurn();
+
+                            player.updatePlayer();
+                            place.updatePlace();
+
+                            evaluateBattleStatus();
                         }
-
-                        parent.addMessage(getMessageForPlayer(myReport));
-                    }
-
-                    startTimer();
-
-                    if (!isDefeated(myArmy) && !isDefeated(enemyArmy)) {
-                        for (BattleUnit bu : enemyArmy) {
-                            if (!bu.isDead()) {
-                                bu.getType().act(bu, enemyArmy, myArmy, enemyReport, enemyArmyCount, myArmyCount, player, null);
-                            }
-                        }
-                        if (enemyReport.getKills() > 0) {
-                            friendlykilled += enemyReport.getKills();
-                            parent.updateMyArmy(myArmyCount, myArmy.length - friendlykilled);
-                        }
-
-                        parent.addMessage(getMessageForEnemy(enemyReport));
-                    }
-
-                    player.updatePlayer();
-                    place.updatePlace();
-
-                    boolean myArmyDead = isDefeated(myArmy);
-                    boolean enemyArmyDead = isDefeated(enemyArmy);
-                    if (myArmyDead || enemyArmyDead) {
-                        inBattle = false;
-                        if (enemyArmyDead) {
-                            victory = true;
-                        }
-                    }
+                    },INTERVAL * (2*i+2));
                 }
-
-                startTimer();
-
-                parent.addMessage(new BattleMessage("The Battle has ended!", resources.getColor(R.color.neutral)));
-
-                startTimer();
-
-                int exp = enemykilled * ExpReward.UNIT_KILLED.reward;
-                if (victory) {
-                    parent.addMessage(new BattleMessage("Victory!", resources.getColor(player.getPlayerFaction().primaryColor)));
-                    exp += ExpReward.VICTORY.reward;
-                    place.setUnderAttack(false);
-                    place.free();
-                } else {
-                    parent.addMessage(new BattleMessage("Defeat!", resources.getColor(place.getFaction().primaryColor)));
-                    place.setUnderAttack(false);
-                    place.updatePlace();
-                }
-
-                player.giveExp(exp);
-                player.updatePlayer();
-
-                terminateBattle();
-
-                Dialog d = new EndOfBattleDialog(parent, victory, friendlykilled, enemykilled);
-                d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(210, 0, 0, 0)));
-                d.show();
             }
-        });
+        },1500);
+    }
+
+    private void playerTurn(){
+        ActionReport myReport = new ActionReport();
+
+        if (!isDefeated(myArmy) && !isDefeated(enemyArmy)) {
+            for (BattleUnit bu : myArmy) {
+                if (!bu.isDead()) {
+                    bu.getType().act(bu, myArmy, enemyArmy, myReport, myArmyCount, enemyArmyCount, null, place);
+                }
+            }
+            if (myReport.getKills() > 0) {
+                enemykilled += myReport.getKills();
+                parent.updateEnemyArmy(enemyArmyCount, enemyArmy.length - enemykilled);
+            }
+
+            parent.addMessage(getMessageForPlayer(myReport));
+        }
+    }
+
+    private void enemyTurn(){
+        ActionReport enemyReport = new ActionReport();
+
+        if (!isDefeated(myArmy) && !isDefeated(enemyArmy)) {
+            for (BattleUnit bu : enemyArmy) {
+                if (!bu.isDead()) {
+                    bu.getType().act(bu, enemyArmy, myArmy, enemyReport, enemyArmyCount, myArmyCount, player, null);
+                }
+            }
+            if (enemyReport.getKills() > 0) {
+                friendlykilled += enemyReport.getKills();
+                parent.updateMyArmy(myArmyCount, myArmy.length - friendlykilled);
+            }
+
+            parent.addMessage(getMessageForEnemy(enemyReport));
+        }
+    }
+
+    private void evaluateBattleStatus(){
+        boolean myArmyDead = isDefeated(myArmy);
+        boolean enemyArmyDead = isDefeated(enemyArmy);
+        if (myArmyDead || enemyArmyDead) {
+            thisBattle.removeCallbacksAndMessages(null);
+            inBattle = false;
+            if (enemyArmyDead) {
+                victory = true;
+            }
+            thisBattle.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    endBattle();
+                }
+            },INTERVAL);
+        }
+    }
+
+    private void endBattle(){
+
+        int exp = enemykilled * ExpReward.UNIT_KILLED.reward;
+        if (victory) {
+            parent.addMessage(new BattleMessage("The Battle has ended and you are victorious!", resources.getColor(player.getPlayerFaction().primaryColor)));
+            exp += ExpReward.VICTORY.reward;
+            place.setUnderAttack(false);
+            place.free();
+        } else {
+            parent.addMessage(new BattleMessage("The Battle has ended but you have been defeated!", resources.getColor(place.getFaction().primaryColor)));
+            place.setUnderAttack(false);
+            place.updatePlace();
+        }
+
+        player.giveExp(exp);
+        player.updatePlayer();
+
+        terminateBattle();
+
+        Dialog d = new EndOfBattleDialog(parent, victory, friendlykilled, enemykilled);
+        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(210, 0, 0, 0)));
+        d.show();
     }
 
     private BattleMessage getMessageForPlayer(ActionReport myReport) {
@@ -222,9 +248,6 @@ public class Battle implements Serializable {
         return true;
     }
 
-    private void startTimer() {
-    }
-
     public Player getPlayer() {
         return player;
     }
@@ -238,7 +261,13 @@ public class Battle implements Serializable {
         builder.setTitle("Retreat?");
         builder.setMessage("If you retreat it will count as a defeat. Are you sure?");
         builder.setPositiveButton("Yes", (dialog, which) -> {
-            this.inBattle = false;
+            thisBattle.removeCallbacksAndMessages(null);
+            thisBattle.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    endBattle();
+                }
+            },INTERVAL);
         });
         builder.setNegativeButton("No", (dialog, which) -> {
 

@@ -371,34 +371,25 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
     @Override
     public void loadPlaces() {
 
-        this.LocRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        this.LocRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         Place p = ds.getValue(Place.class);
-                        Marker placeMarker = mMap.addMarker(p.getMarker(getResources()));
-
-                        p.getReference().addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()) {
-                                    Place p = ds.getValue(Place.class);
-                                    mMap.addMarker(p.getMarker(getResources()));
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {}
-                        });
+                        mMap.addMarker(p.getMarker(getResources()));
                     }
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
+    }
+
+    @Override
+    public GoogleMap getMap() {
+        return this.mMap;
     }
 
     @Override

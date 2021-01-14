@@ -32,8 +32,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         BattleMessage m = mDataset.get(position);
+        /*
         ShapeDrawable bg = (ShapeDrawable) holder.layout.getBackground();
         bg.getPaint().setColor(m.getColor());
+        */
+
         holder.messageView.setText(m.getMessage());
     }
 
@@ -44,10 +47,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     public void addMessage(BattleMessage message) {
         mDataset.add(message);
-        this.notifyItemInserted(mDataset.size()-1);
     }
 
-    public static class MessageViewHolder extends RecyclerView.ViewHolder{
+    public static class MessageViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout layout;
         TextView messageView;
 

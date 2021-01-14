@@ -180,6 +180,6 @@ public class PlayerArmy implements Serializable {
 
     @Exclude
     public void remove(BattleUnit battleUnit) {
-        this.remove(battleUnit.getType(),1);
+        this.remove(battleUnit.getType(), 1);
     }
 }

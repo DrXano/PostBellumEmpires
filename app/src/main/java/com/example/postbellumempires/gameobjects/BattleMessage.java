@@ -7,7 +7,7 @@ public class BattleMessage {
     private final String message;
     private final int color;
 
-    public BattleMessage(String message, int color){
+    public BattleMessage(String message, int color) {
         this.message = message;
         this.color = changeOpacity(color);
     }
@@ -20,7 +20,7 @@ public class BattleMessage {
         return color;
     }
 
-    private int changeOpacity(int color){
+    private int changeOpacity(int color) {
         int alpha = Color.alpha(color);
         int red = Color.red(color);
         int green = Color.green(color);

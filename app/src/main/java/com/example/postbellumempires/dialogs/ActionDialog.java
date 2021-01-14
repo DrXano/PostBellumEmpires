@@ -139,10 +139,9 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                                 GameUnit[] toDeploy = adapter.getUnitsToDeploy();
                                 if (!isEmpty(toDeploy)) {
                                     if (!isFriendly(p, player)) {
-                                        Battle battle = new Battle(player, place, toDeploy);
+                                        Battle.create(player, place, toDeploy);
 
                                         Intent intent = new Intent(activity, BattleActivity.class);
-                                        intent.putExtra("battleObj", battle);
 
                                         activity.startActivity(intent);
                                         //Toast.makeText(context, "This post has been neutralized", Toast.LENGTH_SHORT).show();
@@ -207,10 +206,9 @@ public class ActionDialog extends Dialog implements View.OnClickListener {
                                     List<GameUnit> units = player.getArmy().getAvailableUnits();
                                     GameUnit[] toDeploy = new GameUnit[units.size()];
                                     units.toArray(toDeploy);
-                                    Battle battle = new Battle(player, place, toDeploy);
+                                    Battle.create(player, place, toDeploy);
 
                                     Intent intent = new Intent(activity, BattleActivity.class);
-                                    intent.putExtra("battleObj", battle);
 
                                     activity.startActivity(intent);
                                     //Toast.makeText(context, "This post has been neutralized", Toast.LENGTH_SHORT).show();

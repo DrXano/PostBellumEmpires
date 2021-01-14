@@ -116,12 +116,12 @@ public enum UnitType {
 
     public abstract void act(BattleUnit bu, BattleUnit[] friendly, BattleUnit[] hostile, ActionReport report, Map<String, Integer> friendlyCount, Map<String, Integer> hostileCount, Player player, Place place);
 
-    void remove(BattleUnit bu, Player player, Place place){
-        if(player != null){
+    void remove(BattleUnit bu, Player player, Place place) {
+        if (player != null) {
             player.remove(bu);
         }
 
-        if(place != null){
+        if (place != null) {
             place.remove(bu);
         }
     }

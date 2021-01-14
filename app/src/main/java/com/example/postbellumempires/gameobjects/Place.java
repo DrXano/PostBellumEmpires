@@ -417,7 +417,7 @@ public class Place implements Serializable {
     }
 
     @Exclude
-    public void remove(BattleUnit bu){
+    public void remove(BattleUnit bu) {
         this.army.remove(bu);
     }
 

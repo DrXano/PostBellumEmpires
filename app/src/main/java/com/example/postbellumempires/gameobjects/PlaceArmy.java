@@ -179,6 +179,6 @@ public class PlaceArmy implements Serializable {
     @Exclude
     public void remove(BattleUnit battleUnit) {
         GameUnit gu = battleUnit.toGameUnit();
-        this.remove(gu,1);
+        this.remove(gu, 1);
     }
 }

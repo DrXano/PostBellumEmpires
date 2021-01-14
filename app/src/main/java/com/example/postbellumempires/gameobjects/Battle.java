@@ -164,13 +164,31 @@ public class Battle implements Serializable {
 
     private BattleMessage getMessageForPlayer(ActionReport myReport) {
         int color = resources.getColor(player.getPlayerFaction().primaryColor);
-        String message = "Your army has engaged the enemy";
+        String message;
+        if (myReport.getKills() > 0) {
+            message = "Your army has engaged the enemy";
+        } else {
+            if (myReport.successRate() > 0) {
+                message = "Your army hit the enemy but with no kills";
+            } else {
+                message = "Your army did not hit the enemy";
+            }
+        }
         return new BattleMessage(message, color);
     }
 
     private BattleMessage getMessageForEnemy(ActionReport enemyReport) {
         int color = resources.getColor(place.getFaction().primaryColor);
-        String message = "The enemy has engaged you";
+        String message;
+        if (enemyReport.getKills() > 0) {
+            message = "The enemy has engaged you";
+        } else {
+            if (enemyReport.successRate() > 0) {
+                message = "Your army was hit but with no casualties";
+            } else {
+                message = "Your army did not suffer casualties from the enemy";
+            }
+        }
         return new BattleMessage(message, color);
     }
 

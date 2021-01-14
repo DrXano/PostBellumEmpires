@@ -27,7 +27,7 @@ public class BattleUnit {
     }
 
     public boolean isDead() {
-        return this.currentHealth <= 0;
+        return this.currentHealth == 0;
     }
 
     public boolean isFullyHealed() {
@@ -49,7 +49,7 @@ public class BattleUnit {
         if (damage <= this.armor) {
             return false;
         } else {
-            this.currentHealth -= this.armor - damage;
+            this.currentHealth -= (damage - this.armor);
             if (this.currentHealth < 0)
                 this.currentHealth = 0;
             return true;

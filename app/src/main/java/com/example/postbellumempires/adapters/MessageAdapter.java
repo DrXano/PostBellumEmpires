@@ -1,6 +1,5 @@
 package com.example.postbellumempires.adapters;
 
-import android.graphics.drawable.ShapeDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

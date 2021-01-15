@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.Player;
 import com.example.postbellumempires.interfaces.InterfaceListener;
-import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,10 +27,10 @@ import com.google.firebase.database.ValueEventListener;
 public class MainGameActivity extends AppCompatActivity {
 
     private static final String TAG = "MainGameActivity";
+    private final DatabaseReference LocRef = FirebaseDatabase.getInstance().getReference("places");
     Fragment map = new MapsFragment();
     private FirebaseAuth mAuth;
     private DatabaseReference playerRef;
-    private final DatabaseReference LocRef = FirebaseDatabase.getInstance().getReference("places");
     private Player player;
     private InterfaceListener listener;
 
@@ -100,12 +98,12 @@ public class MainGameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void changeToAbout(){
+    public void changeToAbout() {
         Intent intent = new Intent(this, DevTeamActivity.class);
         startActivity(intent);
     }
 
-    public void changeToHelp(){
+    public void changeToHelp() {
         Intent intent = new Intent(this, HelpActivity.class);
         startActivity(intent);
     }
@@ -155,7 +153,7 @@ public class MainGameActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        if(map.isResumed()) {
+                        if (map.isResumed()) {
                             Place p = ds.getValue(Place.class);
                             listener.getMap().addMarker(p.getMarker(getResources()));
                         }
@@ -164,7 +162,8 @@ public class MainGameActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
 
         //listener.loadPlaces();

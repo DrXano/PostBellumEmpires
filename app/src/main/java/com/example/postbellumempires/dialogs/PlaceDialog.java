@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.androidmapsextensions.utils.SphericalMercator;
 import com.example.postbellumempires.MainGameActivity;
 import com.example.postbellumempires.R;
 import com.example.postbellumempires.adapters.PlaceArmyAdapter;
@@ -25,6 +27,7 @@ import com.example.postbellumempires.gameobjects.Item;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.PlaceArmy;
 import com.example.postbellumempires.gameobjects.Player;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class PlaceDialog extends Dialog implements View.OnClickListener {
+
+    private static final float LIMIT = 40;
 
     private final MainGameActivity parentActivity;
     private final DatabaseReference PlaceRef;
@@ -52,10 +57,12 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
     public ImageButton struct4button;
     Context context;
     private Place place;
+    private LatLng loc;
 
-    public PlaceDialog(@NonNull Context context, String id) {
+    public PlaceDialog(@NonNull Context context, LatLng loc, String id) {
         super(context, android.R.style.Theme_Black_NoTitleBar);
         this.context = context;
+        this.loc = loc;
         this.parentActivity = (MainGameActivity) context;
         this.PlaceRef = FirebaseDatabase.getInstance().getReference("places").child(id);
     }
@@ -156,40 +163,52 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         Player player = parentActivity.getPlayer();
         switch (v.getId()) {
             case R.id.actionButton:
-                if (!this.place.getUnderAttack()) {
-                    if (!player.getArmy().isEmpty()) {
-                        Dialog d = new ActionDialog(context, this.place, player, this.parentActivity);
-                        d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                        d.show();
+                if (isNear()) {
+                    if (!this.place.getUnderAttack()) {
+                        if (!player.getArmy().isEmpty()) {
+                            Dialog d = new ActionDialog(context, this.place, player, this.parentActivity);
+                            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                            d.show();
+                        } else {
+                            Toast.makeText(context, "No army available, train more units", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(context, "No army available, train more units", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.cancelButton:
                 dismiss();
                 break;
             case R.id.collectionButton:
-                if (!this.place.getUnderAttack()) {
-                    GameResource res = this.place.getResourceRewardType();
-                    Item reward = res.getReward(this.place.multiplier(player));
-                    player.addItem(reward.getResourceItem(), reward.getQuantity());
-                    player.updatePlayer();
-                    Toast.makeText(context, reward.getQuantity() + " x " + reward.getResourceItem().name + " acquired", Toast.LENGTH_SHORT).show();
-                    dismiss();
+                if (isNear()) {
+                    if (!this.place.getUnderAttack()) {
+                        GameResource res = this.place.getResourceRewardType();
+                        Item reward = res.getReward(this.place.multiplier(player));
+                        player.addItem(reward.getResourceItem(), reward.getQuantity());
+                        player.updatePlayer();
+                        Toast.makeText(context, reward.getQuantity() + " x " + reward.getResourceItem().name + " acquired", Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    } else {
+                        Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.struct1button:
                 if (!this.place.getUnderAttack()) {
                     if (this.place.getEStruct1().equals(Structure.NONE)) {
                         if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                            Dialog d = new StructureDialog(context, 1, this.place, player, getContext().getResources().getColor(R.color.unavailable));
-                            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                            d.show();
+                            if (isNear()) {
+                                Dialog d = new StructureDialog(context, 1, this.place, player, getContext().getResources().getColor(R.color.unavailable));
+                                d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                                d.show();
+                            } else {
+                                Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 } else {
@@ -200,9 +219,13 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 if (!this.place.getUnderAttack()) {
                     if (this.place.getEStruct2().equals(Structure.NONE)) {
                         if (this.place.isOccupied() && this.place.isFriendly(player)) {
+                            if(isNear()){
                             Dialog d = new StructureDialog(context, 2, this.place, player, getContext().getResources().getColor(R.color.unavailable));
                             d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                             d.show();
+                            }else{
+                                Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 } else {
@@ -213,9 +236,13 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 if (!this.place.getUnderAttack()) {
                     if (this.place.getEStruct3().equals(Structure.NONE)) {
                         if (this.place.isOccupied() && this.place.isFriendly(player)) {
+                            if(isNear()){
                             Dialog d = new StructureDialog(context, 3, this.place, player, getContext().getResources().getColor(R.color.unavailable));
                             d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                             d.show();
+                            }else{
+                                Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 } else {
@@ -226,9 +253,13 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 if (!this.place.getUnderAttack()) {
                     if (this.place.getEStruct4().equals(Structure.NONE)) {
                         if (this.place.isOccupied() && this.place.isFriendly(player)) {
+                            if(isNear()){
                             Dialog d = new StructureDialog(context, 4, this.place, player, getContext().getResources().getColor(R.color.unavailable));
                             d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                             d.show();
+                            }else{
+                                Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 } else {
@@ -238,5 +269,19 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    private boolean isNear() {
+        LatLng placeLoc = place.getLatLng();
+        Location l1 = new Location("");
+        l1.setLatitude(loc.latitude);
+        l1.setLongitude(loc.longitude);
+
+        Location l2 = new Location("");
+        l2.setLatitude(placeLoc.latitude);
+        l2.setLongitude(placeLoc.longitude);
+
+        float distance = l1.distanceTo(l2);
+        return distance <= LIMIT;
     }
 }

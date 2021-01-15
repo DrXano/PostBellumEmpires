@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.Looper;
 
 import com.example.postbellumempires.BattleActivity;
 import com.example.postbellumempires.R;
@@ -25,10 +24,8 @@ public class Battle implements Serializable {
     private static final int NUMBER_OF_ROUNDS = 60;
 
     private static final int INTERVAL = 1500;
-
-    final Handler thisBattle = new Handler();
-
     private static Battle currentBattle = null;
+    final Handler thisBattle = new Handler();
     private final Player player;
     private final Place place;
     private CountDownTimer timer;
@@ -93,7 +90,7 @@ public class Battle implements Serializable {
                         public void run() {
                             playerTurn();
                         }
-                    },INTERVAL * (2*i+1));
+                    }, INTERVAL * (2 * i + 1));
 
                     thisBattle.postDelayed(new Runnable() {
                         @Override
@@ -105,13 +102,13 @@ public class Battle implements Serializable {
 
                             evaluateBattleStatus();
                         }
-                    },INTERVAL * (2*i+2));
+                    }, INTERVAL * (2 * i + 2));
                 }
             }
-        },1500);
+        }, 1500);
     }
 
-    private void playerTurn(){
+    private void playerTurn() {
         ActionReport myReport = new ActionReport();
 
         if (!isDefeated(myArmy) && !isDefeated(enemyArmy)) {
@@ -129,7 +126,7 @@ public class Battle implements Serializable {
         }
     }
 
-    private void enemyTurn(){
+    private void enemyTurn() {
         ActionReport enemyReport = new ActionReport();
 
         if (!isDefeated(myArmy) && !isDefeated(enemyArmy)) {
@@ -147,7 +144,7 @@ public class Battle implements Serializable {
         }
     }
 
-    private void evaluateBattleStatus(){
+    private void evaluateBattleStatus() {
         boolean myArmyDead = isDefeated(myArmy);
         boolean enemyArmyDead = isDefeated(enemyArmy);
         if (myArmyDead || enemyArmyDead) {
@@ -161,11 +158,11 @@ public class Battle implements Serializable {
                 public void run() {
                     endBattle();
                 }
-            },INTERVAL);
+            }, INTERVAL);
         }
     }
 
-    private void endBattle(){
+    private void endBattle() {
 
         int exp = enemykilled * ExpReward.UNIT_KILLED.reward;
         if (victory) {
@@ -267,7 +264,7 @@ public class Battle implements Serializable {
                 public void run() {
                     endBattle();
                 }
-            },INTERVAL);
+            }, INTERVAL);
         });
         builder.setNegativeButton("No", (dialog, which) -> {
 

@@ -265,12 +265,12 @@ public class Place implements Serializable {
         Bitmap markerBitmap = Bitmap.createScaledBitmap(bitmap.getBitmap(), 120, 200, false);
 
         int colorId;
-        if(this.underAttack){
+        if (this.underAttack) {
             colorId = R.color.underattack;
-        }else{
-            if(this.ownerFaction == null){
+        } else {
+            if (this.ownerFaction == null) {
                 colorId = R.color.neutralized;
-            }else{
+            } else {
                 colorId = this.ownerFaction.primaryColor;
             }
         }

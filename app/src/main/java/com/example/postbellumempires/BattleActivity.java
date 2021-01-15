@@ -3,7 +3,6 @@ package com.example.postbellumempires;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +57,8 @@ public class BattleActivity extends AppCompatActivity {
         this.enemyTotal = findViewById(R.id.enemyTotal);
         int playerColor = getResources().getColor(battle.getPlayer().getPlayerFaction().primaryColor);
         int enemyColor = getResources().getColor(battle.getPlace().getFaction().primaryColor);
+
+
         /*
         ShapeDrawable playerBG = (ShapeDrawable) this.playerArmy.getBackground();
         playerBG.getPaint().setColor(changeOpacity(playerColor));

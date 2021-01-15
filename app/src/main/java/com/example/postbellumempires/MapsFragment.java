@@ -51,6 +51,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
@@ -102,8 +104,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
     private GoogleMap mMap;
     private Marker playerPos;
     private Marker playerPosBase;
+    private Circle circle;
 
     private Player player;
+    private LatLng loc;
 
     @Nullable
     @Override
@@ -178,6 +182,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
 
         if (this.playerPosBase != null) {
             this.playerPosBase.setIcon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase, 200, 200, p.getPlayerFaction())));
+        }
+
+        if(circle != null){
+            circle.setStrokeColor(parentActivity.getResources().getColor(p.getPlayerFaction().primaryColor));
         }
     }
 
@@ -281,7 +289,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                 .addOnSuccessListener(getActivity(), location -> {
                     if (location != null) {
 
-                        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                        loc = new LatLng(location.getLatitude(), location.getLongitude());
 
                         createPlayerMarker(loc);
 
@@ -293,7 +301,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
 
         googleMap.setOnMarkerClickListener(marker -> {
             if (!marker.equals(playerPos) && !marker.equals(playerPosBase)) {
-                Dialog d = new PlaceDialog(parentActivity, marker.getTitle());
+                Dialog d = new PlaceDialog(parentActivity, loc, marker.getTitle());
                 d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                 d.show();
             }
@@ -304,7 +312,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
-                    LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                    loc = new LatLng(location.getLatitude(), location.getLongitude());
                     createPlayerMarker(loc);
                     animateMarker(playerPos, location);
                     animateMarker(playerPosBase, location);
@@ -343,6 +351,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                         .flat(true)
                         .anchor(0.5f, 0.5f)
                         .position(loc));
+            }
+        }
+
+        if(circle == null){
+            if (player == null) {
+                circle = getMap().addCircle(new CircleOptions()
+                        .radius(40)
+                        .center(loc)
+                        .strokeColor(Color.WHITE));
+            }else{
+                circle = getMap().addCircle(new CircleOptions()
+                        .radius(40)
+                        .center(loc)
+                        .strokeColor(parentActivity.getResources().getColor(player.getPlayerFaction().primaryColor)));
             }
         }
     }
@@ -387,6 +409,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                 //float rotation = (float) (t * location.getBearing() + (1 - t)*startRotation);
 
                 marker.setPosition(new LatLng(lat, lng));
+                circle.setCenter(new LatLng(lat, lng));
                 //marker.setRotation(rotation);
 
                 if (t < 1.0) {
@@ -411,7 +434,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
     }
 

@@ -15,20 +15,24 @@
         android:roundIcon="@mipmap/pbe_launcher_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.PostBellumEmpires">
-        <activity android:name=".HelpActivity"
+        <activity
+            android:name=".HelpActivity"
             android:configChanges="orientation"
             android:parentActivityName=".MainGameActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainGameActivity" /></activity>
-        <activity android:name=".DevTeamActivity"
+                android:value=".MainGameActivity" />
+        </activity>
+        <activity
+            android:name=".DevTeamActivity"
             android:configChanges="orientation"
             android:parentActivityName=".MainGameActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainGameActivity" /></activity>
+                android:value=".MainGameActivity" />
+        </activity>
         <activity android:name=".BattleActivity" />
         <activity
             android:name=".ArmyMenuActivity"

@@ -72,15 +72,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
     private static final String TAG = "MapsFragment";
     private final DatabaseReference LocRef = FirebaseDatabase.getInstance().getReference("places");
     FloatingActionButton menu;
+
     FloatingActionButton inventory;
     FloatingActionButton armymenu;
     FloatingActionButton profile;
     FloatingActionButton logout;
+    FloatingActionButton help;
+    FloatingActionButton team;
     private boolean clicked = false;
     private MainGameActivity parentActivity;
 
     private Animation fromBottom;
     private Animation toBottom;
+
+    private Animation fromRight;
+    private Animation toRight;
 
     private ProgressBar userexp;
     private TextView playerIGN;
@@ -111,12 +117,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
 
         fromBottom = AnimationUtils.loadAnimation(this.getActivity(), R.anim.from_bottom_anim);
         toBottom = AnimationUtils.loadAnimation(this.getActivity(), R.anim.to_bottom_anim);
+        fromRight = AnimationUtils.loadAnimation(this.getActivity(), R.anim.from_right_anim);
+        toRight = AnimationUtils.loadAnimation(this.getActivity(), R.anim.to_right_anim);
 
         menu = view.findViewById(R.id.menuButton);
         inventory = view.findViewById(R.id.inventoryButton);
         armymenu = view.findViewById(R.id.armyMenuButton);
         profile = view.findViewById(R.id.profileButton);
         logout = view.findViewById(R.id.logoutButton);
+        help = view.findViewById(R.id.helpButton);
+        team = view.findViewById(R.id.devteamButton);
 
         this.userexp = view.findViewById(R.id.userExp);
         this.playerIGN = view.findViewById(R.id.playerIGN);
@@ -129,6 +139,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         armymenu.setOnClickListener(v -> parentActivity.changeToArmyMenu());
 
         profile.setOnClickListener(v -> parentActivity.changeToProfile());
+
+        team.setOnClickListener(v -> parentActivity.changeToAbout());
+
+        help.setOnClickListener(v -> parentActivity.changeToHelp());
 
         logout.setOnClickListener(v -> logout());
 
@@ -190,12 +204,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             profile.startAnimation(fromBottom);
             armymenu.startAnimation(fromBottom);
             inventory.startAnimation(fromBottom);
-            logout.startAnimation(fromBottom);
+            logout.startAnimation(fromRight);
+            team.startAnimation(fromRight);
+            help.startAnimation(fromRight);
         } else {
             profile.startAnimation(toBottom);
             armymenu.startAnimation(toBottom);
             inventory.startAnimation(toBottom);
-            logout.startAnimation(toBottom);
+            logout.startAnimation(toRight);
+            team.startAnimation(toRight);
+            help.startAnimation(toRight);
         }
     }
 
@@ -209,6 +227,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             inventory.setClickable(true);
             logout.setVisibility(View.VISIBLE);
             logout.setClickable(true);
+
+            team.setVisibility(View.VISIBLE);
+            team.setClickable(true);
+            help.setVisibility(View.VISIBLE);
+            help.setClickable(true);
         } else {
             profile.setVisibility(View.INVISIBLE);
             profile.setClickable(false);
@@ -218,6 +241,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             inventory.setClickable(false);
             logout.setVisibility(View.INVISIBLE);
             logout.setClickable(false);
+
+            team.setVisibility(View.INVISIBLE);
+            team.setClickable(false);
+            help.setVisibility(View.INVISIBLE);
+            help.setClickable(false);
         }
     }
 

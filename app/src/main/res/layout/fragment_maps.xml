@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -51,6 +52,34 @@
         app:layout_constraintEnd_toEndOf="@+id/inventoryButton" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/devteamButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:backgroundTint="@color/maincolor"
+        app:layout_constraintEnd_toStartOf="@+id/menuButton"
+        app:layout_constraintTop_toTopOf="@+id/menuButton"
+        app:srcCompat="@drawable/teamicon"
+        tools:ignore="VectorDrawableCompat" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/helpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:backgroundTint="@color/maincolor"
+        app:layout_constraintEnd_toStartOf="@+id/devteamButton"
+        app:layout_constraintTop_toTopOf="@+id/devteamButton"
+        app:srcCompat="@drawable/helpicon"
+        tools:ignore="VectorDrawableCompat" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/profileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,15 +97,16 @@
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:clickable="true"
         android:contentDescription="A button"
         android:focusable="true"
         android:src="@drawable/logouticon"
         android:visibility="invisible"
         app:backgroundTint="@color/maincolor"
-        app:layout_constraintBottom_toTopOf="@+id/profileButton"
-        app:layout_constraintEnd_toEndOf="@+id/profileButton" />
+        app:layout_constraintEnd_toStartOf="@+id/helpButton"
+        app:layout_constraintTop_toTopOf="@+id/helpButton" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mapLayout"

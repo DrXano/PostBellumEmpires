@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PostBellumEmpires</string>
+    <string name="app_name">PostBellum Empires</string>
     <string name="email">Email</string>
     <string name="pass">Password</string>
     <string name="login">Login</string>
@@ -29,4 +29,17 @@
     <string name="quantity">Quantity:</string>
     <string name="victory">VICTORY</string>
     <string name="defeat">DEFEAT</string>
+    <string name="group">Group 02</string>
+    <string name="mrxano">51023 - Alexandre Monteiro</string>
+    <string name="lac">55721 - Rodrigo Nogueira</string>
+    <string name="mileide">55839 - Mileide Gomes</string>
+    <string name="help1">Earth was once a peaceful civilized place. But then the invaders came, creatures from another world who sought to destroy ours.
+        Countless lifes were lost during the invasion, the enemy almost eradicated mankind. After many battles against these invaders we ended up winning the war,
+     but at the cost of destroying our world. And from the ashes of the old war, three empires standed against each others for what was left of our world.</string>
+    <string name="help2">You were once a soldier before, and now you stand as a general, you may build your own army and fight for the cause of your empire. Your job
+    is to claim as many places that survived the old war, and preserve its resources for your faction, the places you own reward you with extra resources when you collect them.
+        If needed you can attack a place that is claimed by the enemy, but if you wish to spare your army you can steal from the enemy, but stealing does not reward as much as the places your empire owns.</string>
+    <string name="help3">When building your army, you may train whatever units you wish, but there is a limit for how many units you can hold. You can also upgrade them to make your army stronger. Once you
+    deploy a unit in a place then it will be claimed in your name but the units you deployed will not return. You can build structures in a place to allow more units to guard it, to strengthen your army, or to
+    prevent the enemy from benefiting the resources from your place.</string>
 </resources>

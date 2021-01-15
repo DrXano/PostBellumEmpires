@@ -100,6 +100,16 @@ public class MainGameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void changeToAbout(){
+        Intent intent = new Intent(this, DevTeamActivity.class);
+        startActivity(intent);
+    }
+
+    public void changeToHelp(){
+        Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
+    }
+
     public void logout() {
         mAuth.signOut();
         startActivity(new Intent(this, MainActivity.class));

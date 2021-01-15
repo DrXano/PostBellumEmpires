@@ -8,14 +8,22 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="maincolor">#3A3A3A</color>
+
     <color name="OCprimary">#04B18F</color>
     <color name="OCsecondary">#198380</color>
+    <color name="OCtransparent">#8004B18F</color>
+
     <color name="DRprimary">#A61010</color>
     <color name="DRsecondary">#590915</color>
+    <color name="DRtransparent">#80A61010</color>
+
     <color name="ESprimary">#A5942C</color>
     <color name="ESsecondary">#636022</color>
+    <color name="EStransparent">#80A5942C</color>
+
     <color name="unavailable">#CC2525</color>
     <color name="neutralized">#9F9F9F</color>
     <color name="underattack">#FF6060</color>
     <color name="neutral">#5A5A5A</color>
+    <color name="neutraltransparent">#805A5A5A</color>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.postbellumempires.adapters;
 
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,11 @@ import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     private List<BattleMessage> mDataset;
+    private Resources res;
 
-    public MessageAdapter(List<BattleMessage> mDataset) {
+    public MessageAdapter(List<BattleMessage> mDataset, Resources resources) {
         this.mDataset = mDataset;
+        this.res = resources;
     }
 
     @NonNull
@@ -31,10 +34,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         BattleMessage m = mDataset.get(position);
-        /*
-        ShapeDrawable bg = (ShapeDrawable) holder.layout.getBackground();
-        bg.getPaint().setColor(m.getColor());
-        */
+
+        if(m.getFaction() == null){
+            holder.layout.setBackground(res.getDrawable(R.drawable.neutral_bg));
+        }else{
+            holder.layout.setBackground(res.getDrawable(m.getFaction().background));
+        }
 
         holder.messageView.setText(m.getMessage());
     }

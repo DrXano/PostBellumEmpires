@@ -58,20 +58,16 @@ public class BattleActivity extends AppCompatActivity {
         int playerColor = getResources().getColor(battle.getPlayer().getPlayerFaction().primaryColor);
         int enemyColor = getResources().getColor(battle.getPlace().getFaction().primaryColor);
 
+        this.playerArmy.setBackground(getResources().getDrawable(battle.getPlayer().getPlayerFaction().background));
 
-        /*
-        ShapeDrawable playerBG = (ShapeDrawable) this.playerArmy.getBackground();
-        playerBG.getPaint().setColor(changeOpacity(playerColor));
-        ShapeDrawable enemyBG = (ShapeDrawable) this.placeArmy.getBackground();
-        enemyBG.getPaint().setColor(changeOpacity(enemyColor));
+        this.placeArmy.setBackground(getResources().getDrawable(battle.getPlace().getFaction().background));
 
-         */
         this.playerArmy.setLayoutManager(new LinearLayoutManager(this));
         this.placeArmy.setLayoutManager(new LinearLayoutManager(this));
 
         this.eventLayout = new LinearLayoutManager(this);
         this.events.setLayoutManager(this.eventLayout);
-        this.adapter = new MessageAdapter(new ArrayList<>());
+        this.adapter = new MessageAdapter(new ArrayList<>(), getResources());
         this.events.setAdapter(adapter);
         battle.setActivity(this, getResources());
     }

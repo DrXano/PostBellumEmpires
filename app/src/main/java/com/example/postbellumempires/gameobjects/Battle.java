@@ -82,7 +82,7 @@ public class Battle implements Serializable {
             public void run() {
                 place.setUnderAttack(true);
                 place.updatePlace();
-                parent.addMessage(new BattleMessage("The Battle has begun!", resources.getColor(R.color.neutral)));
+                parent.addMessage(new BattleMessage("The Battle has begun!", null));
                 for (int i = 0; i < NUMBER_OF_ROUNDS; i++) {
 
                     thisBattle.postDelayed(new Runnable() {
@@ -166,12 +166,12 @@ public class Battle implements Serializable {
 
         int exp = enemykilled * ExpReward.UNIT_KILLED.reward;
         if (victory) {
-            parent.addMessage(new BattleMessage("The Battle has ended and you are victorious!", resources.getColor(player.getPlayerFaction().primaryColor)));
+            parent.addMessage(new BattleMessage("The Battle has ended and you are victorious!", player.getPlayerFaction()));
             exp += ExpReward.VICTORY.reward;
             place.setUnderAttack(false);
             place.free();
         } else {
-            parent.addMessage(new BattleMessage("The Battle has ended but you have been defeated!", resources.getColor(place.getFaction().primaryColor)));
+            parent.addMessage(new BattleMessage("The Battle has ended but you have been defeated!", place.getFaction()));
             place.setUnderAttack(false);
             place.updatePlace();
         }
@@ -187,7 +187,6 @@ public class Battle implements Serializable {
     }
 
     private BattleMessage getMessageForPlayer(ActionReport myReport) {
-        int color = resources.getColor(player.getPlayerFaction().primaryColor);
         String message;
         if (myReport.getKills() > 0) {
             message = "Your army has engaged the enemy";
@@ -198,11 +197,10 @@ public class Battle implements Serializable {
                 message = "Your army did not hit the enemy";
             }
         }
-        return new BattleMessage(message, color);
+        return new BattleMessage(message, player.getPlayerFaction());
     }
 
     private BattleMessage getMessageForEnemy(ActionReport enemyReport) {
-        int color = resources.getColor(place.getFaction().primaryColor);
         String message;
         if (enemyReport.getKills() > 0) {
             message = "The enemy has engaged you";
@@ -213,7 +211,7 @@ public class Battle implements Serializable {
                 message = "Your army did not suffer casualties from the enemy";
             }
         }
-        return new BattleMessage(message, color);
+        return new BattleMessage(message, place.getFaction());
     }
 
     private BattleUnit[] processUnits(GameUnit[] units, Map<String, Integer> armyCount) {

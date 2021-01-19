@@ -4,15 +4,15 @@ import com.example.postbellumempires.enums.UnitType;
 
 public class BattleUnit {
 
-    private int level;
-    private String name;
-    private int health;
-    private int size;
+    private final int level;
+    private final String name;
+    private final int health;
+    private final int size;
     private int currentHealth;
     private double attack;
-    private double armor;
-    private double speed;
-    private UnitType type;
+    private final double armor;
+    private final double speed;
+    private final UnitType type;
 
     public BattleUnit(GameUnit unit) {
         this.level = unit.getLevel();
@@ -39,10 +39,15 @@ public class BattleUnit {
         return healthRatio <= 0.1;
     }
 
-    public void heal(int health) {
-        this.currentHealth += health;
-        if (this.currentHealth > this.health)
-            this.currentHealth = this.health;
+    public boolean heal(double health) {
+        if(this.health == this.currentHealth){
+            return false;
+        }else{
+            this.currentHealth += health;
+            if (this.currentHealth > this.health)
+                this.currentHealth = this.health;
+            return true;
+        }
     }
 
     public boolean damage(double damage) {
@@ -52,6 +57,18 @@ public class BattleUnit {
             this.currentHealth -= (damage - this.armor);
             if (this.currentHealth < 0)
                 this.currentHealth = 0;
+            return true;
+        }
+    }
+
+    public boolean boostAttack(double bonus){
+        double maxAttack = this.attack * 1.5;
+        if(this.attack >= maxAttack){
+            return false;
+        }else {
+            this.attack += bonus;
+            if(this.attack >= maxAttack)
+                this.attack = maxAttack;
             return true;
         }
     }

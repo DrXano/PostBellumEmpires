@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_marginBottom="32dp"
-            android:background="@color/OCsecondary">
+            android:background="@drawable/oc_secondary_bg">
 
             <ImageView
                 android:id="@+id/factionAlogo"
@@ -74,7 +74,7 @@
                 android:layout_marginRight="0dp"
                 android:layout_toEndOf="@+id/factionAlogo"
                 android:layout_toRightOf="@+id/factionAlogo"
-                android:background="@color/OCprimary"
+                android:background="@drawable/oc_primary_bg"
                 android:text="@string/OC"
                 android:textStyle="bold" />
 
@@ -94,7 +94,7 @@
                 android:layout_toLeftOf="@+id/chooseAbutton"
                 android:layout_toEndOf="@+id/factionAlogo"
                 android:layout_toRightOf="@+id/factionAlogo"
-                android:background="@color/OCprimary"
+                android:background="@drawable/oc_primary_bg"
                 android:padding="2dp"
                 android:text="@string/OCDesc"
                 app:autoSizeTextType="uniform" />
@@ -118,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_marginBottom="32dp"
-            android:background="@color/DRsecondary">
+            android:background="@drawable/dr_secondary_bg">
 
             <ImageView
                 android:id="@+id/factionBlogo"
@@ -150,7 +150,7 @@
                 android:layout_marginRight="0dp"
                 android:layout_toEndOf="@+id/factionBlogo"
                 android:layout_toRightOf="@+id/factionBlogo"
-                android:background="@color/DRprimary"
+                android:background="@drawable/dr_primary_bg"
                 android:text="@string/DR"
                 android:textStyle="bold" />
 
@@ -170,7 +170,7 @@
                 android:layout_toLeftOf="@+id/chooseBbutton"
                 android:layout_toEndOf="@+id/factionBlogo"
                 android:layout_toRightOf="@+id/factionBlogo"
-                android:background="@color/DRprimary"
+                android:background="@drawable/dr_primary_bg"
                 android:padding="2dp"
                 android:text="@string/DRDesc"
                 app:autoSizeTextType="uniform" />
@@ -194,7 +194,7 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_marginBottom="32dp"
-            android:background="@color/ESsecondary">
+            android:background="@drawable/es_secondary_bg">
 
             <ImageView
                 android:id="@+id/factionClogo"
@@ -226,7 +226,7 @@
                 android:layout_marginRight="0dp"
                 android:layout_toEndOf="@+id/factionClogo"
                 android:layout_toRightOf="@+id/factionClogo"
-                android:background="@color/ESprimary"
+                android:background="@drawable/es_primary_bg"
                 android:text="@string/ES"
                 android:textStyle="bold" />
 
@@ -246,7 +246,7 @@
                 android:layout_toLeftOf="@+id/chooseCbutton"
                 android:layout_toEndOf="@+id/factionClogo"
                 android:layout_toRightOf="@+id/factionClogo"
-                android:background="@color/ESprimary"
+                android:background="@drawable/es_primary_bg"
                 android:padding="2dp"
                 android:text="@string/ESDesc"
                 app:autoSizeTextType="uniform" />

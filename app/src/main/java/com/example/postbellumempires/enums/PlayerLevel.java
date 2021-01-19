@@ -6,15 +6,14 @@ import java.util.Map;
 public enum PlayerLevel {
     Level1(1, 1000, 30, UnitType.MARINE),
     Level2(2, 2000, 33, UnitType.PYRO),
-    Level3(3, 4000, 36, null),
-    Level4(4, 8000, 39, null),
-    Level5(5, 16000, 42, null),
-    Level6(6, 32000, 45, null),
-    Level7(7, 64000, 48, UnitType.TANK),
-    Level8(8, 128000, 51, null),
-    Level9(9, 256000, 54, null),
-    Level10(10, 512000, 57, null),
-    Level11(11, 1024000, 60, null);
+    Level3(3, 4000, 36, UnitType.TANK),
+    Level4(4, 8000, 39, UnitType.APPRENTICE),
+    Level5(5, 16000, 42, UnitType.ASSASSIN),
+    Level6(6, 32000, 45, UnitType.WICK),
+    Level7(7, 64000, 48, UnitType.MEDIC),
+    Level8(8, 128000, 51, UnitType.RAMBO),
+    Level9(9, 256000, 54, UnitType.CHEMIST),
+    Level10(10, 512000, 57, UnitType.UAV);
 
     private static final Map<Integer, PlayerLevel> BY_LEVEL = new HashMap<>();
     private static final Map<UnitType, PlayerLevel> BY_UNIT_REWARD = new HashMap<>();
@@ -44,7 +43,11 @@ public enum PlayerLevel {
     }
 
     public static PlayerLevel valueOfUnit(UnitType type) {
-        return BY_UNIT_REWARD.get(type);
+        if(type.equals(UnitType.ARCHER)){
+            return Level1;
+        }else {
+            return BY_UNIT_REWARD.get(type);
+        }
     }
 
     public static int getMaxLevel() {

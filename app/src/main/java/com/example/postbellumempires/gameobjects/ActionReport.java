@@ -2,13 +2,21 @@ package com.example.postbellumempires.gameobjects;
 
 public class ActionReport {
 
-    private int actions;
-    private int successful;
+    private int attacks;
+    private int successfulAttacks;
+    private int heals;
+    private int successfulHeals;
+    private int boosts;
+    private int successfulBoosts;
     private int killed;
 
     public ActionReport() {
-        this.actions = 0;
-        this.successful = 0;
+        this.attacks = 0;
+        this.successfulAttacks = 0;
+        this.heals = 0;
+        this.successfulHeals = 0;
+        this.boosts = 0;
+        this.successfulBoosts = 0;
         this.killed = 0;
     }
 
@@ -20,17 +28,45 @@ public class ActionReport {
         return this.killed;
     }
 
-    public void performattack(boolean success) {
-        this.actions++;
+    public void performAttack(boolean success) {
+        this.attacks++;
         if (success)
-            this.successful++;
+            this.successfulAttacks++;
     }
 
-    public double successRate() {
-        if (this.actions == 0) {
+    public void performHeal(boolean success){
+        this.heals++;
+        if(success)
+            this.successfulHeals++;
+    }
+
+    public void performBoost(boolean success){
+        this.boosts++;
+        if(success)
+            this.successfulBoosts++;
+    }
+
+    public double attackRate() {
+        if (this.attacks == 0) {
             return 0.0;
         } else {
-            return (double) this.successful / (double) this.actions;
+            return (double) this.successfulAttacks / (double) this.attacks;
+        }
+    }
+
+    public double healRate(){
+        if(this.heals == 0){
+            return 0.0;
+        }else{
+            return (double) this.successfulHeals / (double) this.heals;
+        }
+    }
+
+    public double boostRate(){
+        if(this.boosts == 0){
+            return 0.0;
+        }else{
+            return (double) this.successfulBoosts / (double) this.boosts;
         }
     }
 }

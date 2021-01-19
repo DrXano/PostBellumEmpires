@@ -29,6 +29,7 @@ public class PlayerArmy implements Serializable {
         }
 
         this.unlock(UnitType.MARINE);
+        this.unlock(UnitType.ARCHER);
         this.add(UnitType.MARINE, 10);
     }
 

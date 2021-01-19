@@ -10,19 +10,20 @@ import com.example.postbellumempires.gameobjects.Unit;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Marine extends Unit {
-    private static final UnitType type = UnitType.MARINE;
+public class Apprentice extends Unit {
+
+    private static final UnitType type = UnitType.APPRENTICE;
 
     private Level levelInfo;
     private Stats stats;
 
-    public Marine() {
+    public Apprentice() {
         super(type);
         this.levelInfo = Level.Level0;
         this.stats = this.levelInfo.stats;
     }
 
-    public Marine(int level) {
+    public Apprentice(int level) {
         super(type);
         int lev = (level > getMaxLevel()) ? getMaxLevel() : level;
         this.levelInfo = Level.getByLevel(lev);
@@ -86,9 +87,9 @@ public class Marine extends Unit {
 
     private enum Level {
         Level0(0, new Stats(0, 0, 0, 0), null),
-        Level1(1, new Stats(150, 10, 5, 2), null),
-        Level2(2, new Stats(160, 15, 10, 2), new Item[]{new Item(GameResource.KNOWLEDGE, 10), new Item(GameResource.WOOD, 20)}),
-        Level3(3, new Stats(170, 20, 15, 2), new Item[]{new Item(GameResource.KNOWLEDGE, 20), new Item(GameResource.WOOD, 25), new Item(GameResource.IRON, 15)});
+        Level1(1, new Stats(100, 3, 0, 1), null),
+        Level2(2, new Stats(150, 10, 8, 2), new Item[]{new Item(GameResource.KNOWLEDGE, 50), new Item(GameResource.FOOD, 30), new Item(GameResource.WOOD, 30), new Item(GameResource.STONE, 30)}),
+        Level3(3, new Stats(200, 30, 20, 4), new Item[]{new Item(GameResource.KNOWLEDGE, 75), new Item(GameResource.FOOD, 45), new Item(GameResource.WOOD, 45), new Item(GameResource.STONE, 45)});
 
         private static final Map<Integer, Level> BY_LEVEL = new HashMap<>();
 

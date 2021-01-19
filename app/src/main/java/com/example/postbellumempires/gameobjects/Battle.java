@@ -9,7 +9,6 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 
 import com.example.postbellumempires.BattleActivity;
-import com.example.postbellumempires.R;
 import com.example.postbellumempires.dialogs.EndOfBattleDialog;
 import com.example.postbellumempires.enums.ExpReward;
 
@@ -21,7 +20,7 @@ import java.util.Map;
 
 public class Battle implements Serializable {
 
-    private static final int NUMBER_OF_ROUNDS = 60;
+    private static final int NUMBER_OF_ROUNDS = 30;
 
     private static final int INTERVAL = 1500;
     private static Battle currentBattle = null;
@@ -191,7 +190,7 @@ public class Battle implements Serializable {
         if (myReport.getKills() > 0) {
             message = "Your army has engaged the enemy";
         } else {
-            if (myReport.successRate() > 0) {
+            if (myReport.attackRate() > 0) {
                 message = "Your army hit the enemy but with no kills";
             } else {
                 message = "Your army did not hit the enemy";
@@ -205,7 +204,7 @@ public class Battle implements Serializable {
         if (enemyReport.getKills() > 0) {
             message = "The enemy has engaged you";
         } else {
-            if (enemyReport.successRate() > 0) {
+            if (enemyReport.attackRate() > 0) {
                 message = "Your army was hit but with no casualties";
             } else {
                 message = "Your army did not suffer casualties from the enemy";

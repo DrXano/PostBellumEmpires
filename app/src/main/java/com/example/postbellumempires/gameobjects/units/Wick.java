@@ -10,19 +10,19 @@ import com.example.postbellumempires.gameobjects.Unit;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Marine extends Unit {
-    private static final UnitType type = UnitType.MARINE;
+public class Wick extends Unit {
+    private static final UnitType type = UnitType.WICK;
 
     private Level levelInfo;
     private Stats stats;
 
-    public Marine() {
+    public Wick() {
         super(type);
         this.levelInfo = Level.Level0;
         this.stats = this.levelInfo.stats;
     }
 
-    public Marine(int level) {
+    public Wick(int level) {
         super(type);
         int lev = (level > getMaxLevel()) ? getMaxLevel() : level;
         this.levelInfo = Level.getByLevel(lev);
@@ -86,9 +86,9 @@ public class Marine extends Unit {
 
     private enum Level {
         Level0(0, new Stats(0, 0, 0, 0), null),
-        Level1(1, new Stats(150, 10, 5, 2), null),
-        Level2(2, new Stats(160, 15, 10, 2), new Item[]{new Item(GameResource.KNOWLEDGE, 10), new Item(GameResource.WOOD, 20)}),
-        Level3(3, new Stats(170, 20, 15, 2), new Item[]{new Item(GameResource.KNOWLEDGE, 20), new Item(GameResource.WOOD, 25), new Item(GameResource.IRON, 15)});
+        Level1(1, new Stats(150, 20, 5, 4), null),
+        Level2(2, new Stats(160, 25, 10, 4), new Item[]{new Item(GameResource.KNOWLEDGE, 25), new Item(GameResource.IRON, 30), new Item(GameResource.URANIUM, 5)}),
+        Level3(3, new Stats(170, 30, 15, 5), new Item[]{new Item(GameResource.KNOWLEDGE, 35), new Item(GameResource.IRON, 45), new Item(GameResource.URANIUM, 6)});
 
         private static final Map<Integer, Level> BY_LEVEL = new HashMap<>();
 

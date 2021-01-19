@@ -9,10 +9,10 @@ public abstract class Unit {
     private final Item[] trainCost;
     private final UnitType type;
 
-    public Unit(String name, int size, Item[] trainCost, UnitType type) {
-        this.name = name;
-        this.size = size;
-        this.trainCost = trainCost;
+    public Unit(UnitType type) {
+        this.name = type.name;
+        this.size = type.size;
+        this.trainCost = type.trainCost;
         this.type = type;
     }
 

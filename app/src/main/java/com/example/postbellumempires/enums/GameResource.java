@@ -13,21 +13,21 @@ public enum GameResource {
     BP(0, "Structure Blueprint", 1000, 1, 1, true, true),
 
     //Resources
-    FOOD(1, "Food", 1000, 400, 500, false, false),
-    KNOWLEDGE(2, "Knowledge", 1000, 10, 20, false, false),
-    WOOD(3, "Wood", 1000, 200, 400, false, false),
-    IRON(4, "Iron", 1000, 200, 300, false, false),
-    MEDICINE(4, "Medicine", 1000, 200, 300, false, false),
-    STONE(4, "Stone", 1000, 200, 300, false, false),
-    URANIUM(4, "Uranium", 1000, 200, 300, false, false),
+    FOOD(1, "Food", 1000, 30, 50, false, false),
+    WOOD(2, "Wood", 1000, 25, 40, false, false),
+    IRON(3, "Iron", 1000, 15, 25, false, false),
+    STONE(4, "Stone", 1000, 20, 30, false, false),
+    KNOWLEDGE(5, "Knowledge", 1000, 12, 28, false, false),
+    MEDICINE(6, "Medicine", 1000, 15, 25, false, false),
+    URANIUM(7, "Uranium", 1000, 1, 6, false, false),
 
     //Blueprints
-    BARRACK_BP(5, "Barrack Blueprint", 1000, 1, 1, true, false),
-    STORAGE_BP(6, "Storage Blueprint", 1000, 1, 1, true, false),
-    VAULT_BP(7, "Vault Blueprint", 1000, 1, 1, true, false),
-    ARMORY_BP(8, "Armory Blueprint", 1000, 1, 1, true, false),
-    MEDBAY_BP(9, "Medbay Blueprint", 1000, 1, 1, true, false),
-    LABORATORY_BP(10, "Laboratory Blueprint", 1000, 1, 1, true, false);
+    BARRACK_BP(8, "Barrack Blueprint", 1000, 1, 1, true, false),
+    STORAGE_BP(9, "Storage Blueprint", 1000, 1, 1, true, false),
+    VAULT_BP(10, "Vault Blueprint", 1000, 1, 1, true, false),
+    ARMORY_BP(11, "Armory Blueprint", 1000, 1, 1, true, false),
+    MEDBAY_BP(12, "Medbay Blueprint", 1000, 1, 1, true, false),
+    LABORATORY_BP(13, "Laboratory Blueprint", 1000, 1, 1, true, false);
 
     private static final List<GameResource> bps = new ArrayList<>();
     private static final Map<Integer, GameResource> BY_ID = new HashMap<>();

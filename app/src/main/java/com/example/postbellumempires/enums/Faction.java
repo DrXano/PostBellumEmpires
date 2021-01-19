@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Faction {
-    OC("Oratio Cult", R.drawable.ocsymbol, R.color.OCprimary, R.color.OCsecondary, R.drawable.oc_bg),
-    DR("Dauntless Raiders", R.drawable.drsymbol, R.color.DRprimary, R.color.DRsecondary, R.drawable.dr_bg),
-    ES("Erudite Sovereignty", R.drawable.essymbol, R.color.ESprimary, R.color.ESsecondary, R.drawable.es_bg);
+    OC("Oratio Cult", R.drawable.ocsymbol, R.color.OCprimary, R.color.OCsecondary, R.drawable.oc_transparent_bg),
+    DR("Dauntless Raiders", R.drawable.drsymbol, R.color.DRprimary, R.color.DRsecondary, R.drawable.dr_transparent_bg),
+    ES("Erudite Sovereignty", R.drawable.essymbol, R.color.ESprimary, R.color.ESsecondary, R.drawable.es_transparent_bg);
 
     private static final Map<String, Faction> BY_NAME = new HashMap<>();
 

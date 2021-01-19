@@ -11,22 +11,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Tank extends Unit {
-    private static final String name = "Tank";
-    private static final int size = 10;
-    private static final Item[] trainCost = new Item[]{new Item(GameResource.FOOD, 300), new Item(GameResource.IRON, 500)};
     private static final UnitType type = UnitType.TANK;
 
     private Level levelInfo;
     private Stats stats;
 
     public Tank() {
-        super(name, size, trainCost, type);
+        super(type);
         this.levelInfo = Level.Level0;
         this.stats = this.levelInfo.stats;
     }
 
     public Tank(int level) {
-        super(name, size, trainCost, type);
+        super(type);
         int lev = (level > getMaxLevel()) ? getMaxLevel() : level;
         this.levelInfo = Level.getByLevel(lev);
         this.stats = this.levelInfo.stats;
@@ -89,9 +86,9 @@ public class Tank extends Unit {
 
     private enum Level {
         Level0(0, new Stats(0, 0, 0, 0), null),
-        Level1(1, new Stats(500, 50, 100, 0.5), null),
-        Level2(2, new Stats(600, 100, 200, 0.5), new Item[]{new Item(GameResource.KNOWLEDGE, 20), new Item(GameResource.FOOD, 500), new Item(GameResource.IRON, 500)}),
-        Level3(3, new Stats(700, 150, 300, 0.5), new Item[]{new Item(GameResource.KNOWLEDGE, 30), new Item(GameResource.FOOD, 1000), new Item(GameResource.IRON, 1000)});
+        Level1(1, new Stats(250, 30, 20, 1), null),
+        Level2(2, new Stats(260, 50, 30, 1), new Item[]{new Item(GameResource.KNOWLEDGE, 15), new Item(GameResource.IRON,25)}),
+        Level3(3, new Stats(270, 70, 40, 1), new Item[]{new Item(GameResource.KNOWLEDGE, 30), new Item(GameResource.IRON,35), new Item(GameResource.URANIUM, 5)});
 
         private static final Map<Integer, Level> BY_LEVEL = new HashMap<>();
 

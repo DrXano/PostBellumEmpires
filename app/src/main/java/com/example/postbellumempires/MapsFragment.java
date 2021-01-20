@@ -298,7 +298,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
 
                         createPlayerMarker(loc);
 
-                        CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(TILT).build();
+                        CameraPosition cp = new CameraPosition.Builder()
+                                .target(loc)
+                                .tilt(TILT)
+                                .zoom(googleMap.getCameraPosition().zoom)
+                                .bearing(googleMap.getCameraPosition().bearing)
+                                .build();
                         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
                     }
                 });
@@ -321,7 +326,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                     createPlayerMarker(loc);
                     animateMarker(playerPos, location);
                     animateMarker(playerPosBase, location);
-                    CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(TILT).build();
+                    CameraPosition cp = new CameraPosition.Builder()
+                            .target(loc)
+                            .tilt(TILT)
+                            .zoom(googleMap.getCameraPosition().zoom)
+                            .bearing(googleMap.getCameraPosition().bearing)
+                            .build();
                     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
                 }
             }

@@ -87,8 +87,8 @@ public class Pyro extends Unit {
     private enum Level {
         Level0(0, new Stats(0, 0, 0, 0), null),
         Level1(1, new Stats(120, 15, 3, 2), null),
-        Level2(2, new Stats(130, 25, 8, 2), new Item[]{new Item(GameResource.KNOWLEDGE, 15), new Item(GameResource.WOOD,20)}),
-        Level3(3, new Stats(140, 35, 12, 2), new Item[]{new Item(GameResource.KNOWLEDGE, 30), new Item(GameResource.WOOD,25), new Item(GameResource.IRON, 15)});
+        Level2(2, new Stats(130, 25, 8, 2), new Item[]{new Item(GameResource.KNOWLEDGE, 15), new Item(GameResource.WOOD, 20)}),
+        Level3(3, new Stats(140, 35, 12, 2), new Item[]{new Item(GameResource.KNOWLEDGE, 30), new Item(GameResource.WOOD, 25), new Item(GameResource.IRON, 15)});
 
         private static final Map<Integer, Level> BY_LEVEL = new HashMap<>();
 

@@ -10,11 +10,19 @@
     <string name="logout">Logout</string>
     <string name="confirmpw">Confirm Password</string>
     <string name="existingAcc">I Have an Account</string>
+
+    <string name="invalidemail">"The email given is invalid"</string>
+    <string name="usedemail">"The email given is already in use"</string>
+
     <string name="OC">Oratio Cult</string>
     <string name="OCDesc">A group of religious people who believe that the beings that came to earth are their actual gods.</string>
     <string name="DR">Dauntless Raiders</string>
     <string name="ES">Erudite Sovereignty</string>
     <string name="ESDesc">A team of scientists that seek to study and control the technology that belonged to the creatures that came to earth.</string>
+
+    <string name="gpsoff">GPS not detected</string>
+    <string name="gpspls">Please enable your GPS</string>
+
     <string name="chooseAFaction">Choose Your Faction</string>
     <string name="choose">Choose</string>
     <string name="ok">Ok</string>
@@ -27,12 +35,58 @@
     <string name="DRDesc">They were once peaceful soldiers, now they are a group of savage rebels who fight for loot.</string>
     <string name="emptyInventory">Your inventory is empty</string>
     <string name="quantity">Quantity:</string>
-    <string name="victory">VICTORY</string>
-    <string name="defeat">DEFEAT</string>
     <string name="group">Group 02</string>
     <string name="mrxano">51023 - Alexandre Monteiro</string>
     <string name="lac">55721 - Rodrigo Nogueira</string>
     <string name="mileide">55839 - Mileide Gomes</string>
+
+    <string name="victory">VICTORY</string>
+    <string name="defeat">DEFEAT</string>
+    <string name="unitskilled">Units killed:</string>
+    <string name="unitslost">Units lost:</string>
+    <string name="expkills">Exp for kills:</string>
+    <string name="victorybonus">Victory bonus:</string>
+
+    <string name="msg_player_1">Your army engaged the enemy and caused some casualties.</string>
+    <string name="msg_player_2">Your army engaged the enemy and has inflicted some damage.</string>
+    <string name="msg_player_3">Your army engaged the enemy but did not cause any damage.</string>
+    <string name="msg_player_4">The enemy is on the verge of defeat.</string>
+    <string name="msg_player_5">Your army caused some casualties in the enemy.</string>
+    <string name="msg_player_6">Your army has attacked the enemy and its being supported by Medics and UAVs.</string>
+    <string name="msg_player_7">Your army inflicted damage in the enemy and its being healed by your Medics</string>
+    <string name="msg_player_8">Your army attacked the enemy and your UAVs are boosting your mans attack damage.</string>
+    <string name="msg_player_9">Your army inflicted lower damage to the enemy.</string>
+    <string name="msg_player_10">Your army attacked the enemy.</string>
+    <string name="msg_player_11">Your mans have caused great damage to the enemy.</string>
+    <string name="msg_player_12">Your Medics and UAVs are supporting your mans.</string>
+    <string name="msg_player_13">Your Medics are healing your army.</string>
+    <string name="msg_player_14">Your UAVs have boosted the damage your army can cause.</string>
+    <string name="msg_player_15">Your army failed to attack the enemy.</string>
+
+    <string name="msg_enemy_1">The enemy has engaged you and killed some of your mans</string>
+    <string name="msg_enemy_2">The enemy has engaged you inflicting damage to your army</string>
+    <string name="msg_enemy_3">The enemy engaged you but did not cause any damage</string>
+    <string name="msg_enemy_4">You are on the verge of defeat</string>
+    <string name="msg_enemy_5">Some of your mans have been killed in battle.</string>
+    <string name="msg_enemy_6">The enemy caused some damaged in your army and they have the support of Medics and UAVs.</string>
+    <string name="msg_enemy_7">The enemy attacked you and its being healed by their Medics.</string>
+    <string name="msg_enemy_8">The enemy caused some damage in your mans and they got the support of UAVs.</string>
+    <string name="msg_enemy_9">The enemy did not cause to much damage in you.</string>
+    <string name="msg_enemy_10">The enemy has attacked you.</string>
+    <string name="msg_enemy_11">The enemy inflicted great damage in your army.</string>
+    <string name="msg_enemy_12">Medics and UAVs are supporting the enemy.</string>
+    <string name="msg_enemy_13">The enemy Medics are healing their mans.</string>
+    <string name="msg_enemy_14">The enemy is being boosted by UAVs.</string>
+    <string name="msg_enemy_15">the enemy failed to attack you.</string>
+
+    <string name="retreatTitle">Retreat?</string>
+    <string name="retreatMsg">If you retreat it will count as a defeat. Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="msg_victory">The Battle has ended and you are victorious!</string>
+    <string name="msg_defeat">The Battle has ended but you have been defeated!</string>
+
     <string name="help1">Earth was once a peaceful civilized place. But then the invaders came, creatures from another world who sought to destroy ours.
         Countless lifes were lost during the invasion, the enemy almost eradicated mankind. After many battles against these invaders we ended up winning the war,
      but at the cost of destroying our world. And from the ashes of the old war, three empires standed against each others for what was left of our world.</string>
@@ -42,4 +96,30 @@
     <string name="help3">When building your army, you may train whatever units you wish, but there is a limit for how many units you can hold. You can also upgrade them to make your army stronger. Once you
     deploy a unit in a place then it will be claimed in your name but the units you deployed will not return. You can build structures in a place to allow more units to guard it, to strengthen your army, or to
     prevent the enemy from benefiting the resources from your place.</string>
+
+    <string name="foodDesc">food description</string>
+    <string name="woodDesc">wood description</string>
+    <string name="ironDesc">iron description</string>
+    <string name="stoneDesc">stone description</string>
+    <string name="knowledgeDesc">knowledge description</string>
+    <string name="medicineDesc">medicine description</string>
+    <string name="uraniumDesc">uranium description</string>
+    <string name="barrackDesc">barrack description</string>
+    <string name="storageDesc">storage description</string>
+    <string name="vaultDesc">vault description</string>
+    <string name="armoryDesc">armory description</string>
+    <string name="medbayDesc">medbay description</string>
+    <string name="laboratoryDesc">laboratory description</string>
+
+    <string name="archerDesc">archer description</string>
+    <string name="marineDesc">marine description</string>
+    <string name="pyroDesc">pyro description</string>
+    <string name="tankDesc">tank description</string>
+    <string name="apprenticeDesc">apprentice description</string>
+    <string name="assassinDesc">assassin description</string>
+    <string name="wickDesc">wick description</string>
+    <string name="medicDesc">medic description</string>
+    <string name="ramboDesc">rambo description</string>
+    <string name="chemistDesc">chemist description</string>
+    <string name="uavDesc">uav description</string>
 </resources>

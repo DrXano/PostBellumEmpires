@@ -33,8 +33,6 @@ import java.util.List;
  */
 public class ArmyTrainingFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private DatabaseReference playerRef;
@@ -45,7 +43,7 @@ public class ArmyTrainingFragment extends Fragment {
     private TextView currarmyMSG;
     private TextView maxCapacity;
     private TextView currentsize;
-    // TODO: Rename and change types of parameters
+
     private String mParam1;
     private String mParam2;
 
@@ -149,7 +147,7 @@ public class ArmyTrainingFragment extends Fragment {
             currarmyMSG.setText("No units trained");
             this.maxCapacity.setText(String.valueOf(p.getMaxCapacity()));
             this.currentsize.setText(String.valueOf(0));
-            this.currentArmy.removeAllViews();
+            this.currentArmy.setAdapter(new CurrentArmyAdapter(new GameUnit[]{}));
         } else {
             currarmyMSG.setText("");
             this.maxCapacity.setText(String.valueOf(p.getMaxCapacity()));
@@ -163,7 +161,7 @@ public class ArmyTrainingFragment extends Fragment {
     private void updateTrainMenu(Player p) {
         PlayerArmy pa = p.getArmy();
         if (pa != null && pa.getUnits() != null) {
-            List<GameUnit> units = new ArrayList<>(pa.getUnits().values());
+            List<GameUnit> units = pa.getUnitList();
             GameUnit[] arr = units.toArray(new GameUnit[units.size()]);
             RecyclerView.Adapter trainMenuAdapter = new TrainMenuAdapter(arr, p, new LinearLayoutManager(getContext()), getActivity().getResources().getColor(R.color.unavailable), getContext());
             this.trainMenu.setAdapter(trainMenuAdapter);

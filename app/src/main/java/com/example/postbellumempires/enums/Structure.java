@@ -25,7 +25,7 @@ public enum Structure {
             bonuses.addResourceBonus(0.2); //The players whose faction owns the place get +20% of resources when collecting them;
         }
     },
-    VAULT("Vault", false, R.drawable.vault, new Item[]{new Item(GameResource.VAULT_BP, 1), new Item(GameResource.IRON, 100), new Item(GameResource.WOOD, 100), new Item(GameResource.STONE,50)}) {
+    VAULT("Vault", false, R.drawable.vault, new Item[]{new Item(GameResource.VAULT_BP, 1), new Item(GameResource.IRON, 100), new Item(GameResource.WOOD, 100), new Item(GameResource.STONE, 50)}) {
         @Override
         public void applyBonus(PlaceBonuses bonuses) {
             bonuses.addResourcePenalty(0.1); //The players will get -10% of resources when stealing from a place owned by the enemy;

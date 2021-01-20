@@ -6,7 +6,5 @@ import com.google.android.gms.maps.GoogleMap;
 public interface InterfaceListener {
     void updateUI(Player p);
 
-    void loadPlaces();
-
     GoogleMap getMap();
 }

@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.postbellumempires.enums.Faction;
 import com.example.postbellumempires.gameobjects.Player;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -50,16 +52,24 @@ public class NameChooseActivity extends AppCompatActivity {
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {
-
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             FirebaseDatabase.getInstance().getReference("users").child(user.getUid()).setValue(p);
                             startActivity(new Intent(NameChooseActivity.this, MainActivity.class));
                             finish();
                         } else {
-
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(NameChooseActivity.this, "Player register failed.", Toast.LENGTH_SHORT).show();
+                            try{
+                                throw task.getException();
+                            }
+                            catch (FirebaseAuthInvalidCredentialsException malformedEmail)
+                            {
+                                Toast.makeText(this, getResources().getString(R.string.invalidemail), Toast.LENGTH_SHORT).show();
+                            }
+                            catch (FirebaseAuthUserCollisionException existEmail)
+                            {
+                                Toast.makeText(this, getResources().getString(R.string.usedemail), Toast.LENGTH_SHORT).show();
+                            }
+                            catch (Exception e){}
                         }
                     });
         }

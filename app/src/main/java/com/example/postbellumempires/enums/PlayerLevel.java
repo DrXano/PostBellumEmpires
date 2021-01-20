@@ -43,9 +43,9 @@ public enum PlayerLevel {
     }
 
     public static PlayerLevel valueOfUnit(UnitType type) {
-        if(type.equals(UnitType.ARCHER)){
+        if (type.equals(UnitType.ARCHER)) {
             return Level1;
-        }else {
+        } else {
             return BY_UNIT_REWARD.get(type);
         }
     }

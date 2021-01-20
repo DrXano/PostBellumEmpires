@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/structureCL"
     android:layout_width="match_parent"
     android:layout_height="120dp"
@@ -9,7 +10,7 @@
     <Button
         android:id="@+id/buildButton"
         android:layout_width="70dp"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
@@ -22,14 +23,18 @@
 
     <ScrollView
         android:id="@+id/structReqsSV"
-        android:layout_width="80dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buildButton"
-        app:layout_constraintTop_toBottomOf="@+id/reqssTxt">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/structName">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/structreqsRV"
@@ -39,29 +44,14 @@
     </ScrollView>
 
     <TextView
-        android:id="@+id/reqssTxt"
+        android:id="@+id/structName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Requirements"
-        app:layout_constraintStart_toStartOf="@+id/structReqsSV"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/structName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-black"
         android:maxLines="1"
         app:autoSizeMaxTextSize="18sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/structReqsSV"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/structReqsSV"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

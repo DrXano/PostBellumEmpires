@@ -34,15 +34,15 @@ public class ActionReport {
             this.successfulAttacks++;
     }
 
-    public void performHeal(boolean success){
+    public void performHeal(boolean success) {
         this.heals++;
-        if(success)
+        if (success)
             this.successfulHeals++;
     }
 
-    public void performBoost(boolean success){
+    public void performBoost(boolean success) {
         this.boosts++;
-        if(success)
+        if (success)
             this.successfulBoosts++;
     }
 
@@ -54,18 +54,18 @@ public class ActionReport {
         }
     }
 
-    public double healRate(){
-        if(this.heals == 0){
+    public double healRate() {
+        if (this.heals == 0) {
             return 0.0;
-        }else{
+        } else {
             return (double) this.successfulHeals / (double) this.heals;
         }
     }
 
-    public double boostRate(){
-        if(this.boosts == 0){
+    public double boostRate() {
+        if (this.boosts == 0) {
             return 0.0;
-        }else{
+        } else {
             return (double) this.successfulBoosts / (double) this.boosts;
         }
     }

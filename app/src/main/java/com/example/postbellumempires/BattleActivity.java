@@ -55,8 +55,6 @@ public class BattleActivity extends AppCompatActivity {
         this.myTotal = findViewById(R.id.myTotal);
         this.enemyRemaining = findViewById(R.id.enemyRemaining);
         this.enemyTotal = findViewById(R.id.enemyTotal);
-        int playerColor = getResources().getColor(battle.getPlayer().getPlayerFaction().primaryColor);
-        int enemyColor = getResources().getColor(battle.getPlace().getFaction().primaryColor);
 
         this.playerArmy.setBackground(getResources().getDrawable(battle.getPlayer().getPlayerFaction().background));
 
@@ -69,7 +67,7 @@ public class BattleActivity extends AppCompatActivity {
         this.events.setLayoutManager(this.eventLayout);
         this.adapter = new MessageAdapter(new ArrayList<>(), getResources());
         this.events.setAdapter(adapter);
-        battle.setActivity(this, getResources());
+        battle.setActivity(this);
     }
 
     @Override
@@ -100,22 +98,10 @@ public class BattleActivity extends AppCompatActivity {
             public void run() {
                 View target = eventLayout.findViewByPosition(index);
                 if (target != null) {
-                    int offset = events.getMeasuredHeight() - target.getMeasuredHeight();
-                    eventLayout.scrollToPositionWithOffset(index, offset);
+                    eventLayout.scrollToPosition(index);
                 }
             }
         });
-    }
-
-    private int changeOpacity(int color) {
-        int alpha = Color.alpha(color);
-        int red = Color.red(color);
-        int green = Color.green(color);
-        int blue = Color.blue(color);
-
-        alpha *= 0.5;
-
-        return Color.argb(alpha, red, green, blue);
     }
 
     public void updateMyArmy(Map<String, Integer> myArmyCount, int myCurrent) {

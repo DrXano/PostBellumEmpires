@@ -8,11 +8,11 @@ public class BattleUnit {
     private final String name;
     private final int health;
     private final int size;
-    private int currentHealth;
-    private double attack;
     private final double armor;
     private final double speed;
     private final UnitType type;
+    private int currentHealth;
+    private double attack;
 
     public BattleUnit(GameUnit unit) {
         this.level = unit.getLevel();
@@ -40,9 +40,9 @@ public class BattleUnit {
     }
 
     public boolean heal(double health) {
-        if(this.health == this.currentHealth){
+        if (this.health == this.currentHealth) {
             return false;
-        }else{
+        } else {
             this.currentHealth += health;
             if (this.currentHealth > this.health)
                 this.currentHealth = this.health;
@@ -61,13 +61,13 @@ public class BattleUnit {
         }
     }
 
-    public boolean boostAttack(double bonus){
+    public boolean boostAttack(double bonus) {
         double maxAttack = this.attack * 1.5;
-        if(this.attack >= maxAttack){
+        if (this.attack >= maxAttack) {
             return false;
-        }else {
+        } else {
             this.attack += bonus;
-            if(this.attack >= maxAttack)
+            if (this.attack >= maxAttack)
                 this.attack = maxAttack;
             return true;
         }

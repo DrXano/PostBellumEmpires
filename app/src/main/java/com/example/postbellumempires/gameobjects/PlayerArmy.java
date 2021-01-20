@@ -183,4 +183,13 @@ public class PlayerArmy implements Serializable {
     public void remove(BattleUnit battleUnit) {
         this.remove(battleUnit.getType(), 1);
     }
+
+    @Exclude
+    public List<GameUnit> getUnitList() {
+        List<GameUnit> toReturn = new ArrayList<>();
+        for(UnitType t : UnitType.values()){
+            toReturn.add(units.get(t.name()));
+        }
+        return toReturn;
+    }
 }

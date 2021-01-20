@@ -35,9 +35,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         BattleMessage m = mDataset.get(position);
 
-        if(m.getFaction() == null){
+        if (m.getFaction() == null) {
             holder.layout.setBackground(res.getDrawable(R.drawable.neutral_bg));
-        }else{
+        } else {
             holder.layout.setBackground(res.getDrawable(m.getFaction().background));
         }
 

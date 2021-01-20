@@ -70,12 +70,13 @@ public class InventoryActivity extends AppCompatActivity {
 
         if (inventory == null || inventory.getInventory() == null || inventory.getInventory().isEmpty()) {
             text.setText(getResources().getString(R.string.emptyInventory));
-            this.Layout.removeAllViews();
+            mAdapter = new InventoryAdapter(new Item[]{},this);
+            Layout.setAdapter(mAdapter);
         } else {
             text.setText("");
             List<Item> items = inventory.getInventory();
             Item[] arr = items.toArray(new Item[items.size()]);
-            mAdapter = new InventoryAdapter(arr);
+            mAdapter = new InventoryAdapter(arr,this);
             Layout.setAdapter(mAdapter);
         }
     }

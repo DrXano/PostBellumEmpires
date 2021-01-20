@@ -17,12 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.androidmapsextensions.utils.SphericalMercator;
 import com.example.postbellumempires.MainGameActivity;
 import com.example.postbellumempires.R;
 import com.example.postbellumempires.adapters.PlaceArmyAdapter;
 import com.example.postbellumempires.enums.GameResource;
 import com.example.postbellumempires.enums.Structure;
+import com.example.postbellumempires.gameobjects.GameUnit;
 import com.example.postbellumempires.gameobjects.Item;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.PlaceArmy;
@@ -109,8 +109,10 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
 
         PlaceArmy army = p.getArmy();
 
-        if (army != null && army.getUnits() != null) {
+        if (army != null && army.getUnits() != null && !army.getUnits().isEmpty()) {
             this.armyView.setAdapter(new PlaceArmyAdapter(army.getUnitsArray()));
+        }else{
+            this.armyView.setAdapter(new PlaceArmyAdapter(new GameUnit[]{}));
         }
 
         PlaceName.setText(p.getName());
@@ -134,7 +136,6 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
         Owner.setText((owner == null) ? "---" : owner);
         OwnerFaction.setText((ownerFaction == null) ? "---" : ownerFaction);
         boolean friendly = p.isFriendly(player);
-        //this.friendly = (p.getOwnerFaction() == null || p.getOwnerFaction().equals(player.getPFaction()));
 
         if (friendly) {
             action.setText("Deploy Troops");
@@ -219,11 +220,11 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 if (!this.place.getUnderAttack()) {
                     if (this.place.getEStruct2().equals(Structure.NONE)) {
                         if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                            if(isNear()){
-                            Dialog d = new StructureDialog(context, 2, this.place, player, getContext().getResources().getColor(R.color.unavailable));
-                            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                            d.show();
-                            }else{
+                            if (isNear()) {
+                                Dialog d = new StructureDialog(context, 2, this.place, player, getContext().getResources().getColor(R.color.unavailable));
+                                d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                                d.show();
+                            } else {
                                 Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -236,11 +237,11 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 if (!this.place.getUnderAttack()) {
                     if (this.place.getEStruct3().equals(Structure.NONE)) {
                         if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                            if(isNear()){
-                            Dialog d = new StructureDialog(context, 3, this.place, player, getContext().getResources().getColor(R.color.unavailable));
-                            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                            d.show();
-                            }else{
+                            if (isNear()) {
+                                Dialog d = new StructureDialog(context, 3, this.place, player, getContext().getResources().getColor(R.color.unavailable));
+                                d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                                d.show();
+                            } else {
                                 Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -253,11 +254,11 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 if (!this.place.getUnderAttack()) {
                     if (this.place.getEStruct4().equals(Structure.NONE)) {
                         if (this.place.isOccupied() && this.place.isFriendly(player)) {
-                            if(isNear()){
-                            Dialog d = new StructureDialog(context, 4, this.place, player, getContext().getResources().getColor(R.color.unavailable));
-                            d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
-                            d.show();
-                            }else{
+                            if (isNear()) {
+                                Dialog d = new StructureDialog(context, 4, this.place, player, getContext().getResources().getColor(R.color.unavailable));
+                                d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                                d.show();
+                            } else {
                                 Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
                             }
                         }

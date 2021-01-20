@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/unittrainCL"
     android:layout_width="match_parent"
     android:layout_height="100dp"
@@ -8,25 +9,16 @@
 
     <TextView
         android:id="@+id/unitName"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-black"
         android:maxLines="1"
         app:autoSizeMaxTextSize="18sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/leveltext"
-        app:layout_constraintEnd_toStartOf="@+id/trainreqRV"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="@+id/trainreqRV"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/sizetext"
@@ -50,34 +42,32 @@
 
     <Button
         android:id="@+id/trainbuttonView"
-        android:layout_width="80dp"
-        android:layout_height="48dp"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="Train"
         android:textSize="12sp"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trainreqRV"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/border"
+        android:isScrollContainer="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/trainbuttonView"
-        app:layout_constraintTop_toBottomOf="@+id/trainreqview" />
-
-    <TextView
-        android:id="@+id/trainreqview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Requirements"
-        app:layout_constraintStart_toStartOf="@+id/trainreqRV"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/unit_info_button"
+        app:layout_constraintTop_toBottomOf="@+id/unitName" />
 
     <TextView
         android:id="@+id/leveltext"
@@ -96,4 +86,16 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/leveltext"
         app:layout_constraintStart_toEndOf="@+id/leveltext" />
+
+    <ImageButton
+        android:id="@+id/unit_info_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/info"
+        tools:ignore="VectorDrawableCompat" />
 </androidx.constraintlayout.widget.ConstraintLayout>

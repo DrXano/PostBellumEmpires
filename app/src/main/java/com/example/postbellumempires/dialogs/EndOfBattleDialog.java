@@ -65,24 +65,24 @@ public class EndOfBattleDialog extends Dialog implements View.OnClickListener {
         resulttitle.setText(result);
 
         killedText = findViewById(R.id.killedText);
-        killedText.setText("Units killed:");
+        killedText.setText(activity.getResources().getString(R.string.unitskilled));
         killCount = findViewById(R.id.killCount);
         killCount.setText(String.valueOf(enemykilled));
 
         lostText = findViewById(R.id.lostText);
-        lostText.setText("Units lost:");
+        lostText.setText(activity.getResources().getString(R.string.unitslost));
         lostCount = findViewById(R.id.lostCount);
         lostCount.setText(String.valueOf(friendlykilled));
 
         expforkills = findViewById(R.id.expforkills);
-        expforkills.setText("Exp for kills:");
+        expforkills.setText(activity.getResources().getString(R.string.expkills));
         expkillsearned = findViewById(R.id.expkillsearned);
         String killHolder = "+" + killexp + " exp";
         expkillsearned.setText(killHolder);
 
         if (victory) {
             victorybonustext = findViewById(R.id.victorybonustext);
-            victorybonustext.setText("Victory bonus:");
+            victorybonustext.setText(activity.getResources().getString(R.string.victorybonus));
             victorybonus = findViewById(R.id.victorybonus);
             String victoryHolder = "+" + victoryexp + " exp";
             victorybonus.setText(victoryHolder);

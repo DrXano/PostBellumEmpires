@@ -31,15 +31,13 @@ import java.util.List;
  */
 public class ArmyUpgradeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private DatabaseReference playerRef;
     private RecyclerView upgradeMenu;
     private RecyclerView.LayoutManager layoutManager;
     private ArmyMenuActivity parentActivity;
-    // TODO: Rename and change types of parameters
+
     private String mParam1;
     private String mParam2;
 
@@ -77,7 +75,6 @@ public class ArmyUpgradeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_army_upgrade, container, false);
 
         this.playerRef = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -109,7 +106,7 @@ public class ArmyUpgradeFragment extends Fragment {
         if (this.isResumed()) {
             PlayerArmy pa = p.getArmy();
             if (pa != null && pa.getUnits() != null) {
-                List<GameUnit> units = new ArrayList<>(pa.getUnits().values());
+                List<GameUnit> units = pa.getUnitList();
                 GameUnit[] arr = units.toArray(new GameUnit[units.size()]);
                 RecyclerView.Adapter upgradeMenuAdapter = new UpgradeMenuAdapter(arr, p, new LinearLayoutManager(getContext()), getActivity().getResources().getColor(R.color.unavailable), getContext());
                 this.upgradeMenu.setAdapter(upgradeMenuAdapter);

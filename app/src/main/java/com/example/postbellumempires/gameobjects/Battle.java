@@ -2,13 +2,13 @@ package com.example.postbellumempires.gameobjects;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
 import android.os.Handler;
 
 import com.example.postbellumempires.BattleActivity;
+import com.example.postbellumempires.R;
 import com.example.postbellumempires.dialogs.EndOfBattleDialog;
 import com.example.postbellumempires.enums.ExpReward;
 
@@ -21,8 +21,11 @@ import java.util.Map;
 public class Battle implements Serializable {
 
     private static final int NUMBER_OF_ROUNDS = 30;
+    private static final double REMAINING_WARNING = 0.2;
+    private static final double LOWER_BOUND = 0.4;
+    private static final double HIGHER_BOUND = 0.8;
 
-    private static final int INTERVAL = 1500;
+    private static final int INTERVAL = 1900;
     private static Battle currentBattle = null;
     final Handler thisBattle = new Handler();
     private final Player player;
@@ -32,19 +35,19 @@ public class Battle implements Serializable {
     private BattleUnit[] enemyArmy;
     private Map<String, Integer> myArmyCount;
     private Map<String, Integer> enemyArmyCount;
-    private boolean inBattle;
+    private boolean myArmyInDangerMsg;
+    private boolean enemyArmyInDangerMsg;
     private boolean victory;
     private int friendlykilled;
     private int enemykilled;
-
-    private Resources resources;
 
     private BattleActivity parent;
 
     public Battle(Player player, Place place, GameUnit[] playerArmy) {
         this.player = player;
         this.place = place;
-        this.inBattle = true;
+        this.myArmyInDangerMsg = true;
+        this.enemyArmyInDangerMsg = true;
         this.victory = false;
         this.myArmyCount = new HashMap<>();
         this.enemyArmyCount = new HashMap<>();
@@ -69,9 +72,8 @@ public class Battle implements Serializable {
         currentBattle = null;
     }
 
-    public void setActivity(BattleActivity parent, Resources resources) {
+    public void setActivity(BattleActivity parent) {
         this.parent = parent;
-        this.resources = resources;
         this.parent.UpdateUI(myArmyCount, enemyArmyCount, myArmy.length, enemyArmy.length);
     }
 
@@ -83,18 +85,19 @@ public class Battle implements Serializable {
                 place.updatePlace();
                 parent.addMessage(new BattleMessage("The Battle has begun!", null));
                 for (int i = 0; i < NUMBER_OF_ROUNDS; i++) {
+                    boolean isFirstRound = i == 0;
 
                     thisBattle.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            playerTurn();
+                            playerTurn(isFirstRound);
                         }
                     }, INTERVAL * (2 * i + 1));
 
                     thisBattle.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            enemyTurn();
+                            enemyTurn(isFirstRound);
 
                             player.updatePlayer();
                             place.updatePlace();
@@ -107,7 +110,7 @@ public class Battle implements Serializable {
         }, 1500);
     }
 
-    private void playerTurn() {
+    private void playerTurn(boolean firstRound) {
         ActionReport myReport = new ActionReport();
 
         if (!isDefeated(myArmy) && !isDefeated(enemyArmy)) {
@@ -121,11 +124,11 @@ public class Battle implements Serializable {
                 parent.updateEnemyArmy(enemyArmyCount, enemyArmy.length - enemykilled);
             }
 
-            parent.addMessage(getMessageForPlayer(myReport));
+            parent.addMessage(getMessageForPlayer(firstRound, myReport));
         }
     }
 
-    private void enemyTurn() {
+    private void enemyTurn(boolean firstRound) {
         ActionReport enemyReport = new ActionReport();
 
         if (!isDefeated(myArmy) && !isDefeated(enemyArmy)) {
@@ -139,7 +142,7 @@ public class Battle implements Serializable {
                 parent.updateMyArmy(myArmyCount, myArmy.length - friendlykilled);
             }
 
-            parent.addMessage(getMessageForEnemy(enemyReport));
+            parent.addMessage(getMessageForEnemy(firstRound, enemyReport));
         }
     }
 
@@ -148,7 +151,6 @@ public class Battle implements Serializable {
         boolean enemyArmyDead = isDefeated(enemyArmy);
         if (myArmyDead || enemyArmyDead) {
             thisBattle.removeCallbacksAndMessages(null);
-            inBattle = false;
             if (enemyArmyDead) {
                 victory = true;
             }
@@ -165,12 +167,12 @@ public class Battle implements Serializable {
 
         int exp = enemykilled * ExpReward.UNIT_KILLED.reward;
         if (victory) {
-            parent.addMessage(new BattleMessage("The Battle has ended and you are victorious!", player.getPlayerFaction()));
+            parent.addMessage(new BattleMessage(parent.getResources().getString(R.string.msg_victory), player.getPlayerFaction()));
             exp += ExpReward.VICTORY.reward;
             place.setUnderAttack(false);
             place.free();
         } else {
-            parent.addMessage(new BattleMessage("The Battle has ended but you have been defeated!", place.getFaction()));
+            parent.addMessage(new BattleMessage(parent.getResources().getString(R.string.msg_defeat), place.getFaction()));
             place.setUnderAttack(false);
             place.updatePlace();
         }
@@ -185,29 +187,107 @@ public class Battle implements Serializable {
         d.show();
     }
 
-    private BattleMessage getMessageForPlayer(ActionReport myReport) {
+    private BattleMessage getMessageForPlayer(boolean firstRound, ActionReport myReport) {
         String message;
-        if (myReport.getKills() > 0) {
-            message = "Your army has engaged the enemy";
-        } else {
-            if (myReport.attackRate() > 0) {
-                message = "Your army hit the enemy but with no kills";
+        int kills = myReport.getKills();
+        double attackRate = myReport.attackRate();
+        double healRate = myReport.healRate();
+        double boostRate = myReport.boostRate();
+        double remaining = (double) (enemyArmy.length - enemykilled) / (double) enemyArmy.length;
+
+        if (firstRound) {
+            if (attackRate > 0) {
+                if (kills > 0) {
+                    message = parent.getResources().getString(R.string.msg_player_1);
+                } else {
+                    message = parent.getResources().getString(R.string.msg_player_2);
+                }
             } else {
-                message = "Your army did not hit the enemy";
+                message = parent.getResources().getString(R.string.msg_player_3);
+            }
+        } else {
+            if (remaining <= REMAINING_WARNING && this.enemyArmyInDangerMsg) {
+                message = parent.getResources().getString(R.string.msg_player_4);
+                this.enemyArmyInDangerMsg = false;
+            } else if (attackRate > 0) {
+                if (kills > 0) {
+                    message = parent.getResources().getString(R.string.msg_player_5);
+                } else if (healRate > 0 && boostRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_player_6);
+                } else if (healRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_player_7);
+                } else if (boostRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_player_8);
+                } else if (attackRate <= LOWER_BOUND) {
+                    message = parent.getResources().getString(R.string.msg_player_9);
+                } else if (attackRate > LOWER_BOUND && attackRate <= HIGHER_BOUND) {
+                    message = parent.getResources().getString(R.string.msg_player_10);
+                } else {
+                    message = parent.getResources().getString(R.string.msg_player_11);
+                }
+            } else {
+                if (healRate > 0 && boostRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_player_12);
+                } else if (healRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_player_13);
+                } else if (boostRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_player_14);
+                } else {
+                    message = parent.getResources().getString(R.string.msg_player_15);
+                }
             }
         }
         return new BattleMessage(message, player.getPlayerFaction());
     }
 
-    private BattleMessage getMessageForEnemy(ActionReport enemyReport) {
+    private BattleMessage getMessageForEnemy(boolean firstRound, ActionReport enemyReport) {
         String message;
-        if (enemyReport.getKills() > 0) {
-            message = "The enemy has engaged you";
-        } else {
-            if (enemyReport.attackRate() > 0) {
-                message = "Your army was hit but with no casualties";
+        int kills = enemyReport.getKills();
+        double attackRate = enemyReport.attackRate();
+        double healRate = enemyReport.healRate();
+        double boostRate = enemyReport.boostRate();
+        double remaining = (double) (myArmy.length - friendlykilled) / (double) myArmy.length;
+
+        if (firstRound) {
+            if (attackRate > 0) {
+                if (kills > 0) {
+                    message = parent.getResources().getString(R.string.msg_enemy_1);
+                } else {
+                    message = parent.getResources().getString(R.string.msg_enemy_2);
+                }
             } else {
-                message = "Your army did not suffer casualties from the enemy";
+                message = parent.getResources().getString(R.string.msg_enemy_3);
+            }
+        } else {
+            if (remaining <= REMAINING_WARNING && this.myArmyInDangerMsg) {
+                message = parent.getResources().getString(R.string.msg_enemy_4);
+                this.myArmyInDangerMsg = false;
+            } else if (attackRate > 0) {
+                if (kills > 0) {
+                    message = parent.getResources().getString(R.string.msg_enemy_5);
+                } else if (healRate > 0 && boostRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_enemy_6);
+                } else if (healRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_enemy_7);
+                } else if (boostRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_enemy_8);
+                } else if (attackRate <= LOWER_BOUND) {
+                    message = parent.getResources().getString(R.string.msg_enemy_9);
+                } else if (attackRate > LOWER_BOUND && attackRate <= HIGHER_BOUND) {
+                    message = parent.getResources().getString(R.string.msg_enemy_10);
+                } else {
+                    message = parent.getResources().getString(R.string.msg_enemy_11);
+                }
+            } else {
+                if (healRate > 0 && boostRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_enemy_12);
+                } else if (healRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_enemy_13);
+                } else if (boostRate > 0) {
+                    message = parent.getResources().getString(R.string.msg_enemy_14);
+                } else {
+                    message = parent.getResources().getString(R.string.msg_enemy_15);
+                }
             }
         }
         return new BattleMessage(message, place.getFaction());
@@ -252,9 +332,9 @@ public class Battle implements Serializable {
 
     public void retreat() {
         AlertDialog.Builder builder = new AlertDialog.Builder(parent);
-        builder.setTitle("Retreat?");
-        builder.setMessage("If you retreat it will count as a defeat. Are you sure?");
-        builder.setPositiveButton("Yes", (dialog, which) -> {
+        builder.setTitle(parent.getResources().getString(R.string.retreatTitle));
+        builder.setMessage(parent.getResources().getString(R.string.retreatMsg));
+        builder.setPositiveButton(parent.getResources().getString(R.string.yes), (dialog, which) -> {
             thisBattle.removeCallbacksAndMessages(null);
             thisBattle.postDelayed(new Runnable() {
                 @Override
@@ -263,7 +343,7 @@ public class Battle implements Serializable {
                 }
             }, INTERVAL);
         });
-        builder.setNegativeButton("No", (dialog, which) -> {
+        builder.setNegativeButton(parent.getResources().getString(R.string.no), (dialog, which) -> {
 
         });
         AlertDialog d = builder.create();

@@ -1,5 +1,6 @@
 package com.example.postbellumempires.enums;
 
+import com.example.postbellumempires.R;
 import com.example.postbellumempires.gameobjects.Item;
 
 import java.util.ArrayList;
@@ -10,24 +11,24 @@ import java.util.Random;
 
 public enum GameResource {
     //Abstract item
-    BP(0, "Structure Blueprint", 1000, 1, 1, true, true),
+    BP(0, "Structure Blueprint", R.drawable.empty, 1, 1, true, true, R.string.ok),
 
     //Resources
-    FOOD(1, "Food", 1000, 30, 50, false, false),
-    WOOD(2, "Wood", 1000, 25, 40, false, false),
-    IRON(3, "Iron", 1000, 15, 25, false, false),
-    STONE(4, "Stone", 1000, 20, 30, false, false),
-    KNOWLEDGE(5, "Knowledge", 1000, 12, 28, false, false),
-    MEDICINE(6, "Medicine", 1000, 15, 25, false, false),
-    URANIUM(7, "Uranium", 1000, 1, 6, false, false),
+    FOOD(1, "Food", R.drawable.food, 30, 50, false, false, R.string.foodDesc),
+    WOOD(2, "Wood", R.drawable.wood, 25, 40, false, false, R.string.woodDesc),
+    IRON(3, "Iron", R.drawable.iron, 15, 25, false, false, R.string.ironDesc),
+    STONE(4, "Stone", R.drawable.stone, 20, 30, false, false, R.string.stoneDesc),
+    KNOWLEDGE(5, "Knowledge", R.drawable.knowledge, 12, 28, false, false, R.string.knowledgeDesc),
+    MEDICINE(6, "Medicine", R.drawable.medicine, 15, 25, false, false, R.string.medicineDesc),
+    URANIUM(7, "Uranium", R.drawable.uranium, 1, 6, false, false, R.string.uraniumDesc),
 
     //Blueprints
-    BARRACK_BP(8, "Barrack Blueprint", 1000, 1, 1, true, false),
-    STORAGE_BP(9, "Storage Blueprint", 1000, 1, 1, true, false),
-    VAULT_BP(10, "Vault Blueprint", 1000, 1, 1, true, false),
-    ARMORY_BP(11, "Armory Blueprint", 1000, 1, 1, true, false),
-    MEDBAY_BP(12, "Medbay Blueprint", 1000, 1, 1, true, false),
-    LABORATORY_BP(13, "Laboratory Blueprint", 1000, 1, 1, true, false);
+    BARRACK_BP(8, "Barrack Blueprint", R.drawable.barrack, 1, 1, true, false, R.string.barrackDesc),
+    STORAGE_BP(9, "Storage Blueprint", R.drawable.storage, 1, 1, true, false, R.string.storageDesc),
+    VAULT_BP(10, "Vault Blueprint", R.drawable.vault, 1, 1, true, false, R.string.vaultDesc),
+    ARMORY_BP(11, "Armory Blueprint", R.drawable.armory, 1, 1, true, false, R.string.armoryDesc),
+    MEDBAY_BP(12, "Medbay Blueprint", R.drawable.medbay, 1, 1, true, false, R.string.medbayDesc),
+    LABORATORY_BP(13, "Laboratory Blueprint", R.drawable.laboratory, 1, 1, true, false, R.string.laboratoryDesc);
 
     private static final List<GameResource> bps = new ArrayList<>();
     private static final Map<Integer, GameResource> BY_ID = new HashMap<>();
@@ -48,8 +49,9 @@ public enum GameResource {
     public final int max;
     public final boolean isBp;
     public final boolean isAbstract;
+    public final int description;
 
-    GameResource(int id, String name, int image, int min, int max, boolean isBp, boolean isAbstract) {
+    GameResource(int id, String name, int image, int min, int max, boolean isBp, boolean isAbstract, int description) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -57,6 +59,7 @@ public enum GameResource {
         this.max = max;
         this.isBp = isBp;
         this.isAbstract = isAbstract;
+        this.description = description;
     }
 
     public static GameResource valueOfID(int id) {

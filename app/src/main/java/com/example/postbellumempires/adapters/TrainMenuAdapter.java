@@ -1,10 +1,14 @@
 package com.example.postbellumempires.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.postbellumempires.R;
+import com.example.postbellumempires.dialogs.UnitDialog;
 import com.example.postbellumempires.enums.PlayerLevel;
 import com.example.postbellumempires.gameobjects.GameUnit;
 import com.example.postbellumempires.gameobjects.Item;
@@ -54,6 +59,7 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
             holder.levelTextView.setText("");
             holder.unitLevelView.setText("");
             holder.trainButton.setClickable(false);
+            holder.infoView.setClickable(false);
             holder.trainButton.getBackground().setAlpha(64);
             int availableLevel = PlayerLevel.valueOfUnit(gu.getEType()).level;
             holder.trainButton.setText("Reach \n Lvl. " + availableLevel);
@@ -64,6 +70,7 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
             holder.levelTextView.setText("Level ");
             holder.unitLevelView.setText(String.valueOf(gu.getLevel()));
             holder.trainButton.setClickable(true);
+            holder.infoView.setClickable(true);
             holder.trainButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,6 +85,15 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
                     } else {
                         Toast.makeText(context, "Insuficient Resources", Toast.LENGTH_SHORT).show();
                     }
+                }
+            });
+
+            holder.infoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dialog d = new UnitDialog(context, gu);
+                    d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
+                    d.show();
                 }
             });
         }
@@ -95,6 +111,7 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
         TextView levelTextView;
         RecyclerView requirementsView;
         Button trainButton;
+        ImageButton infoView;
 
         public UnitTrainViewHolder(View v) {
             super(v);
@@ -104,6 +121,7 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
             levelTextView = itemView.findViewById(R.id.leveltext);
             requirementsView = itemView.findViewById(R.id.trainreqRV);
             trainButton = itemView.findViewById(R.id.trainbuttonView);
+            infoView = itemView.findViewById(R.id.unit_info_button);
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.postbellumempires.gameobjects;
 
-import android.graphics.Color;
-
 import com.example.postbellumempires.enums.Faction;
 
 public class BattleMessage {

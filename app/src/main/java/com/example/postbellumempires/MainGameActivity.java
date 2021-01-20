@@ -18,6 +18,7 @@ import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.Player;
 import com.example.postbellumempires.interfaces.InterfaceListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,26 +50,6 @@ public class MainGameActivity extends AppCompatActivity {
         this.mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             this.playerRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
-            playerRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        if (map.isResumed()) {
-                            Player p = snapshot.getValue(Player.class);
-                            player = p;
-                            listener.updateUI(p);
-                        }
-                    } else {
-                        Toast.makeText(MainGameActivity.this, "Player information was not found", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.mainfrag, this.map)
                     .commit();
@@ -120,6 +101,8 @@ public class MainGameActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .detach(this.map)
                 .commit();
+
+
     }
 
     @Override
@@ -128,7 +111,7 @@ public class MainGameActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .attach(this.map)
                 .commit();
-        playerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        playerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -148,26 +131,38 @@ public class MainGameActivity extends AppCompatActivity {
             }
         });
 
-        this.LocRef.addValueEventListener(new ValueEventListener() {
+        this.LocRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        if (map.isResumed()) {
-                            Place p = ds.getValue(Place.class);
-                            listener.getMap().addMarker(p.getMarker(getResources()));
-                        }
-                    }
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if(snapshot.exists() && map.isResumed()){
+                    Place p = snapshot.getValue(Place.class);
+                    listener.getMap().addMarker(p.getMarker(getResources()));
                 }
             }
 
             @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if(snapshot.exists() && map.isResumed()){
+                    Place p = snapshot.getValue(Place.class);
+                    listener.getMap().addMarker(p.getMarker(getResources()));
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-
-        //listener.loadPlaces();
-
     }
 
     @Override

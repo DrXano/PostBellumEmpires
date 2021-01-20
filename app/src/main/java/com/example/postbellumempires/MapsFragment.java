@@ -3,6 +3,9 @@ package com.example.postbellumempires;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,11 +17,13 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,9 +100,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
     private TextView playerLevel;
     private ImageView symbol;
 
-    private LocationCallback locationCallback;
-    private LocationRequest locReq;
-    private FusedLocationProviderClient fusedLocationClient;
+    private LocationManager locationManager;
 
     private int color;
 
@@ -184,7 +187,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             this.playerPosBase.setIcon(BitmapDescriptorFactory.fromBitmap(getPlayerMarker(R.drawable.markerbase, 200, 200, p.getPlayerFaction())));
         }
 
-        if(circle != null){
+        if (circle != null) {
             circle.setStrokeColor(parentActivity.getResources().getColor(p.getPlayerFaction().primaryColor));
         }
     }
@@ -266,6 +269,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             }
         }
 
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            showGPSAlert();
+        }
+
         this.mMap = googleMap;
 
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.mapstyle));
@@ -277,10 +285,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         googleMap.getUiSettings().setScrollGesturesEnabledDuringRotateOrZoom(false);
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
 
-        //loadPlaces();
-
-        this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        this.locReq = LocationRequest.create()
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        LocationRequest locReq = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(5000)
                 .setFastestInterval(1000);
@@ -308,7 +314,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             return true;
         });
 
-        locationCallback = new LocationCallback() {
+        LocationCallback locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
@@ -316,11 +322,24 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                     createPlayerMarker(loc);
                     animateMarker(playerPos, location);
                     animateMarker(playerPosBase, location);
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(loc));
+                    CameraPosition cp = new CameraPosition.Builder().target(loc).tilt(TILT).build();
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
                 }
             }
         };
-        fusedLocationClient.requestLocationUpdates(this.locReq, locationCallback, Looper.getMainLooper());
+        fusedLocationClient.requestLocationUpdates(locReq, locationCallback, Looper.getMainLooper());
+    }
+
+    private void showGPSAlert(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setTitle(getActivity().getResources().getString(R.string.gpsoff));
+        alertDialog.setMessage(getActivity().getResources().getString(R.string.gpspls));
+        alertDialog.setPositiveButton(getActivity().getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     private void createPlayerMarker(LatLng loc) {
@@ -354,13 +373,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
             }
         }
 
-        if(circle == null){
+        if (circle == null) {
             if (player == null) {
                 circle = getMap().addCircle(new CircleOptions()
                         .radius(40)
                         .center(loc)
                         .strokeColor(Color.WHITE));
-            }else{
+            } else {
                 circle = getMap().addCircle(new CircleOptions()
                         .radius(40)
                         .center(loc)
@@ -392,7 +411,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         final Handler handler = new Handler();
         final long start = SystemClock.uptimeMillis();
         final LatLng startLatLng = marker.getPosition();
-        //final double startRotation = marker.getRotation();
         final long duration = 500;
 
         final Interpolator interpolator = new LinearInterpolator();
@@ -406,35 +424,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
                 double lng = t * location.getLongitude() + (1 - t) * startLatLng.longitude;
                 double lat = t * location.getLatitude() + (1 - t) * startLatLng.latitude;
 
-                //float rotation = (float) (t * location.getBearing() + (1 - t)*startRotation);
-
                 marker.setPosition(new LatLng(lat, lng));
                 circle.setCenter(new LatLng(lat, lng));
-                //marker.setRotation(rotation);
 
                 if (t < 1.0) {
                     handler.postDelayed(this, 16);
                 }
-            }
-        });
-    }
-
-    @Override
-    public void loadPlaces() {
-
-        this.LocRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        Place p = ds.getValue(Place.class);
-                        mMap.addMarker(p.getMarker(getResources()));
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }

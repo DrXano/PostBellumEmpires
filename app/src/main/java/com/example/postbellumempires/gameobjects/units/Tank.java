@@ -87,8 +87,8 @@ public class Tank extends Unit {
     private enum Level {
         Level0(0, new Stats(0, 0, 0, 0), null),
         Level1(1, new Stats(250, 30, 20, 1), null),
-        Level2(2, new Stats(260, 50, 30, 1), new Item[]{new Item(GameResource.KNOWLEDGE, 15), new Item(GameResource.IRON,25)}),
-        Level3(3, new Stats(270, 70, 40, 1), new Item[]{new Item(GameResource.KNOWLEDGE, 30), new Item(GameResource.IRON,35), new Item(GameResource.URANIUM, 5)});
+        Level2(2, new Stats(260, 50, 30, 1), new Item[]{new Item(GameResource.KNOWLEDGE, 15), new Item(GameResource.IRON, 25)}),
+        Level3(3, new Stats(270, 70, 40, 1), new Item[]{new Item(GameResource.KNOWLEDGE, 30), new Item(GameResource.IRON, 35), new Item(GameResource.URANIUM, 5)});
 
         private static final Map<Integer, Level> BY_LEVEL = new HashMap<>();
 

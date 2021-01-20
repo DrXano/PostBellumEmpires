@@ -92,28 +92,5 @@ public class ProfileActivity extends AppCompatActivity {
         this.playerProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         this.symbol.setImageResource(p.getPlayerFaction().symbol);
         this.symbol.setColorFilter(color);
-
-        /*
-        switch (p.getPlayerFaction()) {
-            case OC:
-                color = getResources().getColor(R.color.OCprimary);
-                this.playerProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                this.symbol.setImageResource(R.drawable.ocsymbol);
-                this.symbol.setColorFilter(color);
-                break;
-            case DR:
-                color = getResources().getColor(R.color.DRprimary);
-                this.playerProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                this.symbol.setImageResource(R.drawable.drsymbol);
-                this.symbol.setColorFilter(color);
-                break;
-            case ES:
-                color = getResources().getColor(R.color.ESprimary);
-                this.playerProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                this.symbol.setImageResource(R.drawable.essymbol);
-                this.symbol.setColorFilter(color);
-                break;
-        }
-        */
     }
 }

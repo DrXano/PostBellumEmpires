@@ -53,7 +53,7 @@ public class Place implements Serializable {
     public Place() {
     }
 
-    public Place(String name, double latitude, double longitude, PlaceType type) {
+    public Place(String id, String name, double latitude, double longitude, PlaceType type) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -67,7 +67,7 @@ public class Place implements Serializable {
         this.struct4 = Structure.NONE;
         this.bonuses = new PlaceBonuses(this);
         this.underAttack = false;
-        this.id = this.generateId();
+        this.id = id;
     }
 
     public String getId() {
@@ -238,16 +238,6 @@ public class Place implements Serializable {
     @Exclude
     public void setFaction(Faction ownerFaction) {
         this.ownerFaction = ownerFaction;
-    }
-
-    @Exclude
-    private String generateId() {
-        int hash = 31;
-        hash = 31 * hash + this.name.hashCode();
-        hash = 31 * hash + (int) latitude;
-        hash = 31 * hash + (int) longitude;
-        hash = 31 * hash + type.hashCode();
-        return "place_" + hash;
     }
 
     @Exclude

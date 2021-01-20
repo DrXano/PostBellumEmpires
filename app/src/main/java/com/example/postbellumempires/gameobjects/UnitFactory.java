@@ -25,7 +25,7 @@ public class UnitFactory {
 
     public static Unit getUnit(UnitType type, int level, Stats stats) {
         Unit u = getUnitAux(type, level);
-        if (stats != null && u!= null)
+        if (stats != null && u != null)
             u.setStats(stats);
         return u;
     }

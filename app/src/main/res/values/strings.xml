@@ -58,7 +58,7 @@
     <string name="msg_player_9">Your army inflicted lower damage to the enemy.</string>
     <string name="msg_player_10">Your army attacked the enemy.</string>
     <string name="msg_player_11">Your mans have caused great damage to the enemy.</string>
-    <string name="msg_player_12">Your Medics and UAVs are supporting your mans.</string>
+    <string name="msg_player_12">Your Medics and UAVs are supporting your men.</string>
     <string name="msg_player_13">Your Medics are healing your army.</string>
     <string name="msg_player_14">Your UAVs have boosted the damage your army can cause.</string>
     <string name="msg_player_15">Your army move was not very efficient.</string>
@@ -75,7 +75,7 @@
     <string name="msg_enemy_10">The enemy has attacked you.</string>
     <string name="msg_enemy_11">The enemy inflicted great damage in your army.</string>
     <string name="msg_enemy_12">Medics and UAVs are supporting the enemy.</string>
-    <string name="msg_enemy_13">The enemy Medics are healing their mans.</string>
+    <string name="msg_enemy_13">The enemy Medics are healing their men.</string>
     <string name="msg_enemy_14">The enemy is being boosted by UAVs.</string>
     <string name="msg_enemy_15">the enemy move was not efficient.</string>
 
@@ -97,29 +97,29 @@
     deploy a unit in a place then it will be claimed in your name but the units you deployed will not return. You can build structures in a place to allow more units to guard it, to strengthen your army, or to
     prevent the enemy from benefiting the resources from your place.</string>
 
-    <string name="foodDesc">food description</string>
-    <string name="woodDesc">wood description</string>
-    <string name="ironDesc">iron description</string>
-    <string name="stoneDesc">stone description</string>
-    <string name="knowledgeDesc">knowledge description</string>
-    <string name="medicineDesc">medicine description</string>
-    <string name="uraniumDesc">uranium description</string>
-    <string name="barrackDesc">barrack description</string>
-    <string name="storageDesc">storage description</string>
-    <string name="vaultDesc">vault description</string>
-    <string name="armoryDesc">armory description</string>
-    <string name="medbayDesc">medbay description</string>
-    <string name="laboratoryDesc">laboratory description</string>
+    <string name="foodDesc">One of the most important resources in the game. You can find some food in restaurants, cafes, or any other place related to it.</string>
+    <string name="woodDesc">One of the most important resources in the game. You can find some wood in parks, forests, or any other place that is related to nature.</string>
+    <string name="ironDesc">Not so used as some other resources, but still has great use in the game. You can find some iron in train stations, subway stations or factories.</string>
+    <string name="stoneDesc">A bit more used then iron, still with a lot of uses in the game. You can find some stone in beaches or monuments.</string>
+    <string name="knowledgeDesc">Knowledge is power and that is transitioned onto the game with the uses it has. You can find some knowledge in Universities or Museums.</string>
+    <string name="medicineDesc">Medicine has less uses then most resources in the game, but the uses it has are very important. You can find some medicine in pharmacies, hospitals and clinics.</string>
+    <string name="uraniumDesc">The rarest resource in the game, it works a bit like currency. You can find some uranium in casinos.</string>
+    <string name="barrackDesc">There are limits to how many troops you can deploy in each territory. The barracks are used to increase the capacity of troops in those territories.</string>
+    <string name="storageDesc">You can only get as many resources from a point, in order to increase the amount of resource from a point belonging to your faction you can deploy a Storage Structure.</string>
+    <string name="vaultDesc">Players from other factions already get less resources from points owned by your faction, but with a Vault, you can make that number be even lower.</string>
+    <string name="armoryDesc">Each unit has its stats, with the Armory deployed, your units will see an increase in its Attack and Armor stats.</string>
+    <string name="medbayDesc">The Medbay will allow your units to have their health stats increased to allow them stay longer in battle.</string>
+    <string name="laboratoryDesc">Every unit has its speed to tell how many enemies they can attack each round. With a Laboratory deployed, your units will see an increase in its speed stat.</string>
 
-    <string name="archerDesc">archer description</string>
-    <string name="marineDesc">marine description</string>
-    <string name="pyroDesc">pyro description</string>
-    <string name="tankDesc">tank description</string>
-    <string name="apprenticeDesc">apprentice description</string>
-    <string name="assassinDesc">assassin description</string>
-    <string name="wickDesc">wick description</string>
-    <string name="medicDesc">medic description</string>
+    <string name="archerDesc">One of the first units in the game, lacks in stats, but is very cheap.</string>
+    <string name="marineDesc">One of the first units in the game, a bit stronger then the Archer and cheap, but with different training costs.</string>
+    <string name="pyroDesc">This unit is more offensive then the starting ones, but for that strength comes a cost in Health and Armor.</string>
+    <string name="tankDesc">Tank is the most resistant unit in the game, besides having great health and armor stats, it is also very strong, so you have to be careful when attacking a place with one.</string>
+    <string name="apprenticeDesc">This unit is basically a useless unit at level one, but with the upgrades you start getting a real unit that can make some damage in battles.</string>
+    <string name="assassinDesc">Very fast and deadly unit, but very easy to kill, so you need to be careful when using them.</string>
+    <string name="wickDesc">Very strong offensively and can do a lot of damage in a battle.</string>
+    <string name="medicDesc">This is a support unit, so it does not attack anyone, instead, it has a chance to heal its allies.</string>
     <string name="ramboDesc">rambo description</string>
-    <string name="chemistDesc">chemist description</string>
-    <string name="uavDesc">uav description</string>
+    <string name="chemistDesc">This unit throws uses chemical bombs as a weapon, in the battle it can deal damage to units in an area.</string>
+    <string name="uavDesc">This is a support unit, so it does not attack, instead it gives vision of the enemies, which translates to a boost of damage for his allies.</string>
 </resources>

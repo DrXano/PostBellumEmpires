@@ -16,7 +16,7 @@ public enum PlaceType {
     TRAINSTATION("Train Station", GameResource.IRON, R.drawable.icon_trainstation),
     SUBWAY("Subway", GameResource.IRON, R.drawable.icon_subway),
     BEACH("Beach", GameResource.STONE, R.drawable.icon_beach),
-    CASTLE("Castle", GameResource.STONE, R.drawable.icon_castle),
+    MONUMENT("Monument", GameResource.STONE, R.drawable.icon_castle),
     CASINO("Casino", GameResource.URANIUM, R.drawable.icon_casino);
 
     public final String name;

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Current Army:"
-        app:layout_constraintStart_toStartOf="@+id/CurrArmySV"
+        app:layout_constraintStart_toStartOf="@+id/CurrArmyRV"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -26,26 +26,20 @@
         app:layout_constraintEnd_toStartOf="@+id/currsize"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/CurrArmySV"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/CurrArmyRV"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:background="@drawable/border"
+        android:isScrollContainer="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentarmyTV">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/CurrArmyRV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:isScrollContainer="true" />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/currentarmyTV" />
 
     <TextView
         android:id="@+id/trainTV"
@@ -57,45 +51,39 @@
         android:text="Train:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CurrArmySV" />
+        app:layout_constraintTop_toBottomOf="@+id/CurrArmyRV" />
 
-    <ScrollView
-        android:id="@+id/ArmyTrainSV"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ArmyTrainRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/border"
+        android:isScrollContainer="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trainTV">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ArmyTrainRV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:isScrollContainer="true" />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/trainTV" />
 
     <TextView
         android:id="@+id/CurrArmyMSG"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/CurrArmySV"
-        app:layout_constraintEnd_toEndOf="@+id/CurrArmySV"
-        app:layout_constraintStart_toStartOf="@+id/CurrArmySV"
-        app:layout_constraintTop_toTopOf="@+id/CurrArmySV" />
+        app:layout_constraintBottom_toBottomOf="@+id/CurrArmyRV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/CurrArmyRV"
+        app:layout_constraintTop_toTopOf="@+id/CurrArmyRV" />
 
     <TextView
         android:id="@+id/maxCap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/CurrArmySV"
+        app:layout_constraintEnd_toEndOf="@+id/CurrArmyRV"
         app:layout_constraintTop_toTopOf="@+id/slash" />
 
     <TextView

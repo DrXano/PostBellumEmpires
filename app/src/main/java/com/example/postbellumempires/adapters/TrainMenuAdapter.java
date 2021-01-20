@@ -27,15 +27,13 @@ import com.example.postbellumempires.gameobjects.Unit;
 public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.UnitTrainViewHolder> {
 
     private final GameUnit[] mDataset;
-    private Player player;
-    private RecyclerView.LayoutManager layoutManager;
-    private int unavailableColor;
-    private Context context;
+    private final Player player;
+    private final int unavailableColor;
+    private final Context context;
 
     public TrainMenuAdapter(GameUnit[] mDataset, Player player, RecyclerView.LayoutManager layoutManager, int unavailableColor, Context context) {
         this.mDataset = mDataset;
         this.player = player;
-        this.layoutManager = layoutManager;
         this.unavailableColor = unavailableColor;
         this.context = context;
     }

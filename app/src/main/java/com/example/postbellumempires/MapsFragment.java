@@ -170,9 +170,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         this.player = p;
         this.playerIGN.setText(p.getInGameName());
         this.playerLevel.setText(String.valueOf(p.getLevel()));
-        this.userexp.setProgress(p.getExp());
-        this.userexp.setMax(p.getMaxExp());
-
 
         color = getResources().getColor(p.getPlayerFaction().primaryColor);
         this.userexp.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
@@ -190,6 +187,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         if (circle != null) {
             circle.setStrokeColor(parentActivity.getResources().getColor(p.getPlayerFaction().primaryColor));
         }
+        this.userexp.setProgress(p.getExp());
+        this.userexp.setMax(p.getMaxExp());
     }
 
     private void logout() {

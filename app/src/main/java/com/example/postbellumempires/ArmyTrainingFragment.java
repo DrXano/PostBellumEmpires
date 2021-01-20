@@ -88,8 +88,8 @@ public class ArmyTrainingFragment extends Fragment {
 
         this.currentArmy = v.findViewById(R.id.CurrArmyRV);
         this.trainMenu = v.findViewById(R.id.ArmyTrainRV);
-        this.calayoutManager = new LinearLayoutManager(getContext());
-        this.tmlayoutManager = new LinearLayoutManager(getContext());
+        this.calayoutManager = new LinearLayoutManager(getActivity());
+        this.tmlayoutManager = new LinearLayoutManager(getActivity());
 
         this.currentArmy.setLayoutManager(calayoutManager);
         this.trainMenu.setLayoutManager(tmlayoutManager);

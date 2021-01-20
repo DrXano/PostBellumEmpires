@@ -27,6 +27,7 @@ import com.example.postbellumempires.gameobjects.Item;
 import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.PlaceArmy;
 import com.example.postbellumempires.gameobjects.Player;
+import com.example.postbellumempires.utils.CollectionCooldown;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -184,6 +185,21 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.collectionButton:
+                if(!isNear()){
+                    Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
+                }else if(this.place.getUnderAttack()){
+                    Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
+                }else if(CollectionCooldown.getInstance().isCoolDownOn(this.place.getId())){
+                    Toast.makeText(context, "You have collected resources from this place recently. Please come back later", Toast.LENGTH_SHORT).show();
+                }else{
+                    GameResource res = this.place.getResourceRewardType();
+                    Item reward = res.getReward(this.place.multiplier(player));
+                    player.addItem(reward.getResourceItem(), reward.getQuantity());
+                    player.updatePlayer();
+                    Toast.makeText(context, reward.getQuantity() + " x " + reward.getResourceItem().name + " acquired", Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }
+                /*
                 if (isNear()) {
                     if (!this.place.getUnderAttack()) {
                         GameResource res = this.place.getResourceRewardType();
@@ -197,7 +213,7 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                     }
                 } else {
                     Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
-                }
+                }*/
                 break;
             case R.id.struct1button:
                 if (!this.place.getUnderAttack()) {

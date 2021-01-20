@@ -18,21 +18,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/inventorySV"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/inventoryRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:isScrollContainer="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inventoryToolbar">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/inventoryRV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:isScrollContainer="true" />
-    </ScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
         android:id="@+id/inventoryTV"

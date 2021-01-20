@@ -21,8 +21,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/structReqsSV"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/structreqsRV"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -31,17 +31,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/border"
+        android:isScrollContainer="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buildButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/structName">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/structreqsRV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:isScrollContainer="true" />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/structName" />
 
     <TextView
         android:id="@+id/structName"
@@ -52,6 +46,6 @@
         android:maxLines="1"
         app:autoSizeMaxTextSize="18sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintStart_toStartOf="@+id/structReqsSV"
+        app:layout_constraintStart_toStartOf="@+id/structreqsRV"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

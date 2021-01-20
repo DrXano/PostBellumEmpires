@@ -52,6 +52,11 @@ public class BattleUnit {
 
     public boolean damage(double damage) {
         if (damage <= this.armor) {
+            double damageDealt = damage * (damage/this.armor);
+
+            this.currentHealth -= damageDealt;
+            if (this.currentHealth < 0)
+                this.currentHealth = 0;
             return false;
         } else {
             this.currentHealth -= (damage - this.armor);

@@ -53,12 +53,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void proceed() {
-        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        if (mFirebaseUser == null) {
-            startActivity(new Intent(this, LoginActivity.class));
-        } else {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             startActivity(new Intent(this, MainGameActivity.class));
+        } else {
+            startActivity(new Intent(this, LoginActivity.class));
         }
         finish();
     }

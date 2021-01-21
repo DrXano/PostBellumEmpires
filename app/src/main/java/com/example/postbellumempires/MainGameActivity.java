@@ -28,12 +28,17 @@ import com.google.firebase.database.ValueEventListener;
 public class MainGameActivity extends AppCompatActivity {
 
     private static final String TAG = "MainGameActivity";
+
     private final DatabaseReference LocRef = FirebaseDatabase.getInstance().getReference("places");
     Fragment map = new MapsFragment();
     private FirebaseAuth mAuth;
     private DatabaseReference playerRef;
     private Player player;
     private InterfaceListener listener;
+
+    private ValueEventListener playerListener;
+
+    private ChildEventListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +53,62 @@ public class MainGameActivity extends AppCompatActivity {
 
         this.listener = (InterfaceListener) this.map;
         this.mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null) {
-            this.playerRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.mainfrag, this.map)
-                    .commit();
+        this.playerRef = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.mainfrag, this.map)
+                .commit();
 
-        } else {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        }
+
+        playerListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    if (map.isResumed()) {
+                        Player p = snapshot.getValue(Player.class);
+                        player = p;
+                        listener.updateUI(p);
+                    }
+                } else {
+                    Toast.makeText(MainGameActivity.this, "Player information was not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        };
+
+        locationListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if (snapshot.exists() && map.isResumed()) {
+                    Place p = snapshot.getValue(Place.class);
+                    listener.getMap().addMarker(p.getMarker(getResources()));
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if (snapshot.exists() && map.isResumed()) {
+                    Place p = snapshot.getValue(Place.class);
+                    listener.getMap().addMarker(p.getMarker(getResources()));
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        };
+
+        playerRef.addListenerForSingleValueEvent(playerListener);
     }
 
     public Player getPlayer() {
@@ -102,7 +153,9 @@ public class MainGameActivity extends AppCompatActivity {
                 .detach(this.map)
                 .commit();
 
+        this.playerRef.removeEventListener(playerListener);
 
+        this.LocRef.removeEventListener(locationListener);
     }
 
     @Override
@@ -111,54 +164,10 @@ public class MainGameActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .attach(this.map)
                 .commit();
-        playerRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    if (map.isResumed()) {
-                        Player p = snapshot.getValue(Player.class);
-                        player = p;
-                        listener.updateUI(p);
-                    }
-                } else {
-                    Toast.makeText(MainGameActivity.this, "Player information was not found", Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+        this.playerRef.addValueEventListener(playerListener);
 
-        this.LocRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if (snapshot.exists() && map.isResumed()) {
-                    Place p = snapshot.getValue(Place.class);
-                    listener.getMap().addMarker(p.getMarker(getResources()));
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if (snapshot.exists() && map.isResumed()) {
-                    Place p = snapshot.getValue(Place.class);
-                    listener.getMap().addMarker(p.getMarker(getResources()));
-                }
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+        this.LocRef.addChildEventListener(locationListener);
     }
 
     @Override

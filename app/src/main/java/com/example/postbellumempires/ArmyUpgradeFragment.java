@@ -107,9 +107,9 @@ public class ArmyUpgradeFragment extends Fragment {
                 int pos = llm.findFirstCompletelyVisibleItemPosition();
                 UpgradeMenuAdapter upgradeMenuAdapter = new UpgradeMenuAdapter(new LinearLayoutManager(getContext()), getActivity().getResources().getColor(R.color.unavailable), getContext());
                 upgradeMenuAdapter.setPlayer(p);
-                for(GameUnit gu : units){
+                for (GameUnit gu : units) {
                     upgradeMenuAdapter.addUnit(gu);
-                    int index = upgradeMenuAdapter.getItemCount()-1;
+                    int index = upgradeMenuAdapter.getItemCount() - 1;
                     upgradeMenuAdapter.notifyItemChanged(index);
                 }
                 this.upgradeMenu.setAdapter(upgradeMenuAdapter);

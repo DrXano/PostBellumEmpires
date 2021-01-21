@@ -67,7 +67,7 @@
     <string name="msg_enemy_2">The enemy has engaged you inflicting damage to your army.</string>
     <string name="msg_enemy_3">The enemy engaged you inefficiently.</string>
     <string name="msg_enemy_4">You are on the verge of defeat.</string>
-    <string name="msg_enemy_5">Some of your mans have been killed in battle.</string>
+    <string name="msg_enemy_5">Some of your men have been killed in battle.</string>
     <string name="msg_enemy_6">The enemy caused some damaged in your army and they have the support of Medics and UAVs.</string>
     <string name="msg_enemy_7">The enemy attacked you and its being healed by their Medics.</string>
     <string name="msg_enemy_8">The enemy caused some damage in your mans and they got the support of UAVs.</string>

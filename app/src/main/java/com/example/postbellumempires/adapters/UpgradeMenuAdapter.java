@@ -25,9 +25,9 @@ import java.util.List;
 public class UpgradeMenuAdapter extends RecyclerView.Adapter<UpgradeMenuAdapter.UnitUpgradeViewHolder> {
 
     private final List<GameUnit> mDataset;
-    private Player player;
     private final int unavailableColor;
     private final Context context;
+    private Player player;
 
     public UpgradeMenuAdapter(RecyclerView.LayoutManager layoutManager, int unavailableColor, Context context) {
         this.mDataset = new ArrayList<>();
@@ -35,11 +35,11 @@ public class UpgradeMenuAdapter extends RecyclerView.Adapter<UpgradeMenuAdapter.
         this.context = context;
     }
 
-    public void setPlayer(Player player){
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public void addUnit(GameUnit unit){
+    public void addUnit(GameUnit unit) {
         this.mDataset.add(unit);
     }
 

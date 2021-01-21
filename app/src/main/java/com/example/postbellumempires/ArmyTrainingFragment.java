@@ -162,9 +162,9 @@ public class ArmyTrainingFragment extends Fragment {
             int pos = llm.findFirstCompletelyVisibleItemPosition();
             TrainMenuAdapter trainMenuAdapter = new TrainMenuAdapter(getActivity().getResources().getColor(R.color.unavailable), getContext());
             trainMenuAdapter.setPlayer(p);
-            for(GameUnit gu : units){
+            for (GameUnit gu : units) {
                 trainMenuAdapter.addUnit(gu);
-                int index = trainMenuAdapter.getItemCount()-1;
+                int index = trainMenuAdapter.getItemCount() - 1;
                 trainMenuAdapter.notifyItemChanged(index);
             }
             this.trainMenu.setAdapter(trainMenuAdapter);

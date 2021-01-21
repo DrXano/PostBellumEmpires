@@ -30,9 +30,9 @@ import java.util.List;
 public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.UnitTrainViewHolder> {
 
     private final List<GameUnit> mDataset;
-    private Player player;
     private final int unavailableColor;
     private final Context context;
+    private Player player;
 
     public TrainMenuAdapter(int unavailableColor, Context context) {
         mDataset = new ArrayList<>();
@@ -40,11 +40,11 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
         this.context = context;
     }
 
-    public void setPlayer(Player player){
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public void addUnit(GameUnit unit){
+    public void addUnit(GameUnit unit) {
         this.mDataset.add(unit);
     }
 
@@ -113,7 +113,6 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
     public int getItemCount() {
         return mDataset.size();
     }
-
 
 
     public static class UnitTrainViewHolder extends RecyclerView.ViewHolder {

@@ -58,18 +58,14 @@ public class NameChooseActivity extends AppCompatActivity {
                             startActivity(new Intent(NameChooseActivity.this, MainActivity.class));
                             finish();
                         } else {
-                            try{
+                            try {
                                 throw task.getException();
-                            }
-                            catch (FirebaseAuthInvalidCredentialsException malformedEmail)
-                            {
+                            } catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
                                 Toast.makeText(this, getResources().getString(R.string.invalidemail), Toast.LENGTH_SHORT).show();
-                            }
-                            catch (FirebaseAuthUserCollisionException existEmail)
-                            {
+                            } catch (FirebaseAuthUserCollisionException existEmail) {
                                 Toast.makeText(this, getResources().getString(R.string.usedemail), Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
                             }
-                            catch (Exception e){}
                         }
                     });
         }

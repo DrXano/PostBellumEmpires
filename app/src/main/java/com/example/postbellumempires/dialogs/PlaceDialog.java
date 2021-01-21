@@ -112,7 +112,7 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
 
         if (army != null && army.getUnits() != null && !army.getUnits().isEmpty()) {
             this.armyView.setAdapter(new PlaceArmyAdapter(army.getUnitsArray()));
-        }else{
+        } else {
             this.armyView.setAdapter(new PlaceArmyAdapter(new GameUnit[]{}));
         }
 
@@ -185,13 +185,13 @@ public class PlaceDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.collectionButton:
-                if(!isNear()){
+                if (!isNear()) {
                     Toast.makeText(context, "You are too far from this place", Toast.LENGTH_SHORT).show();
-                }else if(this.place.getUnderAttack()){
+                } else if (this.place.getUnderAttack()) {
                     Toast.makeText(context, "This place is underAttack", Toast.LENGTH_SHORT).show();
-                }else if(CollectionCooldown.getInstance().isCoolDownOn(this.place.getId())){
+                } else if (CollectionCooldown.getInstance().isCoolDownOn(this.place.getId())) {
                     Toast.makeText(context, "You have collected resources from this place recently. Please come back later", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     GameResource res = this.place.getResourceRewardType();
                     Item reward = res.getReward(this.place.multiplier(player));
                     player.addItem(reward.getResourceItem(), reward.getQuantity());

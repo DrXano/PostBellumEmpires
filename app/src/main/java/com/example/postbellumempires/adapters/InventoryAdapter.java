@@ -2,7 +2,6 @@ package com.example.postbellumempires.adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -44,7 +43,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Item
         holder.infoImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog d = new ItemDialog(parent,i.getResourceItem());
+                Dialog d = new ItemDialog(parent, i.getResourceItem());
                 d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(230, 0, 0, 0)));
                 d.show();
             }

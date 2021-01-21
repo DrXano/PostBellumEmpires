@@ -23,7 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,13 +35,13 @@ public class ArmyTrainingFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private DatabaseReference playerRef;
-    private RecyclerView.LayoutManager calayoutManager;
-    private RecyclerView.LayoutManager tmlayoutManager;
     private RecyclerView currentArmy;
     private RecyclerView trainMenu;
     private TextView currarmyMSG;
     private TextView maxCapacity;
     private TextView currentsize;
+
+    private LinearLayoutManager llm;
 
     private String mParam1;
     private String mParam2;
@@ -81,22 +80,20 @@ public class ArmyTrainingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_army_training, container, false);
 
         this.playerRef = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         this.currentArmy = v.findViewById(R.id.CurrArmyRV);
         this.trainMenu = v.findViewById(R.id.ArmyTrainRV);
-        this.calayoutManager = new LinearLayoutManager(getActivity());
-        this.tmlayoutManager = new LinearLayoutManager(getActivity());
-
-        this.currentArmy.setLayoutManager(calayoutManager);
-        this.trainMenu.setLayoutManager(tmlayoutManager);
-
         this.currarmyMSG = v.findViewById(R.id.CurrArmyMSG);
         this.maxCapacity = v.findViewById(R.id.maxCap);
         this.currentsize = v.findViewById(R.id.currsize);
+
+        this.llm = new LinearLayoutManager(getActivity());
+
+        this.trainMenu.setLayoutManager(llm);
+        this.currentArmy.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         playerRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -162,9 +159,16 @@ public class ArmyTrainingFragment extends Fragment {
         PlayerArmy pa = p.getArmy();
         if (pa != null && pa.getUnits() != null) {
             List<GameUnit> units = pa.getUnitList();
-            GameUnit[] arr = units.toArray(new GameUnit[units.size()]);
-            RecyclerView.Adapter trainMenuAdapter = new TrainMenuAdapter(arr, p, new LinearLayoutManager(getContext()), getActivity().getResources().getColor(R.color.unavailable), getContext());
+            int pos = llm.findFirstCompletelyVisibleItemPosition();
+            TrainMenuAdapter trainMenuAdapter = new TrainMenuAdapter(getActivity().getResources().getColor(R.color.unavailable), getContext());
+            trainMenuAdapter.setPlayer(p);
+            for(GameUnit gu : units){
+                trainMenuAdapter.addUnit(gu);
+                int index = trainMenuAdapter.getItemCount()-1;
+                trainMenuAdapter.notifyItemChanged(index);
+            }
             this.trainMenu.setAdapter(trainMenuAdapter);
+            llm.scrollToPosition(pos);
         }
     }
 }

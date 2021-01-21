@@ -24,18 +24,28 @@ import com.example.postbellumempires.gameobjects.Item;
 import com.example.postbellumempires.gameobjects.Player;
 import com.example.postbellumempires.gameobjects.Unit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.UnitTrainViewHolder> {
 
-    private final GameUnit[] mDataset;
-    private final Player player;
+    private final List<GameUnit> mDataset;
+    private Player player;
     private final int unavailableColor;
     private final Context context;
 
-    public TrainMenuAdapter(GameUnit[] mDataset, Player player, RecyclerView.LayoutManager layoutManager, int unavailableColor, Context context) {
-        this.mDataset = mDataset;
-        this.player = player;
+    public TrainMenuAdapter(int unavailableColor, Context context) {
+        mDataset = new ArrayList<>();
         this.unavailableColor = unavailableColor;
         this.context = context;
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
+    }
+
+    public void addUnit(GameUnit unit){
+        this.mDataset.add(unit);
     }
 
     @NonNull
@@ -47,12 +57,15 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
 
     @Override
     public void onBindViewHolder(@NonNull UnitTrainViewHolder holder, int position) {
-        GameUnit gu = mDataset[position];
+        GameUnit gu = mDataset.get(position);
         Unit u = gu.getUnit();
         holder.unitNameView.setText(gu.getName());
         holder.unitSizeView.setText(String.valueOf(gu.getSize()));
         holder.requirementsView.setLayoutManager(new LinearLayoutManager(context));
 
+        Item[] cost = gu.getEType().trainCost;
+        RequirementsAdapter reqAdapter = new RequirementsAdapter(cost, this.player, this.unavailableColor);
+        holder.requirementsView.setAdapter(reqAdapter);
         if (gu.getLevel() == 0) {
             holder.levelTextView.setText("");
             holder.unitLevelView.setText("");
@@ -62,9 +75,6 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
             int availableLevel = PlayerLevel.valueOfUnit(gu.getEType()).level;
             holder.trainButton.setText("Reach \n Lvl. " + availableLevel);
         } else {
-            Item[] cost = u.getCost();
-            RecyclerView.Adapter reqAdapter = new RequirementsAdapter(cost, this.player, this.unavailableColor);
-            holder.requirementsView.setAdapter(reqAdapter);
             holder.levelTextView.setText("Level ");
             holder.unitLevelView.setText(String.valueOf(gu.getLevel()));
             holder.trainButton.setClickable(true);
@@ -95,12 +105,16 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
                 }
             });
         }
+
+        holder.setIsRecyclable(false);
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
+
+
 
     public static class UnitTrainViewHolder extends RecyclerView.ViewHolder {
         TextView unitNameView;
@@ -121,5 +135,7 @@ public class TrainMenuAdapter extends RecyclerView.Adapter<TrainMenuAdapter.Unit
             trainButton = itemView.findViewById(R.id.trainbuttonView);
             infoView = itemView.findViewById(R.id.unit_info_button);
         }
+
+
     }
 }

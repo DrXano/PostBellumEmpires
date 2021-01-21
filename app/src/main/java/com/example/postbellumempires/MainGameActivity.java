@@ -126,13 +126,14 @@ public class MainGameActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
 
         this.LocRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if(snapshot.exists() && map.isResumed()){
+                if (snapshot.exists() && map.isResumed()) {
                     Place p = snapshot.getValue(Place.class);
                     listener.getMap().addMarker(p.getMarker(getResources()));
                 }
@@ -140,20 +141,23 @@ public class MainGameActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if(snapshot.exists() && map.isResumed()){
+                if (snapshot.exists() && map.isResumed()) {
                     Place p = snapshot.getValue(Place.class);
                     listener.getMap().addMarker(p.getMarker(getResources()));
                 }
             }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
     }
 

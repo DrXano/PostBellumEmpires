@@ -119,7 +119,7 @@
     <string name="assassinDesc">Very fast and deadly unit, but very easy to kill, so you need to be careful when using them.</string>
     <string name="wickDesc">Very strong offensively and can do a lot of damage in a battle.</string>
     <string name="medicDesc">This is a support unit, so it does not attack anyone, instead, it has a chance to heal its allies.</string>
-    <string name="ramboDesc">rambo description</string>
+    <string name="ramboDesc">Just Rambo. Everyone knows Rambo. Strong and stuff.</string>
     <string name="chemistDesc">This unit throws uses chemical bombs as a weapon, in the battle it can deal damage to units in an area.</string>
     <string name="uavDesc">This is a support unit, so it does not attack, instead it gives vision of the enemies, which translates to a boost of damage for his allies.</string>
 </resources>

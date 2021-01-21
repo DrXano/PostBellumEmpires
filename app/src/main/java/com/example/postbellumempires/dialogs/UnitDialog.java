@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import com.example.postbellumempires.R;
 import com.example.postbellumempires.gameobjects.GameUnit;
 
-public class UnitDialog extends Dialog implements View.OnClickListener{
+public class UnitDialog extends Dialog implements View.OnClickListener {
 
     private final Activity activity;
     private final GameUnit unit;
@@ -42,8 +42,8 @@ public class UnitDialog extends Dialog implements View.OnClickListener{
 
         String healthStr = "Health: " + unit.getStats().getHealth();
         String attackStr = "Attack: " + unit.getStats().getAttack();
-        String  armorStr = "Armor: " + unit.getStats().getArmor();
-        String  speedStr = "Speed: " + unit.getStats().getSpeed();
+        String armorStr = "Armor: " + unit.getStats().getArmor();
+        String speedStr = "Speed: " + unit.getStats().getSpeed();
 
         health.setText(healthStr);
         attack.setText(attackStr);

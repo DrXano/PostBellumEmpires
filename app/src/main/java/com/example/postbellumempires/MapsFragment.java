@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -23,7 +22,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +40,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.postbellumempires.dialogs.PlaceDialog;
 import com.example.postbellumempires.enums.Faction;
-import com.example.postbellumempires.gameobjects.Place;
 import com.example.postbellumempires.gameobjects.Player;
 import com.example.postbellumempires.interfaces.InterfaceListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -63,11 +60,8 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, InterfaceListener {
@@ -269,7 +263,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         }
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             showGPSAlert();
         }
 
@@ -339,12 +333,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Interf
         fusedLocationClient.requestLocationUpdates(locReq, locationCallback, Looper.getMainLooper());
     }
 
-    private void showGPSAlert(){
+    private void showGPSAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
         alertDialog.setTitle(getActivity().getResources().getString(R.string.gpsoff));
         alertDialog.setMessage(getActivity().getResources().getString(R.string.gpspls));
         alertDialog.setPositiveButton(getActivity().getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int which) {
+            public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });

@@ -19,20 +19,28 @@ import com.example.postbellumempires.gameobjects.Item;
 import com.example.postbellumempires.gameobjects.Player;
 import com.example.postbellumempires.gameobjects.Unit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UpgradeMenuAdapter extends RecyclerView.Adapter<UpgradeMenuAdapter.UnitUpgradeViewHolder> {
 
-    private final GameUnit[] mDataset;
+    private final List<GameUnit> mDataset;
     private Player player;
-    private RecyclerView.LayoutManager layoutManager;
-    private int unavailableColor;
-    private Context context;
+    private final int unavailableColor;
+    private final Context context;
 
-    public UpgradeMenuAdapter(GameUnit[] mDataset, Player player, RecyclerView.LayoutManager layoutManager, int unavailableColor, Context context) {
-        this.mDataset = mDataset;
-        this.player = player;
-        this.layoutManager = layoutManager;
+    public UpgradeMenuAdapter(RecyclerView.LayoutManager layoutManager, int unavailableColor, Context context) {
+        this.mDataset = new ArrayList<>();
         this.unavailableColor = unavailableColor;
         this.context = context;
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
+    }
+
+    public void addUnit(GameUnit unit){
+        this.mDataset.add(unit);
     }
 
     @NonNull
@@ -44,7 +52,7 @@ public class UpgradeMenuAdapter extends RecyclerView.Adapter<UpgradeMenuAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull UnitUpgradeViewHolder holder, int position) {
-        GameUnit gu = mDataset[position];
+        GameUnit gu = mDataset.get(position);
         Unit u = gu.getUnit();
         holder.unitName.setText(gu.getName());
         holder.requirementsView.setLayoutManager(new LinearLayoutManager(context));
@@ -81,11 +89,13 @@ public class UpgradeMenuAdapter extends RecyclerView.Adapter<UpgradeMenuAdapter.
                 }
             });
         }
+
+        holder.setIsRecyclable(false);
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 
     public static class UnitUpgradeViewHolder extends RecyclerView.ViewHolder {

@@ -21,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,8 +34,8 @@ public class ArmyUpgradeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private DatabaseReference playerRef;
     private RecyclerView upgradeMenu;
-    private RecyclerView.LayoutManager layoutManager;
-    private ArmyMenuActivity parentActivity;
+
+    private LinearLayoutManager llm;
 
     private String mParam1;
     private String mParam2;
@@ -80,10 +79,8 @@ public class ArmyUpgradeFragment extends Fragment {
         this.playerRef = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         this.upgradeMenu = v.findViewById(R.id.upgradeMenuRV);
-        this.layoutManager = new LinearLayoutManager(getContext());
-        this.upgradeMenu.setLayoutManager(this.layoutManager);
-
-        this.parentActivity = (ArmyMenuActivity) getActivity();
+        this.llm = new LinearLayoutManager(getActivity());
+        this.upgradeMenu.setLayoutManager(this.llm);
 
         playerRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -107,9 +104,16 @@ public class ArmyUpgradeFragment extends Fragment {
             PlayerArmy pa = p.getArmy();
             if (pa != null && pa.getUnits() != null) {
                 List<GameUnit> units = pa.getUnitList();
-                GameUnit[] arr = units.toArray(new GameUnit[units.size()]);
-                RecyclerView.Adapter upgradeMenuAdapter = new UpgradeMenuAdapter(arr, p, new LinearLayoutManager(getContext()), getActivity().getResources().getColor(R.color.unavailable), getContext());
+                int pos = llm.findFirstCompletelyVisibleItemPosition();
+                UpgradeMenuAdapter upgradeMenuAdapter = new UpgradeMenuAdapter(new LinearLayoutManager(getContext()), getActivity().getResources().getColor(R.color.unavailable), getContext());
+                upgradeMenuAdapter.setPlayer(p);
+                for(GameUnit gu : units){
+                    upgradeMenuAdapter.addUnit(gu);
+                    int index = upgradeMenuAdapter.getItemCount()-1;
+                    upgradeMenuAdapter.notifyItemChanged(index);
+                }
                 this.upgradeMenu.setAdapter(upgradeMenuAdapter);
+                llm.scrollToPosition(pos);
             }
         }
     }

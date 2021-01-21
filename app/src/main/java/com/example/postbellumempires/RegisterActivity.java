@@ -7,10 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -27,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (regEmail.length() == 0) {
             Toast.makeText(this, "Please insert an email", Toast.LENGTH_SHORT).show();
-        }else if (regPass.length() == 0) {
+        } else if (regPass.length() == 0) {
             Toast.makeText(this, "Please choose a password", Toast.LENGTH_SHORT).show();
         } else if (regPass.length() < 8) {
             Toast.makeText(this, "Password too short, must have at least 8 characters", Toast.LENGTH_SHORT).show();

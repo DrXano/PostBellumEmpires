@@ -14,9 +14,9 @@ public class LocationsGenerate {
 
         List<Place> places = new ArrayList<>();
 
-        places.add(new Place("place_01","Cafe do C5",38.755909936449385, -9.156900988293799, PlaceType.CAFE));
+        places.add(new Place("place_01", "Cafe do C5", 38.755909936449385, -9.156900988293799, PlaceType.CAFE));
         places.add(new Place("place_02", "Horta FCUL", 38.755761637420115, -9.156730799678046, PlaceType.PARK));
-        places.add(new Place("place_03", "Cobertura Ecológica",38.75610780372063, -9.156741528508004, PlaceType.PARK));
+        places.add(new Place("place_03", "Cobertura Ecológica", 38.75610780372063, -9.156741528508004, PlaceType.PARK));
         places.add(new Place("place_04", "FCUL Edificio C5", 38.756083807236365, -9.156948554934361, PlaceType.UNIVERSITY));
         places.add(new Place("place_05", "Bar do C2 ATFCUL", 38.755558348761205, -9.15646373299391, PlaceType.CAFE));
         places.add(new Place("place_06", "100 Montaditos", 38.75594308071998, -9.154713869911246, PlaceType.RESTAURANT));
@@ -24,11 +24,11 @@ public class LocationsGenerate {
         places.add(new Place("place_08", "Museu de Lisboa - Palácio Pimenta", 38.758565898331824, -9.156421360026592, PlaceType.MUSEUM));
         places.add(new Place("place_09", "McDonalds do Campo Grande", 38.75697971813253, -9.154194139510112, PlaceType.RESTAURANT));
         places.add(new Place("place_10", "Jardim Mario Soares", 38.756595020487836, -9.153303098343821, PlaceType.PARK));
-        places.add(new Place("place_11", "Farmácia Holon",38.76021624217015, -9.157295750204318, PlaceType.PHARMACY));
+        places.add(new Place("place_11", "Farmácia Holon", 38.76021624217015, -9.157295750204318, PlaceType.PHARMACY));
         places.add(new Place("place_12", "Metro do Campo Grande", 38.76017644627023, -9.15791136267965, PlaceType.SUBWAY));
         places.add(new Place("place_13", "Metro da Cidade Universitaria", 38.75192679137703, -9.158628882649577, PlaceType.SUBWAY));
         places.add(new Place("place_14", "Faculdade de Ciencias da Universidade de Lisboa", 38.75655971918818, -9.155244567291167, PlaceType.UNIVERSITY));
-        places.add(new Place("place_15", "Faculdade de Letras da UL", 38.75351859464719, -9.157584905811975,PlaceType.UNIVERSITY));
+        places.add(new Place("place_15", "Faculdade de Letras da UL", 38.75351859464719, -9.157584905811975, PlaceType.UNIVERSITY));
         places.add(new Place("place_16", "Faculdade de Direito", 38.75249889356581, -9.15703046102091, PlaceType.UNIVERSITY));
         places.add(new Place("place_17", "Faculdade de Psicologia da UL", 38.75277251937659, -9.155464317316886, PlaceType.UNIVERSITY));
         places.add(new Place("place_18", "Reitoria da UL", 38.75291037068239, -9.15763140315286, PlaceType.UNIVERSITY));
